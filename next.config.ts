@@ -4,8 +4,8 @@ import path from "path";
 const nextConfig: NextConfig = {
   turbopack: {
     resolveAlias: {
-      // Relative to project root; Turbopack doesn't handle absolute paths in alias target
-      "@cliff-studio/sanity-plugin-bunny-input": "node_modules/@cliff-studio/sanity-plugin-bunny-input/dist/index.js",
+      // Use a single alias to dist so we never hit the package's "development" export (src/ with .jsx)
+      "bunny-input-dist": "./node_modules/@cliff-studio/sanity-plugin-bunny-input/dist/index.js",
     },
   },
   async redirects() {
@@ -38,7 +38,7 @@ const nextConfig: NextConfig = {
     // Use built dist for Bunny plugin (avoids "development" export using raw src/ with .jsx)
     config.resolve.alias = {
       ...config.resolve.alias,
-      "@cliff-studio/sanity-plugin-bunny-input": path.resolve(
+      "bunny-input-dist": path.resolve(
         process.cwd(),
         "node_modules/@cliff-studio/sanity-plugin-bunny-input/dist/index.js"
       ),

@@ -25,6 +25,9 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "bunny-input-dist": [
+        "./node_modules/@cliff-studio/sanity-plugin-bunny-input/dist/index.js"
       ]
     }
   },
