@@ -1,0 +1,40 @@
+import '@/styles/style.scss'
+import { cookies } from 'next/headers'
+import { Suspense } from 'react'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
+import LazyLoadInitializer from '@/components/LazyLoadInitializer'
+import OverflowController from '@/components/OverflowController'
+import ScrollSmootherProvider from '@/components/ScrollSmootherProvider'
+import { client } from '@/sanity/client'
+import { DEFAULT_LOCALE, LOCALE_COOKIE } from '@/lib/locale'
+import { headerMenuQuery } from '@/sanity/lib/queries'
+
+export default async function MainLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  const cookieStore = await cookies()
+  const locale = cookieStore.get(LOCALE_COOKIE)?.value ?? DEFAULT_LOCALE
+
+  const data = await client.fetch(headerMenuQuery)
+  const headerMenu = data?.headerMenu ?? []
+  const footer = {
+    title: data?.footer ?? null,
+    menu: data?.footerMenu ?? [],
+    text: data?.footerText ?? null,
+  }
+
+  return (
+    <Suspense fallback={null}>
+      <Header menu={headerMenu} locale={locale} />
+      <ScrollSmootherProvider>
+        <LazyLoadInitializer />
+        <OverflowController />
+        {children}
+        <Footer footer={footer} locale={locale} />
+      </ScrollSmootherProvider>
+    </Suspense>
+  )
+}

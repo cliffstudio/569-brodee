@@ -1,0 +1,41 @@
+@use '00_mixins' as *;
+
+.site-footer {
+  padding-top: get-rem-desktop(40);
+  padding-bottom: get-rem-desktop(40);
+  background-color: $colour-charcoal;
+  color: $colour-white !important;
+  @include flex;
+  @include flex-direction(column);
+  row-gap: get-rem-desktop(75);
+
+  .footer-top {
+    .footer-title {
+      max-width: get-rem-desktop(450);
+    }
+
+    .footer-nav {
+      @include flex;
+      @include flex-direction(column);
+      row-gap: get-rem-desktop(4);
+    }
+
+    .footer-contact {
+      @include flex;
+      @include flex-direction(column);
+      row-gap: get-rem-desktop(4);
+    }
+  }
+
+  .footer-bottom {
+    @include align-items(flex-end);
+
+    .logo-wrap {
+      svg {
+        width: get-rem-desktop(110);
+        height: auto;
+        fill: $colour-white;
+      }
+    }
+  }
+}

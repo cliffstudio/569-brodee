@@ -1,0 +1,28 @@
+@use '00_mixins' as *;
+
+body.page-404 {
+  @include flex;
+  @include flex-direction(column);
+  min-height: 100svh;
+
+  .site-header {
+    position: unset;
+  }
+}
+
+.not-found-page {
+  flex: 1 0 auto;
+  @include flex;
+  @include align-items(center);
+  @include justify-content(center);
+
+  .inner-wrap {
+    padding-top: get-rem-desktop(160);
+    padding-bottom: get-rem-desktop(200);
+    text-align: center;
+    @include flex;
+    @include flex-direction(column);
+    @include justify-content(space-between);
+    row-gap: get-rem-desktop(55);
+  }
+}

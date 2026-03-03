@@ -1,0 +1,451 @@
+@use '00_mixins' as *;
+
+// UTILITY CLASSES ------------------
+
+.h-pad {
+  padding-left: get-rem-desktop(40);
+  padding-right: get-rem-desktop(40);
+
+  @media only screen and (max-width: 820px) {
+    padding-left: get-rem-mobile(24);
+    padding-right: get-rem-mobile(24);
+  }
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.logo-wrap {
+  position: relative;
+
+  a {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+}
+
+.cta-link {
+  text-transform: uppercase;
+  @include flex;
+  @include align-items(center);
+  column-gap: get-rem-desktop(12);
+  margin-top: get-rem-desktop(20);
+  width: fit-content;
+
+  @media (hover: hover) {
+    &:hover {
+      opacity: 1;
+
+      svg {
+        @include transform(translateX(8px));
+      }
+    }
+  }
+
+  svg {
+    stroke: $colour-white;
+    width: get-rem-desktop(20);
+    height: auto;
+    will-change: transform;
+    @include transition(transform 400ms cubic-bezier(0.25,0.1,0.25,1));
+  }
+}
+
+body.bg-birch,
+body.bg-sage,
+body.bg-chalk,
+body.bg-white {
+  .cta-link svg {
+    stroke: $colour-black;
+  }
+}
+
+.carousel-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  .splide-carousel,
+  .splide__track,
+  .splide__slide {
+    width: 100%;
+    height: 100%;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .carousel-left,
+  .carousel-right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 1;
+
+    svg {
+      stroke: $colour-white;
+      width: get-rem-desktop(20);
+      height: auto;
+      will-change: transform;
+      @include transition(transform 400ms cubic-bezier(0.25,0.1,0.25,1));
+
+      @media (hover: hover) {
+        &:hover {
+          @include transform(translateX(8px));
+        }
+      }
+    }
+  }
+  
+  .carousel-left {
+    left: get-rem-desktop(40);
+
+    svg {
+      @include transform(rotate(180deg));
+
+      @media (hover: hover) {
+        &:hover {
+          @include transform(translateX(-8px) rotate(180deg));
+        }
+      }
+    }
+  }
+
+  .carousel-right {
+    right: get-rem-desktop(40);
+  }
+}
+
+.mobile {
+  display: none;
+}
+
+@media only screen and (max-width: 820px) {
+  .desktop,
+  .dummy-col {
+    display: none;
+  }
+
+  .mobile {
+    display: block;
+  }
+}
+
+// HERO TEXT SECTION ------------------
+
+.hero-text-section {
+  padding-top: get-rem-desktop(200);
+  padding-bottom: get-rem-desktop(48);
+
+  .heading {
+    max-width: get-rem-desktop(1380);
+  }
+
+  .text-wrap {
+    margin-top: get-rem-desktop(60);
+
+    .text {
+      max-width: get-rem-desktop(535);
+    }
+  }
+}
+
+// FULL WIDTH MEDIA SECTION ------------------
+
+.full-width-media-section,
+.image-carousel-section {
+  height: 100svh;
+  position: relative;
+}
+
+.full-width-media-section {
+  .carousel-left,
+  .carousel-right {
+    display: none;
+  }
+}
+
+// LANDSCAPE MEDIA SECTION ------------------
+
+.landscape-media-section {
+  padding-top: get-rem-desktop(48);
+  padding-bottom: get-rem-desktop(46);
+
+  .media-wrap {
+    @include aspect-ratio(1095, 600);
+  }
+
+  .caption {
+    max-width: get-rem-desktop(320);
+    margin-top: get-rem-desktop(20);
+  }
+
+  &.align-right {
+    .caption {
+      text-align: right;
+      margin-left: auto;
+    }
+  }
+}
+
+// LANDSCAPE MEDIA & PROJECT INFO SECTION ------------------
+
+.landscape-media-project-info-section {
+  padding-top: get-rem-desktop(100);
+  padding-bottom: get-rem-desktop(100);
+
+  .media-wrap {
+    @include aspect-ratio(1095, 600);
+  }
+
+  .project-info {
+    @include flex;
+    @include flex-direction(column);
+    row-gap: get-rem-desktop(20);
+
+    .heading {
+      margin-bottom: get-rem-desktop(4);
+    }
+
+    p {
+      margin-bottom: get-rem-desktop(4);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+// INTRO WITH MEDIA SECTION ------------------
+
+.intro-with-media-section {
+  padding-top: get-rem-desktop(48);
+  padding-bottom: get-rem-desktop(48);
+  @include align-items(flex-end);
+
+  .media-wrap {
+    @include aspect-ratio(540, 675);
+  }
+
+  .text {
+    max-width: get-rem-desktop(540);
+  }
+}
+
+// DUAL MEDIA SECTION ------------------
+
+.dual-media-section {
+  padding-top: get-rem-desktop(48);
+  padding-bottom: get-rem-desktop(48);
+  @include align-items(flex-end);
+
+  .media-1 {
+    .media-wrap {
+      @include aspect-ratio(410, 500);
+    }
+  }
+
+  .media-2 {
+    .media-wrap {
+      @include aspect-ratio(580, 680);
+    }
+  }
+}
+
+// PROJECT CARD SECTION ------------------
+
+.project-card-section {
+  position: relative;
+
+  .cta-link {
+    margin: 0;
+  }
+
+  a:hover {
+    opacity: 1;
+  }
+
+  &.cards-1 {
+    height: 100svh;
+    padding-top: get-rem-desktop(75);
+    padding-bottom: get-rem-desktop(75);
+
+    .content-wrap {
+      position: absolute;
+      top: get-rem-desktop(75);
+      left: 0;
+      width: 100%;
+      @include flex;
+      @include justify-content(space-between);
+      @include align-items(center);
+    }
+  }
+  
+  &.cards-2,
+  &.cards-3 {
+    padding-top: get-rem-desktop(100);
+    padding-bottom: get-rem-desktop(140);
+
+    .header {
+      margin-bottom: get-rem-desktop(36);
+    }
+
+    .project-card {
+      .media-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: $colour-black;
+        @include transition(opacity 400ms cubic-bezier(0.25,0.1,0.25,1));
+        will-change: opacity;
+        opacity: 0;
+      }
+
+      @media (hover: hover) {
+        &:hover {
+          .media-overlay {
+            opacity: 0.2;
+          }
+    
+          svg {
+            @include transform(translateX(8px));
+          }
+        }
+      }
+
+      .cta-link {
+        margin-top: get-rem-desktop(20);
+      }
+    }
+  }
+
+  &.cards-2 {
+    .media-wrap {
+      @include aspect-ratio(790, 675);
+    }
+  }
+
+  &.cards-3 {
+    .media-wrap {
+      @include aspect-ratio(540, 675);
+    }
+  }
+}
+
+// TEXT TITLE SECTION ------------------
+
+.text-title-section {
+  padding-top: get-rem-desktop(98);
+  padding-bottom: get-rem-desktop(100);
+
+  .copy {
+    max-width: get-rem-desktop(520);
+  }
+}
+
+// QUOTE SECTION ------------------
+
+.quote-section {
+  padding-top: get-rem-desktop(50);
+  padding-bottom: get-rem-desktop(45);
+
+  .quote {
+    max-width: get-rem-desktop(800);
+
+    p {
+      text-indent: -0.5em;
+    }
+  }
+
+  .author {
+    margin-top: get-rem-desktop(70);
+  }
+}
+
+// LOGO CAROUSEL SECTION ------------------
+
+.logo-carousel-section {
+  padding-top: get-rem-desktop(40);
+  padding-bottom: get-rem-desktop(40);
+
+  .heading {
+    margin-bottom: get-rem-desktop(80);
+  }
+}
+
+.logo-carousel {
+  overflow: hidden;
+  width: 100%;
+  pointer-events: none;
+}
+
+.logo-carousel__track {
+  display: flex;
+  align-items: center;
+  gap: get-rem-desktop(90);
+  width: max-content;
+  animation: logo-carousel-scroll 40s linear infinite;
+}
+
+.logo-carousel__track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes logo-carousel-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.logo-carousel__item {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-carousel__img {
+  max-height: get-rem-desktop(40);
+  width: auto;
+  object-fit: contain;
+}
+
+// POLICY PAGE ------------------
+
+.policy-page {
+  padding-top: get-rem-desktop(305);
+  padding-bottom: get-rem-desktop(200);
+
+  .content-wrap {
+    @include flex;
+    @include flex-direction(column);
+    row-gap: get-rem-desktop(80);
+
+    .heading {
+      margin-bottom: get-rem-desktop(20);
+    }
+
+    .copy {
+      max-width: get-rem-desktop(500);
+    }
+  }
+}

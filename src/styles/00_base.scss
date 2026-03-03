@@ -1,0 +1,321 @@
+@use '00_mixins' as *;
+
+/*
+GENERAL STYLES --------------------
+*/
+
+html, html a {
+	-webkit-font-smoothing: antialiased !important;
+	text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
+}
+
+/* Prevent overscroll bounce to stop fixed content from being visible during overscroll */
+html,
+body {
+  overscroll-behavior: none;
+}
+
+/* GSAP ScrollSmoother handles smooth scrolling; disable CSS smooth scroll when active */
+html:not(.smooth-scroll-active) {
+  scroll-behavior: smooth;
+}
+
+/* When ScrollSmoother is active, body/html must not scroll — wrapper is the viewport */
+body.smooth-scroll-active,
+html.smooth-scroll-active {
+  overflow: hidden;
+}
+
+html:not(.scroll-enabled) {
+  overflow: hidden;
+}
+
+html.scroll-enabled {
+  overflow: auto;
+}
+
+html.scroll-enabled body {
+  position: static;
+}
+
+/* ScrollSmoother wrapper fills viewport and contains the smooth-content */
+#smooth-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+body {
+  opacity: 0; /* BodyFadeIn component will handle fade-in */
+  font-family: "hanken-grotesk", sans-serif;
+  font-weight: 400;
+  @include font-size(16px, 16px);
+  line-height: calc(17.6 / 16) + em;
+  letter-spacing: 0.01em;
+  font-feature-settings: 'ss01' on;
+  text-rendering: optimizeLegibility;
+  color: $colour-white;
+	margin: 0;
+	padding: 0;
+
+  &.bg-black {
+    background-color: $colour-black;
+  }
+
+  &.bg-charcoal {
+    background-color: $colour-charcoal;
+  }
+
+  &.bg-espresso {
+    background-color: $colour-espresso;
+  }
+
+  &.bg-walnut {
+    background-color: $colour-walnut;
+  }
+
+  &.bg-fern {
+    background-color: $colour-fern;
+  }
+
+  &.bg-terracotta {
+    background-color: $colour-terracotta;
+  }
+
+  &.bg-birch {
+    background-color: $colour-birch;
+    color: $colour-black;
+  }
+
+  &.bg-sage {
+    background-color: $colour-sage;
+    color: $colour-black;
+  }
+
+  &.bg-chalk,
+  &.page-404 {
+    background-color: $colour-chalk;
+    color: $colour-black;
+  }
+
+  &.bg-white {
+    background-color: $colour-white;
+    color: $colour-black;
+  }
+}
+
+// p, ul, ol {
+//   margin-bottom: get-rem-desktop(18);
+
+//   &:last-child {
+// 		margin-bottom: 0px !important;
+// 	}
+
+//   a:not(.button) {
+//     @include underline;
+//   }
+// }
+
+// ul,
+// ol {
+//   list-style: disc;
+//   padding-left: 1em;
+// }
+
+input,
+textarea,
+button,
+select,
+a {
+	-webkit-tap-highlight-color: transparent;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  will-change: opacity;
+  @include transition(opacity 400ms cubic-bezier(0.25,0.1,0.25,1));
+
+  @media (hover: hover) {
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+}
+
+a[target=_blank] {
+  cursor: alias;
+}
+
+/*
+DIV / IMG / VIDEO ------------------
+*/
+
+div {
+  position: relative;
+}
+
+img, video, svg {
+	display: block;
+	width: 100%;
+	height: auto;
+}
+
+svg {
+  overflow: visible !important;
+}
+
+/*
+LAZYLOAD WRAPS ------------------
+*/
+
+.lazyload-wrap {
+	position: relative;
+	display: block;
+	width: 100%; height: auto;
+}
+
+.sized-lazyload-wrap {
+	position: relative;
+	display: block;
+	width: 100%; height: auto;
+	overflow: hidden;
+	
+	.padding-element {
+		position: relative;
+		display: block;
+		width: 100%; height: auto;
+		z-index: 1;
+	}
+	
+	img, video {
+		z-index: 2;
+	}
+}
+
+/*
+LOADING OVERLAY(S) ------------------
+*/
+
+.image-wrap {
+	position: relative;
+	display: block;
+  width: 100%;
+	height: auto;
+}
+
+.loading-overlay {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 10;
+	background-color: $colour-chalk; 
+	@include transition(opacity 500ms cubic-bezier(0.25,0.1,0.25,1));
+	will-change: opacity;
+	
+	&.hidden {
+		opacity: 0;
+		pointer-events: none;
+	}
+}
+
+body.bg-birch,
+body.bg-sage,
+body.bg-chalk,
+body.bg-white {
+  .loading-overlay {
+    background-color: $colour-black;
+  }
+}
+
+img.full-bleed-image,
+video.full-bleed-video {
+	position: absolute;
+	width: 100% !important;
+	height: 100% !important;
+	top: 0%;
+	left: 0%;
+	object-fit: cover;
+	object-position: 50% 50%;
+	pointer-events: none;
+}
+
+/*
+VIDEO CONTENT ------------------
+*/
+
+.video-placeholder {
+	position: absolute;
+	width: 100%;
+  height: 100%;
+	top: 0;
+  left: 0;
+	@extend %background-cover;
+	z-index: 10;
+	@include transition(opacity 500ms cubic-bezier(0.25,0.1,0.25,1));
+	will-change: opacity;
+
+	&.hidden {
+		opacity: 0;
+		pointer-events: none;
+	}
+}
+
+.fill-space-video-wrap {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+	pointer-events: none;
+  z-index: 1;
+	
+	video {
+		position: absolute;
+		width: auto;
+		height: auto;
+		@extend %centered-element;
+		z-index: 2;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+	}
+	
+	&.fill-width { 
+		video {
+			width: 100%;
+			height: auto;
+		}
+	}
+	
+	&.fill-height { 
+		video {
+			width: auto;
+			height: 100%;
+		}
+	}
+}
+
+.fill-space-image-wrap {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+	pointer-events: none;
+  z-index: 1;
+}
