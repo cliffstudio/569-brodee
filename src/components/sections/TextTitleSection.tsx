@@ -26,7 +26,7 @@ export default function TextTitleSection({
   if (!resolvedTitle && !resolvedCopy) return null
 
   return (
-    <section className="text-title-section h-pad row-lg">
+    <section className="title-text-section h-pad row-lg">
       <div className="col-6-12_lg">
         {resolvedTitle && <div className="heading uppercase out-of-view stage-1">{resolvedTitle}</div>}
       </div>

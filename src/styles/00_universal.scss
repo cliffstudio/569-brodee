@@ -101,7 +101,7 @@ body.bg-white {
 
     svg {
       stroke: $colour-white;
-      width: get-rem-desktop(20);
+      width: get-rem-desktop(24);
       height: auto;
       will-change: transform;
       @include transition(transform 400ms cubic-bezier(0.25,0.1,0.25,1));
@@ -117,6 +117,10 @@ body.bg-white {
   .carousel-left {
     left: get-rem-desktop(40);
 
+    @media only screen and (max-width: 768px) {
+      left: get-rem-mobile(24);
+    }
+
     svg {
       @include transform(rotate(180deg));
 
@@ -130,6 +134,10 @@ body.bg-white {
 
   .carousel-right {
     right: get-rem-desktop(40);
+
+    @media only screen and (max-width: 768px) {
+      right: get-rem-mobile(24);
+    }
   }
 }
 
@@ -155,7 +163,7 @@ body.bg-white {
   padding-bottom: get-rem-desktop(48);
   
   @media only screen and (max-width: 768px) {
-    padding-top: get-rem-mobile(64);
+    padding-top: get-rem-mobile(140);
     padding-bottom: get-rem-mobile(64);
   }
 
@@ -182,9 +190,19 @@ body.bg-white {
 .image-carousel-section {
   height: 100svh;
   position: relative;
+
+  @media only screen and (max-width: 768px) {
+    height: get-rem-mobile(520);
+  }
 }
 
 .full-width-media-section {
+  @media only screen and (max-width: 768px) {
+    &:first-child {
+      height: 100svh;
+    }
+  }
+
   .carousel-left,
   .carousel-right {
     display: none;
@@ -197,8 +215,17 @@ body.bg-white {
   padding-top: get-rem-desktop(48);
   padding-bottom: get-rem-desktop(46);
 
+  @media only screen and (max-width: 768px) {
+    padding-top: get-rem-mobile(24);
+    padding-bottom: get-rem-mobile(50);
+  }
+
   .media-wrap {
     @include aspect-ratio(1095, 600);
+
+    @media only screen and (max-width: 768px) {
+      @include aspect-ratio(354, 435);
+    }
   }
 
   .caption {
@@ -220,8 +247,20 @@ body.bg-white {
   padding-top: get-rem-desktop(100);
   padding-bottom: get-rem-desktop(100);
 
+  @media only screen and (max-width: 768px) {
+    padding-top: get-rem-mobile(24);
+    padding-bottom: get-rem-mobile(56);
+    @include flex;
+    @include flex-direction(column);
+    row-gap: get-rem-mobile(38);
+  }
+
   .media-wrap {
     @include aspect-ratio(1095, 600);
+
+    @media only screen and (max-width: 768px) {
+      @include aspect-ratio(354, 435);
+    }
   }
 
   .project-info {
@@ -250,8 +289,21 @@ body.bg-white {
   padding-bottom: get-rem-desktop(48);
   @include align-items(flex-end);
 
+  @media only screen and (max-width: 768px) {
+    padding-top: get-rem-mobile(24);
+    padding-bottom: get-rem-mobile(56);
+    @include flex;
+    @include flex-direction(column);
+    row-gap: get-rem-mobile(56);
+  }
+
   .media-wrap {
     @include aspect-ratio(540, 675);
+
+    @media only screen and (max-width: 768px) {
+      @include aspect-ratio(354, 435);
+      width: 100%;
+    }
   }
 
   .text {
@@ -271,6 +323,8 @@ body.bg-white {
     @include flex-direction(column);
     row-gap: get-rem-mobile(80);
     @include align-items(flex-start);
+    padding-top: get-rem-mobile(24);
+    padding-bottom: get-rem-mobile(56);
   }
 
   .media-1 {
@@ -314,8 +368,8 @@ body.bg-white {
 
     @media only screen and (max-width: 768px) {
       height: get-rem-mobile(520);
-      padding-top: get-rem-mobile(36);
-      padding-bottom: get-rem-mobile(36);
+      padding-top: get-rem-mobile(35);
+      padding-bottom: get-rem-mobile(35);
     }
 
     .content-wrap {
@@ -334,8 +388,8 @@ body.bg-white {
         @include flex-direction(column);
         @include justify-content(space-between);
         @include align-items(flex-start);
-        padding-top: get-rem-mobile(36);
-        padding-bottom: get-rem-mobile(36);
+        padding-top: get-rem-mobile(35);
+        padding-bottom: get-rem-mobile(35);
       }
     }
   }
@@ -345,11 +399,26 @@ body.bg-white {
     padding-top: get-rem-desktop(100);
     padding-bottom: get-rem-desktop(140);
 
+    @media only screen and (max-width: 768px) {
+      padding-top: get-rem-mobile(56);
+      padding-bottom: get-rem-mobile(56);
+    }
+
     .header {
       margin-bottom: get-rem-desktop(36);
     }
 
     .project-card {
+      display: block;
+
+      @media only screen and (max-width: 768px) {
+        margin-bottom: get-rem-mobile(36);
+
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+      }
+
       .media-overlay {
         position: absolute;
         top: 0;
@@ -376,28 +445,44 @@ body.bg-white {
 
       .cta-link {
         margin-top: get-rem-desktop(20);
+
+        @media only screen and (max-width: 768px) {
+          margin-top: get-rem-mobile(12);
+        }
       }
     }
   }
 
-  &.cards-2 {
-    .media-wrap {
-      @include aspect-ratio(790, 675);
+  &.cards-2 .media-wrap {
+    @include aspect-ratio(790, 675);
+
+    @media only screen and (max-width: 768px) {
+      @include aspect-ratio(354, 435);
     }
   }
 
-  &.cards-3 {
-    .media-wrap {
-      @include aspect-ratio(540, 675);
+  &.cards-3 .media-wrap {
+    @include aspect-ratio(540, 675);
+
+    @media only screen and (max-width: 768px) {
+      @include aspect-ratio(354, 435);
     }
   }
 }
 
-// TEXT TITLE SECTION ------------------
+// TITLE & TEXT SECTION ------------------
 
-.text-title-section {
+.title-text-section {
   padding-top: get-rem-desktop(98);
   padding-bottom: get-rem-desktop(100);
+
+  @media only screen and (max-width: 768px) {
+    padding-top: get-rem-mobile(24);
+    padding-bottom: get-rem-mobile(100);
+    @include flex;
+    @include flex-direction(column);
+    row-gap: get-rem-mobile(56);
+  }
 
   .copy {
     max-width: get-rem-desktop(520);
@@ -410,6 +495,11 @@ body.bg-white {
   padding-top: get-rem-desktop(50);
   padding-bottom: get-rem-desktop(45);
 
+  @media only screen and (max-width: 768px) {
+    padding-top: get-rem-mobile(100);
+    padding-bottom: get-rem-mobile(100);
+  }
+
   .quote {
     max-width: get-rem-desktop(800);
 
@@ -420,6 +510,10 @@ body.bg-white {
 
   .author {
     margin-top: get-rem-desktop(70);
+
+    @media only screen and (max-width: 768px) {
+      margin-top: get-rem-mobile(45);
+    }
   }
 }
 
@@ -429,8 +523,16 @@ body.bg-white {
   padding-top: get-rem-desktop(40);
   padding-bottom: get-rem-desktop(40);
 
+  @media only screen and (max-width: 768px) {
+    padding-bottom: get-rem-mobile(56);
+  }
+
   .heading {
     margin-bottom: get-rem-desktop(80);
+
+    @media only screen and (max-width: 768px) {
+      margin-bottom: get-rem-mobile(36);
+    }
   }
 }
 
@@ -446,6 +548,10 @@ body.bg-white {
   gap: get-rem-desktop(90);
   width: max-content;
   animation: logo-carousel-scroll 40s linear infinite;
+
+  @media only screen and (max-width: 768px) {
+    gap: get-rem-mobile(56);
+  }
 }
 
 .logo-carousel__track:hover {
@@ -472,6 +578,10 @@ body.bg-white {
   max-height: get-rem-desktop(40);
   width: auto;
   object-fit: contain;
+
+  @media only screen and (max-width: 768px) {
+    max-height: get-rem-mobile(30);
+  }
 }
 
 // POLICY PAGE ------------------
@@ -479,6 +589,11 @@ body.bg-white {
 .policy-page {
   padding-top: get-rem-desktop(305);
   padding-bottom: get-rem-desktop(200);
+
+  @media only screen and (max-width: 768px) {
+    padding-top: get-rem-mobile(140);
+    padding-bottom: get-rem-mobile(140);
+  }
 
   .content-wrap {
     @include flex;

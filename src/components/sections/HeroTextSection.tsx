@@ -26,6 +26,7 @@ export type HeroTextSectionCta = {
 
 interface HeroTextSectionProps {
   title?: InternationalizedValue | null
+  titleMobile?: InternationalizedValue | null
   copy?: InternationalizedPortableText | null
   cta?: HeroTextSectionCta | null
   alignment?: 'left' | 'right' | null
@@ -34,15 +35,21 @@ interface HeroTextSectionProps {
 
 export default function HeroTextSection({
   title,
+  titleMobile,
   copy,
   cta,
   alignment = 'left',
   locale,
 }: HeroTextSectionProps) {
-  const headingRef = useRef<HTMLHeadingElement>(null)
+  const headingRef = useRef<HTMLSpanElement>(null)
   const splitRef = useRef<InstanceType<typeof SplitText> | null>(null)
 
   const resolvedTitle = resolveInternationalized(title ?? undefined, locale)
+  const resolvedTitleMobile = resolveInternationalized(
+    titleMobile ?? title ?? undefined,
+    locale
+  )
+  const titleForDesktop = resolvedTitle ?? resolvedTitleMobile
   const resolvedCopy = resolveInternationalizedPortableText(copy ?? undefined, locale)
   const ctaLabel = cta?.label ?? null
   const ctaHref = cta?.slug != null ? `/${cta.slug}` : cta?.url ?? cta?.fileUrl ?? null
@@ -63,7 +70,7 @@ export default function HeroTextSection({
       splitRef.current?.kill()
       splitRef.current = null
     }
-  }, [resolvedTitle])
+  }, [titleForDesktop])
 
   if (!resolvedTitle && !resolvedCopy) return null
 
@@ -84,9 +91,16 @@ export default function HeroTextSection({
 
   return (
     <section className={`hero-text-section ${alignmentClass} h-pad`}>
-      {resolvedTitle && (
-        <h1 ref={headingRef} className="heading">
-          {resolvedTitle}
+      {(titleForDesktop || resolvedTitleMobile) && (
+        <h1 className="heading">
+          {titleForDesktop && (
+            <span ref={headingRef} className="desktop">
+              {titleForDesktop}
+            </span>
+          )}
+          {resolvedTitleMobile && (
+            <span className="mobile">{resolvedTitleMobile}</span>
+          )}
         </h1>
       )}
 

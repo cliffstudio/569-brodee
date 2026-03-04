@@ -59,31 +59,27 @@ export default function IntroWithMediaSection({
   const alignmentClass = alignment === 'right' ? 'align-right' : 'align-left'
 
   const mediaBlock = hasMedia ? (
-    <div className="col-4-12_lg">
+    <div className="media-wrap out-of-opacity col-4-12_lg">
       {hasImage && (
-        <div className="media-wrap out-of-opacity">
-          <ResponsiveSanityImage
-            desktop={image!}
-            mobile={imageMobile}
-            className="lazy full-bleed-image"
-          />
-        </div>
+        <ResponsiveSanityImage
+          desktop={image!}
+          mobile={imageMobile}
+          className="lazy full-bleed-image"
+        />
       )}
       {hasVideo && (
-        <div className="media-wrap out-of-opacity">
-          <div className="fill-space-video-wrap">
-            <video
-              ref={videoRef}
-              src={videoUrlFor(video!)}
-              poster={videoPosterFor(video)}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-            />
-            <div className="loading-overlay" />
-          </div>
+        <div className="fill-space-video-wrap">
+          <video
+            ref={videoRef}
+            src={videoUrlFor(video!)}
+            poster={videoPosterFor(video)}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+          />
+          <div className="loading-overlay" />
         </div>
       )}
     </div>

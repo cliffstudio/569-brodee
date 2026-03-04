@@ -8,8 +8,14 @@ export default defineType({
   fields: [
     defineField({
       name: 'title',
-      title: 'Title',
+      title: 'Title (Desktop)',
       type: 'internationalizedArrayString',
+    }),
+    defineField({
+      name: 'titleMobile',
+      title: 'Title (Mobile)',
+      type: 'internationalizedArrayString',
+      description: 'Defaults to desktop title if not set.',
     }),
     defineField({
       name: 'copy',

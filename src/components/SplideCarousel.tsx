@@ -46,6 +46,7 @@ export default function SplideCarousel({
     autoplay,
     pauseOnHover: !autoplay,
     resetProgress: false,
+    drag: false,
   }
 
   return (

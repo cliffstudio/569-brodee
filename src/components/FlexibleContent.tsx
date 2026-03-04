@@ -33,6 +33,7 @@ type HeroTextBlock = {
   _type: 'heroTextSection'
   _key: string
   title?: InternationalizedValue | null
+  titleMobile?: InternationalizedValue | null
   copy?: InternationalizedPortableText | null
   cta?: HeroTextSectionCta | null
   alignment?: 'left' | 'right' | null
@@ -166,6 +167,7 @@ export default function FlexibleContent({
             <HeroTextSection
               key={block._key}
               title={block.title}
+              titleMobile={block.titleMobile}
               copy={block.copy}
               cta={block.cta}
               alignment={block.alignment ?? 'left'}
