@@ -67,7 +67,6 @@ export default function IntroWithMediaSection({
             mobile={imageMobile}
             className="lazy full-bleed-image"
           />
-          <div className="loading-overlay" />
         </div>
       )}
       {hasVideo && (

@@ -25,7 +25,6 @@ export default function ImageCarouselSection({ images }: ImageCarouselSectionPro
             mobile={mobile}
             className="lazy full-bleed-image"
           />
-          <div className="loading-overlay" />
         </div>
       </section>
     )
@@ -36,7 +35,7 @@ export default function ImageCarouselSection({ images }: ImageCarouselSectionPro
     const desktopUrl = urlFor(desktop).url()
     const mobileUrl = urlFor(mobile).url()
     return {
-      url: desktopUrl,
+      desktopUrl,
       mobileUrl: desktopUrl !== mobileUrl ? mobileUrl : undefined,
       alt: '',
     }

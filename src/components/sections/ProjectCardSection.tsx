@@ -37,7 +37,6 @@ function ProjectCardLink({
             mobile={card.mainImageMobile}
             className="lazy full-bleed-image"
           />
-          <div className="loading-overlay" />
           <div className="media-overlay" />
         </div>
       )}
@@ -101,14 +100,11 @@ export default function ProjectCardSection({
     return (
       <section className="project-card-section h-pad cards-1">
         {card1.mainImage && (
-          <>
-            <ResponsiveSanityImage
-              desktop={card1.mainImage}
-              mobile={card1.mainImageMobile}
-              className="lazy full-bleed-image"
-            />
-            <div className="loading-overlay" />
-          </>
+          <ResponsiveSanityImage
+            desktop={card1.mainImage}
+            mobile={card1.mainImageMobile}
+            className="lazy full-bleed-image"
+          />
         )}
 
         {(resolvedTitle || card1.title) && (

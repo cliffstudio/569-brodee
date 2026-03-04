@@ -30,8 +30,15 @@ export default defineType({
     }),
     defineField({
       name: 'video',
-      title: 'Video',
+      title: 'Video (Desktop)',
       type: 'bunnyVideo',
+      hidden: ({ parent }) => parent?.mediaType !== 'video',
+    }),
+    defineField({
+      name: 'videoMobile',
+      title: 'Video (Mobile)',
+      type: 'bunnyVideo',
+      description: 'Defaults to desktop video if not set.',
       hidden: ({ parent }) => parent?.mediaType !== 'video',
     }),
   ],

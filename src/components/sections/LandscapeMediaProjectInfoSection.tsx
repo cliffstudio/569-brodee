@@ -56,7 +56,6 @@ export default function LandscapeMediaProjectInfoSection({
             mobile={imageMobile}
             className="lazy full-bleed-image"
           />
-          <div className="loading-overlay" />
         </div>
       )}
       {hasVideo && (

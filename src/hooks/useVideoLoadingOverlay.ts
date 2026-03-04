@@ -2,32 +2,43 @@
 
 import { useLayoutEffect } from 'react'
 
+type VideoRef =
+  | React.RefObject<HTMLVideoElement | null>
+  | React.RefObject<HTMLVideoElement | null>[]
+
 /**
- * Hides the loading overlay (nextElementSibling with .loading-overlay) when the
- * video can play through. Use with a <video> that has a sibling <div className="loading-overlay" />.
+ * Hides the loading overlay (nextElementSibling of the last video with .loading-overlay) when any
+ * video can play through. Use with <video> element(s) that have a sibling <div className="loading-overlay" />.
  */
 export function useVideoLoadingOverlay(
-  videoRef: React.RefObject<HTMLVideoElement | null>,
+  videoRefOrRefs: VideoRef,
   isActive: boolean
 ): void {
+  const refs = Array.isArray(videoRefOrRefs) ? videoRefOrRefs : [videoRefOrRefs]
+
   useLayoutEffect(() => {
-    if (!isActive || !videoRef.current) return
-    const videoEl = videoRef.current
+    if (!isActive) return
+    const videoEls = refs
+      .map((r) => r.current)
+      .filter((el): el is HTMLVideoElement => el != null)
+    if (videoEls.length === 0) return
+
+    const lastEl = videoEls[videoEls.length - 1]
+    const loadingOverlay = lastEl.nextElementSibling
 
     const hideLoadingOverlay = () => {
-      const loadingOverlay = videoEl.nextElementSibling
       if (loadingOverlay && loadingOverlay instanceof HTMLElement) {
         loadingOverlay.classList.add('hidden')
       }
     }
 
-    videoEl.addEventListener('canplaythrough', hideLoadingOverlay)
-    if (videoEl.readyState >= 3) {
-      hideLoadingOverlay()
+    const bind = (el: HTMLVideoElement) => {
+      el.addEventListener('canplaythrough', hideLoadingOverlay)
+      if (el.readyState >= 3) hideLoadingOverlay()
+      return () => el.removeEventListener('canplaythrough', hideLoadingOverlay)
     }
 
-    return () => {
-      videoEl.removeEventListener('canplaythrough', hideLoadingOverlay)
-    }
-  }, [isActive])
+    const unbind = videoEls.map(bind)
+    return () => unbind.forEach((fn) => fn())
+  }, [isActive, refs])
 }

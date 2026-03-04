@@ -55,7 +55,6 @@ export default function LandscapeMediaSection({
             mobile={imageMobile}
             className="lazy full-bleed-image"
           />
-          <div className="loading-overlay" />
         </div>
       )}
 

@@ -156,6 +156,7 @@ export default function FlexibleContent({
               mediaType={block.mediaType ?? 'image'}
               images={block.images}
               video={block.video}
+              videoMobile={block.videoMobile}
             />
           )
         }

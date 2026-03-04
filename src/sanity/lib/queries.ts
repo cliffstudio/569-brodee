@@ -83,7 +83,7 @@ const imageArrayItemFragment = groq`{
   "image": image ${imageFragment},
   "mobileImage": mobileImage ${imageFragment}
 }`
-const fullWidthMediaSectionFields = groq`mediaType, "images": images[] ${imageArrayItemFragment}, video`
+const fullWidthMediaSectionFields = groq`mediaType, "images": images[] ${imageArrayItemFragment}, video, videoMobile`
 const heroTextCtaLink = groq`cta[0] {
   _type,
   label,

@@ -240,6 +240,35 @@ LOADING OVERLAY(S) ------------------
 	}
 }
 
+/* Responsive image: desktop and mobile each use img + loading-overlay; one visible per breakpoint */
+.responsive-sanity-image {
+	position: relative;
+	width: 100%;
+	height: 100%;
+
+	.responsive-sanity-image__desktop,
+	.responsive-sanity-image__mobile {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+	.responsive-sanity-image__mobile {
+		display: none;
+	}
+
+	@media (max-width: 768px) {
+		.responsive-sanity-image__desktop {
+			display: none;
+		}
+		.responsive-sanity-image__mobile {
+			display: block;
+		}
+	}
+}
+
 body.bg-birch,
 body.bg-sage,
 body.bg-chalk,

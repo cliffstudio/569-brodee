@@ -16,7 +16,7 @@ export const imageWithMobileType = defineType({
     }),
     defineField({
       name: 'mobileImage',
-      title: 'Mobile Image (optional)',
+      title: 'Image (Mobile)',
       type: 'image',
       description: 'Defaults to desktop image if not set. Maximum file size: 500KB.',
       validation: imageSizeValidation,
