@@ -591,8 +591,8 @@ body.bg-white {
   padding-bottom: get-rem-desktop(200);
 
   @media only screen and (max-width: 768px) {
-    padding-top: get-rem-mobile(140);
-    padding-bottom: get-rem-mobile(140);
+    padding-top: get-rem-mobile(137);
+    padding-bottom: get-rem-mobile(100);
   }
 
   .content-wrap {
@@ -600,8 +600,16 @@ body.bg-white {
     @include flex-direction(column);
     row-gap: get-rem-desktop(80);
 
+    @media only screen and (max-width: 768px) {
+      row-gap: get-rem-mobile(48);
+    }
+
     .heading {
       margin-bottom: get-rem-desktop(20);
+
+      @media only screen and (max-width: 768px) {
+        margin-bottom: get-rem-mobile(15);
+      }
     }
 
     .copy {
