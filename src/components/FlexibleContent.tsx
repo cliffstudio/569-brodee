@@ -26,6 +26,7 @@ type FullWidthMediaBlock = {
   mediaType?: string | null
   images?: SanityImageArrayItem[] | null
   video?: SanityBunnyVideo | null
+  videoMobile?: SanityBunnyVideo | null
 }
 
 type HeroTextBlock = {
