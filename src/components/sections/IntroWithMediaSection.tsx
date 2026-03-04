@@ -5,7 +5,7 @@ import { portableTextComponents } from '@/components/PortableTextComponents'
 import type { SanityImage, SanityVideo } from '@/types/sanity'
 import type { InternationalizedPortableText } from '@/lib/locale'
 import { resolveInternationalizedPortableText } from '@/lib/locale'
-import { urlFor } from '@/sanity/utils/imageUrlBuilder'
+import ResponsiveSanityImage from '@/components/ResponsiveSanityImage'
 import { videoUrlFor, videoPosterFor } from '@/sanity/utils/videoUrlBuilder'
 import Link from 'next/link'
 import { useRef } from 'react'
@@ -23,6 +23,7 @@ export type IntroWithMediaCta = {
 export interface IntroWithMediaSectionProps {
   mediaType?: 'image' | 'video' | null
   image?: SanityImage | null
+  imageMobile?: SanityImage | null
   video?: SanityVideo | null
   copy?: InternationalizedPortableText | null
   cta?: IntroWithMediaCta | null
@@ -33,6 +34,7 @@ export interface IntroWithMediaSectionProps {
 export default function IntroWithMediaSection({
   mediaType = 'image',
   image,
+  imageMobile,
   video,
   copy,
   cta,
@@ -60,9 +62,9 @@ export default function IntroWithMediaSection({
     <div className="col-4-12_lg">
       {hasImage && (
         <div className="media-wrap out-of-opacity">
-          <img
-            data-src={urlFor(image!).url()}
-            alt=""
+          <ResponsiveSanityImage
+            desktop={image!}
+            mobile={imageMobile}
             className="lazy full-bleed-image"
           />
           <div className="loading-overlay" />

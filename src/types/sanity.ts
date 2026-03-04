@@ -18,6 +18,13 @@ export type SanityImage = {
   }
 }
 
+/** Array item: plain image (legacy) or object with image + optional mobileImage */
+export type SanityImageArrayItem = SanityImage | {
+  _type: 'imageWithMobile'
+  image?: SanityImage | null
+  mobileImage?: SanityImage | null
+}
+
 /** Bunny Stream video (from @cliff-studio/sanity-plugin-bunny-input) */
 export type SanityBunnyVideo = {
   _type: 'bunnyVideo'
@@ -42,6 +49,7 @@ export type Project = {
 /** Resolved project card (main image, title, page link) for projectCardSection. */
 export type ProjectCard = {
   mainImage?: SanityImage | null
+  mainImageMobile?: SanityImage | null
   title?: string | null
   slug?: string | null
 } | null

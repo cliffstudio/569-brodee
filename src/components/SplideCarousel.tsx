@@ -7,7 +7,7 @@ import { useRef } from 'react'
 import ArrowRightIcon from '@/components/icons/ArrowRightIcon'
 
 interface SplideCarouselProps {
-  images: Array<{ url: string; alt?: string }>
+  images: Array<{ url: string; mobileUrl?: string; alt?: string }>
   autoplay?: boolean
   arrows?: boolean
   onPrevious?: () => void
@@ -57,11 +57,22 @@ export default function SplideCarousel({
       >
         {images.map((image, index) => (
           <SplideSlide key={index}>
-            <img 
-              data-src={image.url} 
-              alt={image.alt || ""} 
-              className="lazy full-bleed-image"
-            />
+            {image.mobileUrl ? (
+              <picture>
+                <source media="(max-width: 768px)" srcSet={image.mobileUrl} />
+                <img
+                  data-src={image.url}
+                  alt={image.alt ?? ''}
+                  className="lazy full-bleed-image"
+                />
+              </picture>
+            ) : (
+              <img
+                data-src={image.url}
+                alt={image.alt ?? ''}
+                className="lazy full-bleed-image"
+              />
+            )}
             <div className="loading-overlay" />
           </SplideSlide>
         ))}

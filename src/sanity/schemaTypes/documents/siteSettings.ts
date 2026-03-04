@@ -37,7 +37,7 @@ export const siteSettingsType = {
     }),
     defineField({
       name: 'socialimage',
-      title: 'Social Image',
+      title: 'Social Image (Desktop)',
       type: 'image',
       description: 'Recommended size: 1200x630px. Please upload image files under 1MB.',
       validation: imageSizeValidation1MB,

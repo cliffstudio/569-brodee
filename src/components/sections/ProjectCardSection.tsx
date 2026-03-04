@@ -5,7 +5,7 @@ import Link from 'next/link'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import type { ProjectCard } from '@/types/sanity'
-import { urlFor } from '@/sanity/utils/imageUrlBuilder'
+import ResponsiveSanityImage from '@/components/ResponsiveSanityImage'
 import ArrowRightIcon from '../icons/ArrowRightIcon'
 import { resolveInternationalized, type InternationalizedValue } from '@/lib/locale'
 
@@ -32,9 +32,9 @@ function ProjectCardLink({
     <Link href={`/works/${card.slug}`} className={`${columnClass} project-card`}>
       {card.mainImage && (
         <div className="media-wrap">
-          <img
-            data-src={urlFor(card.mainImage).url()}
-            alt=""
+          <ResponsiveSanityImage
+            desktop={card.mainImage}
+            mobile={card.mainImageMobile}
             className="lazy full-bleed-image"
           />
           <div className="loading-overlay" />
@@ -63,6 +63,9 @@ export default function ProjectCardSection({
   const n = String(numberOfCards ?? '1')
 
   useEffect(() => {
+    const mq = window.matchMedia('(min-width: 769px)')
+    if (!mq.matches) return
+
     const sectionSelector = '.project-card-section.cards-1'
     const sectionEl = document.querySelector(sectionSelector)
     const contentWrap = sectionEl?.querySelector('.content-wrap')
@@ -83,7 +86,15 @@ export default function ProjectCardSection({
       pinSpacing: false,
       invalidateOnRefresh: true,
     })
-    return () => st.kill()
+
+    const onMediaChange = (e: MediaQueryListEvent) => {
+      if (!e.matches) st.kill()
+    }
+    mq.addEventListener('change', onMediaChange)
+    return () => {
+      mq.removeEventListener('change', onMediaChange)
+      st.kill()
+    }
   }, [])
 
   if (n === '1' && card1) {
@@ -91,9 +102,9 @@ export default function ProjectCardSection({
       <section className="project-card-section h-pad cards-1">
         {card1.mainImage && (
           <>
-            <img
-              data-src={urlFor(card1.mainImage).url()}
-              alt=""
+            <ResponsiveSanityImage
+              desktop={card1.mainImage}
+              mobile={card1.mainImageMobile}
               className="lazy full-bleed-image"
             />
             <div className="loading-overlay" />

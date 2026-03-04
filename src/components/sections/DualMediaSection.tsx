@@ -3,15 +3,17 @@
 import { useRef } from 'react'
 import { useVideoLoadingOverlay } from '@/hooks/useVideoLoadingOverlay'
 import type { SanityImage, SanityVideo } from '@/types/sanity'
-import { urlFor } from '@/sanity/utils/imageUrlBuilder'
+import ResponsiveSanityImage from '@/components/ResponsiveSanityImage'
 import { videoUrlFor, videoPosterFor } from '@/sanity/utils/videoUrlBuilder'
 
 export interface DualMediaSectionProps {
   mediaType1?: string | null
   image1?: SanityImage | null
+  image1Mobile?: SanityImage | null
   video1?: SanityVideo | null
   mediaType2?: string | null
   image2?: SanityImage | null
+  image2Mobile?: SanityImage | null
   video2?: SanityVideo | null
   alignment?: 'left' | 'right'
 }
@@ -19,12 +21,14 @@ export interface DualMediaSectionProps {
 function MediaBlock({
   mediaType,
   image,
+  imageMobile,
   video,
   videoRef,
   slot,
 }: {
   mediaType: string
   image?: SanityImage | null
+  imageMobile?: SanityImage | null
   video?: SanityVideo | null
   videoRef: React.RefObject<HTMLVideoElement | null>
   slot: 1 | 2
@@ -38,9 +42,9 @@ function MediaBlock({
     <div className={`media-${slot} ${slot === 1 ? 'col-3-12_lg' : 'col-5-12_lg'}`}>
       {hasImage && (
         <div className="media-wrap out-of-opacity">
-          <img
-            data-src={urlFor(image!).url()}
-            alt=""
+          <ResponsiveSanityImage
+            desktop={image!}
+            mobile={imageMobile}
             className="lazy full-bleed-image"
           />
           <div className="loading-overlay" />
@@ -70,9 +74,11 @@ function MediaBlock({
 export default function DualMediaSection({
   mediaType1 = 'image',
   image1,
+  image1Mobile,
   video1,
   mediaType2 = 'image',
   image2,
+  image2Mobile,
   video2,
   alignment = 'left',
 }: DualMediaSectionProps) {
@@ -96,6 +102,7 @@ export default function DualMediaSection({
             slot={1}
             mediaType={mediaType1 ?? 'image'}
             image={image1}
+            imageMobile={image1Mobile}
             video={video1}
             videoRef={video1Ref}
           />
@@ -104,6 +111,7 @@ export default function DualMediaSection({
             slot={2}
             mediaType={mediaType2 ?? 'image'}
             image={image2}
+            imageMobile={image2Mobile}
             video={video2}
             videoRef={video2Ref}
           />
@@ -115,6 +123,7 @@ export default function DualMediaSection({
             slot={2}
             mediaType={mediaType2 ?? 'image'}
             image={image2}
+            imageMobile={image2Mobile}
             video={video2}
             videoRef={video2Ref}
           />
@@ -123,6 +132,7 @@ export default function DualMediaSection({
             slot={1}
             mediaType={mediaType1 ?? 'image'}
             image={image1}
+            imageMobile={image1Mobile}
             video={video1}
             videoRef={video1Ref}
           />

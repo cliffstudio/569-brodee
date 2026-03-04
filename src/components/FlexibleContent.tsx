@@ -1,4 +1,4 @@
-import type { SanityBunnyVideo, SanityImage } from '@/types/sanity'
+import type { SanityBunnyVideo, SanityImage, SanityImageArrayItem } from '@/types/sanity'
 import type {
   InternationalizedPortableText,
   InternationalizedValue,
@@ -24,7 +24,7 @@ type FullWidthMediaBlock = {
   _type: 'fullWidthMediaSection'
   _key: string
   mediaType?: string | null
-  images?: SanityImage[] | null
+  images?: SanityImageArrayItem[] | null
   video?: SanityBunnyVideo | null
 }
 
@@ -42,6 +42,7 @@ type LandscapeMediaBlock = {
   _key: string
   mediaType?: string | null
   image?: SanityImage | null
+  imageMobile?: SanityImage | null
   video?: SanityBunnyVideo | null
   caption?: { _key: string; value?: string }[] | null
   alignment?: 'left' | 'right' | null
@@ -52,6 +53,7 @@ type LandscapeMediaProjectInfoBlock = {
   _key: string
   mediaType?: string | null
   image?: SanityImage | null
+  imageMobile?: SanityImage | null
   video?: SanityBunnyVideo | null
   projectInfo?: ProjectInfoItem[] | null
 }
@@ -61,6 +63,7 @@ type IntroWithMediaBlock = {
   _key: string
   mediaType?: 'image' | 'video' | null
   image?: SanityImage | null
+  imageMobile?: SanityImage | null
   video?: SanityBunnyVideo | null
   copy?: InternationalizedPortableText | null
   cta?: IntroWithMediaCta | null
@@ -72,9 +75,11 @@ type DualMediaBlock = {
   _key: string
   mediaType1?: string | null
   image1?: SanityImage | null
+  image1Mobile?: SanityImage | null
   video1?: SanityBunnyVideo | null
   mediaType2?: string | null
   image2?: SanityImage | null
+  image2Mobile?: SanityImage | null
   video2?: SanityBunnyVideo | null
   alignment?: 'left' | 'right' | null
 }
@@ -107,13 +112,13 @@ type LogoCarouselBlock = {
   _type: 'logoCarouselSection'
   _key: string
   title?: InternationalizedValue | null
-  images?: SanityImage[] | null
+  images?: SanityImageArrayItem[] | null
 }
 
 type ImageCarouselBlock = {
   _type: 'imageCarouselSection'
   _key: string
-  images?: SanityImage[] | null
+  images?: SanityImageArrayItem[] | null
 }
 
 type ContentBlock =
@@ -170,6 +175,7 @@ export default function FlexibleContent({
           const landscapeProps: LandscapeMediaSectionProps = {
             mediaType: block.mediaType ?? 'image',
             image: block.image,
+            imageMobile: block.imageMobile,
             video: block.video,
             caption: block.caption,
             alignment: block.alignment ?? 'left',
@@ -183,6 +189,7 @@ export default function FlexibleContent({
               key={block._key}
               mediaType={block.mediaType ?? 'image'}
               image={block.image}
+              imageMobile={block.imageMobile}
               video={block.video}
               projectInfo={block.projectInfo}
               locale={locale}
@@ -195,6 +202,7 @@ export default function FlexibleContent({
               key={block._key}
               mediaType={block.mediaType ?? 'image'}
               image={block.image}
+              imageMobile={block.imageMobile}
               video={block.video}
               copy={block.copy}
               cta={block.cta}
@@ -209,9 +217,11 @@ export default function FlexibleContent({
               key={block._key}
               mediaType1={block.mediaType1 ?? 'image'}
               image1={block.image1}
+              image1Mobile={block.image1Mobile}
               video1={block.video1}
               mediaType2={block.mediaType2 ?? 'image'}
               image2={block.image2}
+              image2Mobile={block.image2Mobile}
               video2={block.video2}
               alignment={block.alignment ?? 'left'}
             />

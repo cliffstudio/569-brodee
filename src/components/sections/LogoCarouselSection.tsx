@@ -1,8 +1,9 @@
 'use client'
 
 /* eslint-disable @next/next/no-img-element */
-import type { SanityImage } from '@/types/sanity'
-import { urlFor } from '@/sanity/utils/imageUrlBuilder'
+import type { SanityImageArrayItem } from '@/types/sanity'
+import { normalizeImageArrayItem } from '@/lib/sanityImage'
+import ResponsiveSanityImage from '@/components/ResponsiveSanityImage'
 import {
   resolveInternationalized,
   type InternationalizedValue,
@@ -10,16 +11,17 @@ import {
 
 interface LogoCarouselSectionProps {
   title?: InternationalizedValue | null
-  images?: SanityImage[] | null
+  images?: SanityImageArrayItem[] | null
   locale: string
 }
 
-function LogoItem({ image }: { image: SanityImage }) {
+function LogoItem({ item }: { item: SanityImageArrayItem }) {
+  const { desktop, mobile } = normalizeImageArrayItem(item)
   return (
     <div className="logo-carousel__item">
-      <img
-        data-src={urlFor(image).url()}
-        alt=""
+      <ResponsiveSanityImage
+        desktop={desktop}
+        mobile={mobile}
         className="lazy logo-carousel__img"
       />
     </div>
@@ -46,8 +48,8 @@ export default function LogoCarouselSection({
 
       <div className="logo-carousel out-of-opacity">
         <div className="logo-carousel__track" aria-hidden="true">
-          {[...list, ...list].map((image, index) => (
-            <LogoItem key={index} image={image} />
+          {[...list, ...list].map((item, index) => (
+            <LogoItem key={index} item={item} />
           ))}
         </div>
       </div>

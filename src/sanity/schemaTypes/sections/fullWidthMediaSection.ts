@@ -1,6 +1,5 @@
 import { defineType, defineField } from 'sanity'
 import { VideoIcon } from '@sanity/icons'
-import { imageSizeValidation } from '@/sanity/utils/imageValidation'
 
 export default defineType({
   name: 'fullWidthMediaSection',
@@ -25,13 +24,8 @@ export default defineType({
       name: 'images',
       title: 'Images',
       type: 'array',
-      description: 'One image for full-width hero; multiple for carousel. Maximum file size per image: 500KB.',
-      of: [
-        {
-          type: 'image',
-          validation: imageSizeValidation,
-        },
-      ],
+      description: 'One image for full-width hero; multiple for carousel. Each item has a desktop image and an optional mobile image (defaults to desktop if not set). Maximum file size per image: 500KB.',
+      of: [{ type: 'imageWithMobile' }],
       hidden: ({ parent }) => parent?.mediaType !== 'image',
     }),
     defineField({
@@ -43,13 +37,14 @@ export default defineType({
   ],
   preview: {
     select: {
-      mediaType: 'mediaType', 
-      images: 'images'
+      mediaType: 'mediaType',
+      firstImage: 'images.0',
+      firstImageDesktop: 'images.0.image',
     },
-    prepare({ mediaType, images }) {
+    prepare({ mediaType, firstImage, firstImageDesktop }) {
       const isVideo = mediaType === 'video'
       const title = isVideo ? 'Full Width Video' : 'Full Width Image'
-      const media = isVideo ? VideoIcon : images?.[0]
+      const media = isVideo ? VideoIcon : firstImageDesktop ?? firstImage
       return { title, media }
     },
   },

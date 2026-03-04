@@ -9,9 +9,24 @@
   @include flex-direction(column);
   row-gap: get-rem-desktop(75);
 
+  @media only screen and (max-width: 768px) {
+    row-gap: get-rem-mobile(20);
+  }
+
   .footer-top {
+    @media only screen and (max-width: 768px) {
+      @include flex;
+      @include flex-direction(column);
+      row-gap: get-rem-mobile(20);
+    }
+
     .footer-title {
       max-width: get-rem-desktop(450);
+
+      @media only screen and (max-width: 768px) {
+        max-width: get-rem-mobile(210);
+        margin-bottom: get-rem-mobile(25);
+      }
     }
 
     .footer-nav {
@@ -30,12 +45,17 @@
   .footer-bottom {
     @include align-items(flex-end);
 
-    .logo-wrap {
-      svg {
-        width: get-rem-desktop(110);
-        height: auto;
-        fill: $colour-white;
-      }
+    @media only screen and (max-width: 768px) {
+      @include flex;
+      @include flex-direction(column-reverse);
+      @include align-items(flex-start);
+      row-gap: get-rem-mobile(55);
+    }
+
+    .logo-wrap svg {
+      width: get-rem-desktop(110);
+      height: auto;
+      fill: $colour-white;
     }
   }
 }

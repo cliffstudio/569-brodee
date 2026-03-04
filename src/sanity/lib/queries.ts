@@ -76,7 +76,14 @@ const footerLinkFragment = groq`{
 
 // ——— Content block fragments (flexible content) ———
 
-const fullWidthMediaSectionFields = groq`mediaType, "images": images[] ${imageFragment}, video`
+// Array item: plain image (legacy) or imageWithMobile object
+const imageArrayItemFragment = groq`{
+  _type,
+  asset, hotspot, crop,
+  "image": image ${imageFragment},
+  "mobileImage": mobileImage ${imageFragment}
+}`
+const fullWidthMediaSectionFields = groq`mediaType, "images": images[] ${imageArrayItemFragment}, video`
 const heroTextCtaLink = groq`cta[0] {
   _type,
   label,
@@ -88,10 +95,10 @@ const heroTextCtaLink = groq`cta[0] {
   "fileUrl": file.asset->url
 }`
 const heroTextSectionFields = groq`title, copy, alignment, ${heroTextCtaLink}`
-const landscapeMediaFields = groq`mediaType, "image": image ${imageFragment}, video, caption, alignment`
-const landscapeMediaProjectInfoSectionFields = groq`mediaType, "image": image ${imageFragment}, video, projectInfo[] { _key, title, copy }`
-const dualMediaFields = groq`mediaType1, "image1": image1 ${imageFragment}, video1, mediaType2, "image2": image2 ${imageFragment}, video2, alignment`
-const projectCardFields = groq`"mainImage": mainImage ${imageFragment}, title, "slug": slug.current`
+const landscapeMediaFields = groq`mediaType, "image": image ${imageFragment}, "imageMobile": imageMobile ${imageFragment}, video, caption, alignment`
+const landscapeMediaProjectInfoSectionFields = groq`mediaType, "image": image ${imageFragment}, "imageMobile": imageMobile ${imageFragment}, video, projectInfo[] { _key, title, copy }`
+const dualMediaFields = groq`mediaType1, "image1": image1 ${imageFragment}, "image1Mobile": image1Mobile ${imageFragment}, video1, mediaType2, "image2": image2 ${imageFragment}, "image2Mobile": image2Mobile ${imageFragment}, video2, alignment`
+const projectCardFields = groq`"mainImage": mainImage ${imageFragment}, "mainImageMobile": mainImageMobile ${imageFragment}, title, "slug": slug.current`
 const projectCardSectionFields = groq`title, numberOfCards,
   "card1": card1-> { ${projectCardFields} },
   "card2": card2-> { ${projectCardFields} },
@@ -106,23 +113,23 @@ const introWithMediaCtaLink = groq`cta[0] {
   ),
   "fileUrl": file.asset->url
 }`
-const introWithMediaFields = groq`mediaType, "image": image ${imageFragment}, video, copy, alignment,
+const introWithMediaFields = groq`mediaType, "image": image ${imageFragment}, "imageMobile": imageMobile ${imageFragment}, video, copy, alignment,
   ${introWithMediaCtaLink}`
 
 const textTitleSectionFields = groq`title, copy`
 const quoteSectionFields = groq`quote, author`
-const logoCarouselSectionFields = groq`title, "images": images[] ${imageFragment}`
-const imageCarouselSectionFields = groq`"images": images[] ${imageFragment}`
+const logoCarouselSectionFields = groq`title, "images": images[] ${imageArrayItemFragment}`
+const imageCarouselSectionFields = groq`"images": images[] ${imageArrayItemFragment}`
 
 const contentBlocksFragment = groq`contentBlocks[] {
   _type,
   _key,
   ...select(_type == "fullWidthMediaSection" => { ${fullWidthMediaSectionFields} }),
   ...select(_type == "heroTextSection" => { title, copy, alignment, ${heroTextCtaLink} }),
-  ...select(_type == "landscapeMediaSection" => { mediaType, "image": image ${imageFragment}, video, caption, alignment }),
+  ...select(_type == "landscapeMediaSection" => { ${landscapeMediaFields} }),
   ...select(_type == "landscapeMediaProjectInfoSection" => { ${landscapeMediaProjectInfoSectionFields} }),
-  ...select(_type == "introWithMediaSection" => { mediaType, "image": image ${imageFragment}, video, copy, alignment, ${introWithMediaCtaLink} }),
-  ...select(_type == "dualMediaSection" => { mediaType1, "image1": image1 ${imageFragment}, video1, mediaType2, "image2": image2 ${imageFragment}, video2, alignment }),
+  ...select(_type == "introWithMediaSection" => { ${introWithMediaFields} }),
+  ...select(_type == "dualMediaSection" => { ${dualMediaFields} }),
   ...select(_type == "projectCardSection" => { title, numberOfCards,
   "card1": card1-> { ${projectCardFields} },
   "card2": card2-> { ${projectCardFields} },
@@ -167,7 +174,8 @@ export const caseStudiesQuery = groq`
     "slug": slug.current,
     publishedAt,
     excerpt,
-    mainImage ${imageFragment}
+    mainImage ${imageFragment},
+    mainImageMobile ${imageFragment}
   }
 `
 
@@ -180,6 +188,7 @@ export const caseStudyBySlugQuery = groq`
     publishedAt,
     excerpt,
     mainImage ${imageFragment},
+    mainImageMobile ${imageFragment},
     body,
     backgroundColour,
     ${contentBlocksFragment}

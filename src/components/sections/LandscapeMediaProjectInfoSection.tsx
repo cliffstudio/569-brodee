@@ -5,7 +5,7 @@ import { PortableText } from '@portabletext/react'
 import { portableTextComponents } from '@/components/PortableTextComponents'
 import { useVideoLoadingOverlay } from '@/hooks/useVideoLoadingOverlay'
 import type { SanityImage, SanityBunnyVideo } from '@/types/sanity'
-import { urlFor } from '@/sanity/utils/imageUrlBuilder'
+import ResponsiveSanityImage from '@/components/ResponsiveSanityImage'
 import { videoUrlFor, videoPosterFor } from '@/sanity/utils/videoUrlBuilder'
 import {
   resolveInternationalized,
@@ -23,6 +23,7 @@ export type ProjectInfoItem = {
 export interface LandscapeMediaProjectInfoSectionProps {
   mediaType?: string | null
   image?: SanityImage | null
+  imageMobile?: SanityImage | null
   video?: SanityBunnyVideo | null
   projectInfo?: ProjectInfoItem[] | null
   locale: string
@@ -31,6 +32,7 @@ export interface LandscapeMediaProjectInfoSectionProps {
 export default function LandscapeMediaProjectInfoSection({
   mediaType,
   image,
+  imageMobile,
   video,
   projectInfo,
   locale,
@@ -49,9 +51,9 @@ export default function LandscapeMediaProjectInfoSection({
     <div className="content-wrap col-8-12_lg">
       {hasImage && (
         <div className="media-wrap out-of-opacity stage-1">
-          <img
-            data-src={urlFor(image!).url()}
-            alt=""
+          <ResponsiveSanityImage
+            desktop={image!}
+            mobile={imageMobile}
             className="lazy full-bleed-image"
           />
           <div className="loading-overlay" />

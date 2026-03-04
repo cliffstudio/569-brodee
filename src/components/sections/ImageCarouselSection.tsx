@@ -1,11 +1,13 @@
 'use client'
 /* eslint-disable @next/next/no-img-element */
-import type { SanityImage } from '@/types/sanity'
+import type { SanityImageArrayItem } from '@/types/sanity'
 import { urlFor } from '@/sanity/utils/imageUrlBuilder'
+import { normalizeImageArrayItem } from '@/lib/sanityImage'
+import ResponsiveSanityImage from '@/components/ResponsiveSanityImage'
 import SplideCarousel from '@/components/SplideCarousel'
 
 interface ImageCarouselSectionProps {
-  images?: SanityImage[] | null
+  images?: SanityImageArrayItem[] | null
 }
 
 export default function ImageCarouselSection({ images }: ImageCarouselSectionProps) {
@@ -14,12 +16,13 @@ export default function ImageCarouselSection({ images }: ImageCarouselSectionPro
   if (list.length === 0) return null
 
   if (list.length === 1) {
+    const { desktop, mobile } = normalizeImageArrayItem(list[0])
     return (
       <section className="image-carousel-section">
         <div className="fill-space-image-wrap">
-          <img
-            data-src={urlFor(list[0]).url()}
-            alt=""
+          <ResponsiveSanityImage
+            desktop={desktop}
+            mobile={mobile}
             className="lazy full-bleed-image"
           />
           <div className="loading-overlay" />
@@ -28,12 +31,20 @@ export default function ImageCarouselSection({ images }: ImageCarouselSectionPro
     )
   }
 
+  const carouselImages = list.map((item) => {
+    const { desktop, mobile } = normalizeImageArrayItem(item)
+    const desktopUrl = urlFor(desktop).url()
+    const mobileUrl = urlFor(mobile).url()
+    return {
+      url: desktopUrl,
+      mobileUrl: desktopUrl !== mobileUrl ? mobileUrl : undefined,
+      alt: '',
+    }
+  })
+
   return (
     <section className="image-carousel-section">
-      <SplideCarousel
-        images={list.map((image) => ({ url: urlFor(image).url(), alt: '' }))}
-        autoplay={false}
-      />
+      <SplideCarousel images={carouselImages} autoplay={false} />
     </section>
   )
 }

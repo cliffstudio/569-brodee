@@ -253,13 +253,28 @@ body.bg-white {
   padding-bottom: get-rem-desktop(48);
   @include align-items(flex-end);
 
+  @media only screen and (max-width: 768px) {
+    @include flex;
+    @include flex-direction(column);
+    row-gap: get-rem-mobile(80);
+    @include align-items(flex-start);
+  }
+
   .media-1 {
+    @media only screen and (max-width: 768px) {
+      width: get-rem-mobile(200);
+    }
+
     .media-wrap {
       @include aspect-ratio(410, 500);
     }
   }
 
   .media-2 {
+    @media only screen and (max-width: 768px) {
+      width: 100%;
+    }
+
     .media-wrap {
       @include aspect-ratio(580, 680);
     }
@@ -284,6 +299,12 @@ body.bg-white {
     padding-top: get-rem-desktop(75);
     padding-bottom: get-rem-desktop(75);
 
+    @media only screen and (max-width: 768px) {
+      height: get-rem-mobile(520);
+      padding-top: get-rem-mobile(36);
+      padding-bottom: get-rem-mobile(36);
+    }
+
     .content-wrap {
       position: absolute;
       top: get-rem-desktop(75);
@@ -292,6 +313,17 @@ body.bg-white {
       @include flex;
       @include justify-content(space-between);
       @include align-items(center);
+
+      @media only screen and (max-width: 768px) {
+        top: 0;
+        height: 100%;
+        @include flex;
+        @include flex-direction(column);
+        @include justify-content(space-between);
+        @include align-items(flex-start);
+        padding-top: get-rem-mobile(36);
+        padding-bottom: get-rem-mobile(36);
+      }
     }
   }
   

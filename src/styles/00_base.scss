@@ -48,6 +48,15 @@ html.scroll-enabled body {
   overflow: hidden;
 }
 
+/* On mobile, disable ScrollSmoother and use normal document scroll */
+@media (max-width: 768px) {
+  #smooth-wrapper {
+    position: static;
+    overflow: visible;
+    height: auto;
+  }
+}
+
 * {
   -webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;

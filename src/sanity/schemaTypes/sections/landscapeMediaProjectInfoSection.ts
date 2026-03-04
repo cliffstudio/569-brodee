@@ -23,9 +23,17 @@ export default defineType({
     }),
     defineField({
       name: 'image',
-      title: 'Image',
+      title: 'Image (Desktop)',
       type: 'image',
       description: 'Maximum file size: 500KB.',
+      validation: imageSizeValidation,
+      hidden: ({ parent }) => parent?.mediaType !== 'image',
+    }),
+    defineField({
+      name: 'imageMobile',
+      title: 'Image (Mobile)',
+      type: 'image',
+      description: 'Optional. Defaults to desktop image if not set. Maximum file size: 500KB.',
       validation: imageSizeValidation,
       hidden: ({ parent }) => parent?.mediaType !== 'image',
     }),

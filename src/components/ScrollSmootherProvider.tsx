@@ -22,6 +22,14 @@ export default function ScrollSmootherProvider({
   const isFirstPathnameRun = useRef(true)
 
   useEffect(() => {
+    const isMobile = window.matchMedia('(max-width: 768px)').matches
+    if (isMobile) {
+      document.documentElement.classList.add('scroll-enabled')
+      return () => {
+        document.documentElement.classList.remove('scroll-enabled')
+      }
+    }
+
     const wrapper = document.getElementById(SMOOTHER_WRAPPER_ID)
     const content = document.getElementById(SMOOTHER_CONTENT_ID)
     if (!wrapper || !content) return

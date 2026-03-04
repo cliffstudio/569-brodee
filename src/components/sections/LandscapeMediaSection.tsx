@@ -3,7 +3,7 @@
 import { useRef } from 'react'
 import { useVideoLoadingOverlay } from '@/hooks/useVideoLoadingOverlay'
 import type { SanityImage, SanityVideo } from '@/types/sanity'
-import { urlFor } from '@/sanity/utils/imageUrlBuilder'
+import ResponsiveSanityImage from '@/components/ResponsiveSanityImage'
 import { videoUrlFor, videoPosterFor } from '@/sanity/utils/videoUrlBuilder'
 import { resolveInternationalized } from '@/lib/locale'
 
@@ -16,6 +16,7 @@ const CAPTION_CLASS: Record<string, string> = {
 export interface LandscapeMediaSectionProps {
   mediaType?: string | null
   image?: SanityImage | null
+  imageMobile?: SanityImage | null
   video?: SanityVideo | null
   caption?: { _key: string; value?: string }[] | null
   alignment?: 'left' | 'right'
@@ -26,6 +27,7 @@ export interface LandscapeMediaSectionProps {
 export default function LandscapeMediaSection({
   mediaType,
   image,
+  imageMobile,
   video,
   caption,
   alignment = 'left',
@@ -48,9 +50,9 @@ export default function LandscapeMediaSection({
     <div className="content-wrap col-8-12_lg">
       {hasImage && (
         <div className="media-wrap out-of-opacity">
-          <img
-            data-src={urlFor(image!).url()}
-            alt=""
+          <ResponsiveSanityImage
+            desktop={image!}
+            mobile={imageMobile}
             className="lazy full-bleed-image"
           />
           <div className="loading-overlay" />

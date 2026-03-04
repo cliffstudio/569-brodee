@@ -18,6 +18,7 @@ import imageCarouselSection from './sections/imageCarouselSection'
 
 // Objects
 import linkTypes from './objects/links'
+import { imageWithMobileType } from './objects/imageWithMobile'
 import richPortableText from './objects/richPortableText'
 import flexibleContent from './objects/flexibleContent'
 import privacyPolicySection from './objects/privacyPolicySection'
@@ -45,5 +46,6 @@ export const schemaTypes = [
   flexibleContent,
   privacyPolicySection,
   ...linkTypes,
+  imageWithMobileType,
   richPortableText,
 ]

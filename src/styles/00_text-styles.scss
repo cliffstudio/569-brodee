@@ -51,6 +51,16 @@ h2 {
   letter-spacing: 0.01em;
   font-feature-settings: 'ss01' on;
   text-transform: uppercase;
+
+  h2 {
+    @include font-size(36px, 40px);
+    line-height: calc(36 / 40) + em;
+    letter-spacing: 0.03em;
+  
+    @media only screen and (max-width: 820px) {
+      line-height: calc(32 / 36) + em;
+    }
+  }
 }
 
 p {
