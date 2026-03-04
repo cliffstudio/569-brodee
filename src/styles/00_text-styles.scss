@@ -43,6 +43,15 @@ h2 {
   }
 }
 
+.menu-overlay-nav .menu-item {
+  font-family: 'Cigars';
+  font-weight: 200;
+  @include font-size(44px, 44px);
+  line-height: calc(40 / 44) + em;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
 .site-footer {
   font-family: "hanken-grotesk", sans-serif;
   font-weight: 400;
