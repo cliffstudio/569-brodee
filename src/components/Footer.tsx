@@ -1,6 +1,9 @@
 'use client'
 
+import { useEffect } from 'react'
 import Link from 'next/link'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { PortableText } from '@portabletext/react'
 import { portableTextComponents } from './PortableTextComponents'
 import {
@@ -11,6 +14,8 @@ import {
 } from '@/lib/locale'
 import type { HeaderMenuItem } from '@/components/Header'
 import Logo from './Logo'
+
+gsap.registerPlugin(ScrollTrigger)
 
 export type FooterProps = {
   footer: {
@@ -64,6 +69,57 @@ export default function Footer({ footer, locale }: FooterProps) {
   const text = footer?.text ?? null
   const resolvedText = resolveInternationalizedPortableText(text ?? undefined, locale)
   const hasText = resolvedText && resolvedText.length > 0
+
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 769px)')
+    let st: ScrollTrigger | null = null
+
+    function createScrollTrigger() {
+      const el = document.querySelector('.site-footer') as HTMLElement
+      if (!el) return null
+      const footerHeight = getComputedStyle(el).height
+      return ScrollTrigger.create({
+        trigger: '.site-footer',
+        pin: true,
+        start: 'bottom bottom',
+        end: `+=${footerHeight}`,
+      })
+    }
+
+    function onResize() {
+      if (st) {
+        st.kill()
+        st = null
+      }
+      if (mq.matches) st = createScrollTrigger()
+    }
+
+    const onMediaChange = (e: MediaQueryListEvent) => {
+      if (!e.matches && st) {
+        st.kill()
+        st = null
+      } else if (e.matches) {
+        st = createScrollTrigger()
+      }
+    }
+
+    if (mq.matches) st = createScrollTrigger()
+    mq.addEventListener('change', onMediaChange)
+
+    let tick: ReturnType<typeof setTimeout>
+    const debouncedResize = () => {
+      clearTimeout(tick)
+      tick = setTimeout(onResize, 150)
+    }
+    window.addEventListener('resize', debouncedResize)
+
+    return () => {
+      clearTimeout(tick)
+      window.removeEventListener('resize', debouncedResize)
+      mq.removeEventListener('change', onMediaChange)
+      if (st) st.kill()
+    }
+  }, [])
 
   return (
     <footer className="site-footer h-pad">
