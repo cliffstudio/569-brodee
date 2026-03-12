@@ -42,20 +42,44 @@ function runAfterHydration(fn: () => void): () => void {
 }
 
 /**
- * Viewport detection for .out-of-view and .out-of-opacity. Runs only after
+ * Viewport detection for .out-of-view, .out-of-opacity, and .off-screen. Runs only after
  * hydration and paint so server HTML and client match and we don't mutate
  * React-owned nodes during hydration.
  */
 export default function ViewportDetection() {
   useEffect(() => {
     const selector = '.out-of-view, .out-of-opacity'
+    const MAX_STAGE = 10
     let mutationObserver: MutationObserver | null = null
+
+    /**
+     * Get this element's index among siblings that are also staggerable (same selector).
+     * Used to assign stage-1, stage-2, ... for automatic stagger by DOM order.
+     */
+    function getStaggerIndex(el: Element): number {
+      const parent = el.parentElement
+      if (!parent) return 0
+      const siblings = Array.from(parent.children).filter((child) =>
+        child.matches(selector)
+      )
+      const index = siblings.indexOf(el)
+      return index >= 0 ? index : 0
+    }
 
     function runOutOfView() {
       const elements = document.querySelectorAll(selector)
       elements.forEach((el) => {
         if (observedElements.has(el)) return
         observedElements.add(el)
+
+        const stageIndex = getStaggerIndex(el)
+        const stage = Math.min(stageIndex + 1, MAX_STAGE)
+        // Defer adding stage class to next frame so we never mutate during
+        // React commit or right after navigation (avoids insertBefore conflict).
+        requestAnimationFrame(() => {
+          if (!document.contains(el)) return
+          ;(el as HTMLElement).classList.add(`stage-${stage}`)
+        })
 
         const observer = new IntersectionObserver(
           (entries) => {
@@ -69,8 +93,14 @@ export default function ViewportDetection() {
                   if (target.classList.contains('out-of-opacity')) {
                     target.classList.add('in-opacity')
                   }
+                  if (target.classList.contains('off-screen')) {
+                    target.classList.add('on-screen')
+                  }
                 } else {
                   target.classList.remove('in-view-detect')
+                  if (target.classList.contains('off-screen')) {
+                    target.classList.remove('on-screen')
+                  }
                 }
               })
             })
@@ -94,12 +124,13 @@ export default function ViewportDetection() {
               const el = node as Element
               if (
                 el.classList?.contains('out-of-view') ||
-                el.classList?.contains('out-of-opacity')
+                el.classList?.contains('out-of-opacity') ||
+                el.classList?.contains('off-screen')
               )
                 shouldReRun = true
               if (
                 el.querySelector?.(
-                  '.out-of-view, .out-of-opacity'
+                  '.out-of-view, .out-of-opacity, .off-screen'
                 )
               )
                 shouldReRun = true
@@ -107,11 +138,15 @@ export default function ViewportDetection() {
           })
         }
       })
-      if (shouldReRun) setTimeout(runOutOfView, 100)
+      if (shouldReRun) {
+        // Defer like initial run (post-paint) so we don't mutate during React
+        // commit or ScrollSmoother effects on route change (avoids insertBefore error).
+        runAfterHydration(runOutOfView)
+      }
     })
     mutationObserver.observe(document.body, { childList: true, subtree: true })
 
-    const popHandler = () => setTimeout(runOutOfView, 100)
+    const popHandler = () => runAfterHydration(runOutOfView)
     window.addEventListener('popstate', popHandler)
 
     return () => {

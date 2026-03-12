@@ -76,7 +76,7 @@ export default function LandscapeMediaSection({
         </div>
       )}
 
-      {resolvedCaption && <div className={captionClass + ' out-of-opacity'}>{resolvedCaption}</div>}
+      {resolvedCaption && <div className={captionClass + ' out-of-view'}>{resolvedCaption}</div>}
     </div>
   )
 
