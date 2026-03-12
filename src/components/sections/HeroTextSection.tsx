@@ -15,7 +15,6 @@ import ArrowRightIcon from '../icons/ArrowRightIcon'
 import Link from 'next/link'
 
 gsap.registerPlugin(SplitText)
-
 export type HeroTextSectionCta = {
   _type?: 'internal' | 'external' | 'fileUpload'
   label?: string | null
@@ -42,7 +41,6 @@ export default function HeroTextSection({
   locale,
 }: HeroTextSectionProps) {
   const headingRef = useRef<HTMLSpanElement>(null)
-  const splitRef = useRef<InstanceType<typeof SplitText> | null>(null)
 
   const resolvedTitle = resolveInternationalized(title ?? undefined, locale)
   const resolvedTitleMobile = resolveInternationalized(
@@ -53,7 +51,6 @@ export default function HeroTextSection({
   const resolvedCopy = resolveInternationalizedPortableText(copy ?? undefined, locale)
   const ctaLabel = cta?.label ?? null
   const ctaHref = cta?.slug != null ? `/${cta.slug}` : cta?.url ?? cta?.fileUrl ?? null
-
   useEffect(() => {
     const el = headingRef.current
     if (!el?.textContent?.trim()) return
@@ -61,14 +58,9 @@ export default function HeroTextSection({
       type: 'lines',
       linesClass: 'out-of-view',
     })
-    splitRef.current = split
-    split.lines.forEach((line, i) => {
-      line.classList.add(`stage-${i + 1}`)
-    })
     return () => {
-      splitRef.current?.revert()
-      splitRef.current?.kill()
-      splitRef.current = null
+      split.revert()
+      split.kill()
     }
   }, [titleForDesktop])
 
@@ -105,7 +97,7 @@ export default function HeroTextSection({
       )}
 
       {resolvedCopy && (
-        <div className="row-lg text-wrap out-of-view stage-3">
+        <div className="row-lg text-wrap out-of-view">
           {alignment === 'right' ? (
             <>
               <div className="col-7-12_lg dummy-col"></div>

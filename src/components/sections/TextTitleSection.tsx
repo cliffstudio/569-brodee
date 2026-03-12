@@ -28,12 +28,12 @@ export default function TextTitleSection({
   return (
     <section className="title-text-section h-pad row-lg">
       <div className="col-6-12_lg">
-        {resolvedTitle && <div className="heading uppercase out-of-view stage-1">{resolvedTitle}</div>}
+        {resolvedTitle && <div className="heading uppercase out-of-view">{resolvedTitle}</div>}
       </div>
 
       <div className="col-6-12_lg">
         {resolvedCopy && (
-          <div className="copy out-of-view stage-2">
+          <div className="copy out-of-view">
             <PortableText value={resolvedCopy as any} components={portableTextComponents} />
           </div>
         )}

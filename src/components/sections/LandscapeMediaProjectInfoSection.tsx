@@ -50,7 +50,7 @@ export default function LandscapeMediaProjectInfoSection({
   const mediaBlock = hasMedia && (
     <div className="content-wrap col-8-12_lg">
       {hasImage && (
-        <div className="media-wrap out-of-opacity stage-1">
+        <div className="media-wrap out-of-opacity">
           <ResponsiveSanityImage
             desktop={image!}
             mobile={imageMobile}
@@ -59,7 +59,7 @@ export default function LandscapeMediaProjectInfoSection({
         </div>
       )}
       {hasVideo && (
-        <div className="media-wrap out-of-opacity stage-1">
+        <div className="media-wrap out-of-opacity">
           <div className="fill-space-video-wrap">
             <video
               ref={videoRef}
@@ -79,7 +79,7 @@ export default function LandscapeMediaProjectInfoSection({
   )
 
   const projectInfoBlock = hasProjectInfo && (
-    <div className="col-4-12_lg project-info out-of-view stage-2">
+    <div className="col-4-12_lg project-info out-of-view">
       {projectInfo.map((item, index) => {
         const resolvedTitle = resolveInternationalized(item.title ?? undefined, locale)
         const resolvedCopy = resolveInternationalizedPortableText(item.copy ?? undefined, locale)

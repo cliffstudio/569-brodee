@@ -27,14 +27,16 @@ export default async function MainLayout({
   }
 
   return (
-    <Suspense fallback={null}>
-      <Header menu={headerMenu} locale={locale} />
-      <ScrollSmootherProvider>
-        <LazyLoadInitializer />
-        <OverflowController />
-        {children}
-        <Footer footer={footer} locale={locale} />
-      </ScrollSmootherProvider>
-    </Suspense>
+    <div id="main-layout">
+      <Suspense fallback={null}>
+        <Header menu={headerMenu} locale={locale} />
+        <ScrollSmootherProvider>
+          <LazyLoadInitializer />
+          <OverflowController />
+          {children}
+          <Footer footer={footer} locale={locale} />
+        </ScrollSmootherProvider>
+      </Suspense>
+    </div>
   )
 }

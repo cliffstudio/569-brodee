@@ -55,6 +55,9 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://use.typekit.net/vqy3kes.css" />
       </head>
       <body suppressHydrationWarning>
+        <BodyFadeIn />
+        <ViewportDetection />
+        {children}
         {/* Scroll-reset script (Next.js 15 pushState fix, scroll reset, homepage body class) - commented out
         <Script
           id="scroll-reset"
@@ -122,9 +125,6 @@ export default function RootLayout({
           }}
         />
         */}
-        <BodyFadeIn />
-        <ViewportDetection />
-        {children}
       </body>
     </html>
   );
