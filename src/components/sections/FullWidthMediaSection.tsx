@@ -66,7 +66,7 @@ export default function FullWidthMediaSection({
   })
 
   return (
-    <section className="full-width-media-section">
+    <section className="full-width-media-section out-of-opacity">
       <SplideCarousel images={carouselImages} />
     </section>
   )

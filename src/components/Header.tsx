@@ -91,7 +91,7 @@ export default function Header({
     }
   }, [isMenuVisible])
 
-  //
+  // Menu overlay animation
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false
@@ -184,7 +184,7 @@ export default function Header({
     }
   }, [isMenuVisible])
 
-  //
+  // Menu toggle click
   const handleMenuClick = () => {
     if (window.innerWidth <= 768) {
       setIsMenuVisible(!isMenuVisible)

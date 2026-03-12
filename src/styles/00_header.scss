@@ -16,18 +16,12 @@
   @include transition(transform 300ms cubic-bezier(0.25, 0.1, 0.25, 1));
 
   @media only screen and (max-width: 768px) {
-    position: relative;
-    will-change: auto;
     padding-top: get-rem-mobile(24);
     padding-bottom: get-rem-mobile(24);
   }
 
   &.is-hidden-on-scroll {
     @include transform(translateY(-100%));
-
-    @media only screen and (max-width: 768px) {
-      transform: none;
-    }
   }
 
   .logo-wrap svg {
@@ -104,12 +98,6 @@
     .menu-bar {
       background-color: $colour-white !important;
     }
-  }
-}
-
-body.page-home .site-header {
-  @media only screen and (max-width: 768px) {
-    position: absolute;
   }
 }
 

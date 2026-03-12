@@ -105,7 +105,7 @@ export default function HeroTextSection({
       )}
 
       {resolvedCopy && (
-        <div className="row-lg text-wrap out-of-view">
+        <div className="row-lg text-wrap out-of-view stage-3">
           {alignment === 'right' ? (
             <>
               <div className="col-7-12_lg dummy-col"></div>
