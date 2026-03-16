@@ -1,84 +1,43 @@
 'use client'
 
 import { useEffect } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 export default function ViewportDetection() {
   useEffect(() => {
-    let scheduledTimeout: number | undefined
+    if (typeof window === 'undefined') return
 
-    const scheduleFadeIn = (delayMs = 200) => {
-      if (typeof window === 'undefined') return
-      if (scheduledTimeout !== undefined) {
-        window.clearTimeout(scheduledTimeout)
-      }
-      scheduledTimeout = window.setTimeout(fadeIn, delayMs)
-    }
+    gsap.registerPlugin(ScrollTrigger)
 
-    const fadeIn = () => {
-      const animatedTags = document.querySelectorAll(
+    // Delay setup slightly so the initial hydration can finish
+    // before we start mutating inline styles for animations.
+    const timeoutId = window.setTimeout(() => {
+      const elements = gsap.utils.toArray<HTMLElement>(
         '.out-of-view, .out-of-opacity'
       )
 
-      // Start slightly after load
-      let delay = 0.4
+      ScrollTrigger.batch(elements, {
+        // Trigger when the top of the element
+        // reaches the bottom edge of the viewport (enters view)
+        start: 'top 100%',
+        onEnter: (batch) => {
+          ;(batch as HTMLElement[]).forEach((el, index) => {
+            const isOutOfView = el.classList.contains('out-of-view')
+            const animationName = isOutOfView ? 'fadeInUp' : 'fadeIn'
+            const delay = 0.4 + index * 0.4
 
-      animatedTags.forEach((tag) => {
-        const el = tag as HTMLElement
-        const rect = el.getBoundingClientRect()
-        const tagTop = rect.top
-        const tagBottom = rect.bottom
-
-        if (tagTop < window.innerHeight && tagBottom > 0) {
-          const isOutOfView = el.classList.contains('out-of-view')
-          const animationName = isOutOfView ? 'fadeInUp' : 'fadeIn'
-          el.style.animation = `${animationName} 2000ms cubic-bezier(0.19, 1, 0.22, 1) ${delay}s both`
-          // Delay between items
-          delay += 0.4
-        }
-      })
-    }
-
-    // Initial run (after GSAP / route content has rendered)
-    scheduleFadeIn(200)
-
-    window.addEventListener('scroll', fadeIn)
-    window.addEventListener('resize', fadeIn)
-
-    // When the DOM changes (e.g. client-side route change adding new sections),
-    // re-run the fade logic for newly added out-of-view/out-of-opacity elements.
-    const observer =
-      typeof MutationObserver !== 'undefined'
-        ? new MutationObserver((mutations) => {
-            let shouldSchedule = false
-            mutations.forEach((mutation) => {
-              if (mutation.type === 'childList') {
-                mutation.addedNodes.forEach((node) => {
-                  if (node.nodeType !== 1) return
-                  const el = node as Element
-                  if (
-                    el.matches?.('.out-of-view, .out-of-opacity') ||
-                    el.querySelector?.('.out-of-view, .out-of-opacity')
-                  ) {
-                    shouldSchedule = true
-                  }
-                })
-              }
-            })
-            if (shouldSchedule) {
-              scheduleFadeIn(50)
-            }
+            el.style.animation = `${animationName} 2000ms cubic-bezier(0.19, 1, 0.22, 1) ${delay}s both`
           })
-        : null
+        },
+      })
 
-    observer?.observe(document.body, { childList: true, subtree: true })
+      ScrollTrigger.refresh()
+    }, 200)
 
     return () => {
-      if (scheduledTimeout !== undefined) {
-        window.clearTimeout(scheduledTimeout)
-      }
-      window.removeEventListener('scroll', fadeIn)
-      window.removeEventListener('resize', fadeIn)
-      observer?.disconnect()
+      window.clearTimeout(timeoutId)
+      ScrollTrigger.getAll().forEach((st) => st.kill())
     }
   }, [])
 
