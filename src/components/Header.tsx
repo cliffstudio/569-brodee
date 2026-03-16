@@ -45,6 +45,7 @@ export default function Header({
   const pathname = usePathname() || '/'
   const isHomePage = pathname === '/' || pathname === ''
   const [isHiddenOnScroll, setIsHiddenOnScroll] = useState(false)
+  const [isInitialTranslatedUp, setIsInitialTranslatedUp] = useState(true)
   const lastScrollY = useRef(0)
 
   const [isMenuVisible, setIsMenuVisible] = useState(false)
@@ -58,6 +59,11 @@ export default function Header({
 
   // Header scroll detection
   useEffect(() => {
+    // Allow initial slide-in animation to complete before enabling scroll-hide
+    const initialTimer = window.setTimeout(() => {
+      setIsInitialTranslatedUp(false)
+    }, 50)
+
     lastScrollY.current = getScrollY()
 
     function onScrollUpdate() {
@@ -78,7 +84,10 @@ export default function Header({
       return () => gsap.ticker.remove(tickerId)
     }
     window.addEventListener('scroll', onScrollUpdate, { passive: true })
-    return () => window.removeEventListener('scroll', onScrollUpdate)
+    return () => {
+      window.clearTimeout(initialTimer)
+      window.removeEventListener('scroll', onScrollUpdate)
+    }
   }, [])
 
   // Body scroll detection
@@ -264,7 +273,11 @@ export default function Header({
 
   return (
     <>
-      <header className={`site-header h-pad${isHomePage ? ' is-translated-up' : ''}${isHiddenOnScroll ? ' is-hidden-on-scroll' : ''}${isMenuVisible ? ' is-menu-open' : ''}`}>
+      <header
+        className={`site-header h-pad${
+          isHomePage && isInitialTranslatedUp ? ' is-translated-up' : ''
+        }${isHiddenOnScroll ? ' is-hidden-on-scroll' : ''}${isMenuVisible ? ' is-menu-open' : ''}`}
+      >
         <div className="logo-wrap">
           <Logo />
           <Link href="/" />
