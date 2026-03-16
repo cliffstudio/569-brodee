@@ -1,10 +1,13 @@
 'use client'
 
 import { useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 export default function ViewportDetection() {
+  const pathname = usePathname()
+
   useEffect(() => {
     if (typeof window === 'undefined') return
 
@@ -39,7 +42,7 @@ export default function ViewportDetection() {
       window.clearTimeout(timeoutId)
       ScrollTrigger.getAll().forEach((st) => st.kill())
     }
-  }, [])
+  }, [pathname])
 
   return null
 }
