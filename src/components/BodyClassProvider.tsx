@@ -8,6 +8,19 @@ interface BodyClassProviderProps {
   background?: string | null
 }
 
+const backgroundToThemeColor: Record<string, string> = {
+  black: '#000000',
+  charcoal: '#171717',
+  espresso: '#3A241C',
+  walnut: '#5B3A27',
+  fern: '#4D6B4A',
+  terracotta: '#8C3B16',
+  birch: '#F0E5D8',
+  sage: '#C3D1C0',
+  chalk: '#F5F5F0',
+  white: '#FFFFFF',
+}
+
 export default function BodyClassProvider({ page, background }: BodyClassProviderProps) {
   useEffect(() => {
     // Remove any existing page class and our bg- classes from body and html
@@ -34,6 +47,18 @@ export default function BodyClassProvider({ page, background }: BodyClassProvide
       const bgClass = `bg-${background}`
       document.body.classList.add(bgClass)
       document.documentElement.classList.add(bgClass)
+
+      // Update theme-color meta tag to match background
+      const themeColor = backgroundToThemeColor[background]
+      if (themeColor) {
+        let meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')
+        if (!meta) {
+          meta = document.createElement('meta')
+          meta.name = 'theme-color'
+          document.head.appendChild(meta)
+        }
+        meta.content = themeColor
+      }
     }
 
     return () => {
@@ -47,6 +72,9 @@ export default function BodyClassProvider({ page, background }: BodyClassProvide
         const bgClass = `bg-${background}`
         document.body.classList.remove(bgClass)
         document.documentElement.classList.remove(bgClass)
+
+        // Do not remove the meta tag entirely on cleanup so browser chrome
+        // keeps the last-set theme color; it will be updated on the next page.
       }
     }
   }, [page, background])
