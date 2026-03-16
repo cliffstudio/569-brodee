@@ -10,14 +10,14 @@ interface BodyClassProviderProps {
 
 const backgroundToThemeColor: Record<string, string> = {
   black: '#000000',
-  charcoal: '#171717',
-  espresso: '#3A241C',
-  walnut: '#5B3A27',
-  fern: '#4D6B4A',
-  terracotta: '#8C3B16',
-  birch: '#F0E5D8',
-  sage: '#C3D1C0',
-  chalk: '#F5F5F0',
+  charcoal: '#231F20',
+  espresso: '#350D00',
+  walnut: '#6D422D',
+  fern: '#334E28',
+  terracotta: '#A04918',
+  birch: '#B28562',
+  sage: '#A59267',
+  chalk: '#FBEAD6',
   white: '#FFFFFF',
 }
 
