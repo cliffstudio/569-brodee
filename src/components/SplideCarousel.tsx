@@ -59,7 +59,7 @@ export default function SplideCarousel({
 
   return (
     <div
-      className="carousel-container"
+      className="carousel-container out-of-opacity"
       onMouseLeave={() => setCursorMode()}
     >
       <Splide

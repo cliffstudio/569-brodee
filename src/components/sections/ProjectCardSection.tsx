@@ -109,10 +109,10 @@ export default function ProjectCardSection({
 
         {(resolvedTitle || card1.title) && (
           <div className="content-wrap h-pad">
-            {resolvedTitle && <div className="header uppercase out-of-view">{resolvedTitle}</div>}
+            {resolvedTitle && <div className="header uppercase out-of-opacity">{resolvedTitle}</div>}
             <Link href={`/works/${card1.slug ?? ''}`}>
               {card1.title && (
-                <div className="cta-link out-of-view">
+                <div className="cta-link out-of-opacity">
                   {card1.title}
                   <ArrowRightIcon />
                 </div>
@@ -132,7 +132,7 @@ export default function ProjectCardSection({
 
     return (
       <section className={`project-card-section h-pad cards-${n}`}>
-        {resolvedTitle && <div className="header uppercase out-of-view">{resolvedTitle}</div>}
+        {resolvedTitle && <div className="header uppercase out-of-opacity">{resolvedTitle}</div>}
         <div className="row-lg out-of-opacity">
           {cards.map((card) => (
             <ProjectCardLink

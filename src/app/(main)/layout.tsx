@@ -6,6 +6,7 @@ import Footer from '@/components/Footer'
 import LazyLoadInitializer from '@/components/LazyLoadInitializer'
 import OverflowController from '@/components/OverflowController'
 import ScrollSmootherProvider from '@/components/ScrollSmootherProvider'
+import MobileScrollReset from '@/components/MobileScrollReset'
 import { client } from '@/sanity/client'
 import { DEFAULT_LOCALE, LOCALE_COOKIE } from '@/lib/locale'
 import { headerMenuQuery } from '@/sanity/lib/queries'
@@ -31,6 +32,7 @@ export default async function MainLayout({
       <Suspense fallback={null}>
         <Header menu={headerMenu} locale={locale} />
         <ScrollSmootherProvider>
+          <MobileScrollReset />
           <LazyLoadInitializer />
           <OverflowController />
           {children}

@@ -49,6 +49,7 @@ export default function Header({
   const lastScrollY = useRef(0)
 
   const [isMenuVisible, setIsMenuVisible] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   const menuOverlayRef = useRef<HTMLDivElement>(null)
   const innerWrapRef = useRef<HTMLDivElement>(null)
   const menuToggleRef = useRef<HTMLDivElement>(null)
@@ -59,8 +60,16 @@ export default function Header({
 
   // Header scroll detection
   useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    // Track whether we're currently on a mobile viewport
+    const mql = window.matchMedia('(max-width: 768px)')
+    const update = () => setIsMobile(mql.matches)
+    update()
+    mql.addEventListener('change', update)
+
     // Allow initial slide-in animation to complete before enabling scroll-hide
-    const initialTimer = window.setTimeout(() => {
+    const initialTimer = setTimeout(() => {
       setIsInitialTranslatedUp(false)
     }, 50)
 
@@ -78,15 +87,20 @@ export default function Header({
       lastScrollY.current = y
     }
 
+    let cleanupScroll: () => void
     const smoother = ScrollSmoother.get()
     if (smoother) {
       const tickerId = gsap.ticker.add(onScrollUpdate)
-      return () => gsap.ticker.remove(tickerId)
+      cleanupScroll = () => gsap.ticker.remove(tickerId)
+    } else {
+      addEventListener('scroll', onScrollUpdate, { passive: true })
+      cleanupScroll = () => removeEventListener('scroll', onScrollUpdate)
     }
-    window.addEventListener('scroll', onScrollUpdate, { passive: true })
+
     return () => {
-      window.clearTimeout(initialTimer)
-      window.removeEventListener('scroll', onScrollUpdate)
+      mql.removeEventListener('change', update)
+      clearTimeout(initialTimer)
+      cleanupScroll()
     }
   }, [])
 
@@ -204,6 +218,16 @@ export default function Header({
 
     if (!svg || !dotGroup) return
 
+    const isCoarsePointer = window.matchMedia?.('(pointer: coarse)').matches
+    const isSmallViewport = window.innerWidth <= 1024
+
+    if (isCoarsePointer || isSmallViewport) {
+      svg.style.display = 'none'
+      return
+    }
+
+    svg.style.display = ''
+
     const screen = {
       width: window.innerWidth,
       height: window.innerHeight,
@@ -254,9 +278,21 @@ export default function Header({
 
   // Menu toggle click
   const handleMenuClick = () => {
-    if (window.innerWidth <= 768) {
+    if (typeof window !== 'undefined' && window.innerWidth <= 768) {
       setIsMenuVisible(!isMenuVisible)
     }
+  }
+
+  // Internal link click handler: on mobile, force a full page navigation so that
+  // each page load starts at the top using the browser's default behavior.
+  const handleInternalLinkClick = (href: string) => (
+    event: React.MouseEvent<HTMLAnchorElement>
+  ) => {
+    if (!isMobile) return
+    if (typeof window === 'undefined') return
+    event.preventDefault()
+    setIsMenuVisible(false)
+    window.location.href = href
   }
 
   // Reset menu state on route change
@@ -298,7 +334,11 @@ export default function Header({
             return (
               <div key={item._key} className="menu-item">
                 {isInternal ? (
-                  <Link href={href} className="menu-link">
+                  <Link
+                    href={href}
+                    className="menu-link"
+                    onClick={handleInternalLinkClick(href)}
+                  >
                     {label}
                   </Link>
                 ) : (
@@ -354,7 +394,11 @@ export default function Header({
             return (
               <div key={item._key} className="menu-item">
                 {isInternal ? (
-                  <Link href={href} className="menu-link">
+                  <Link
+                    href={href}
+                    className="menu-link"
+                    onClick={handleInternalLinkClick(href)}
+                  >
                     {label}
                   </Link>
                 ) : (

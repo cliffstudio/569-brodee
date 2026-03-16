@@ -40,29 +40,49 @@ export default function HeroTextSection({
   alignment = 'left',
   locale,
 }: HeroTextSectionProps) {
-  const headingRef = useRef<HTMLSpanElement>(null)
+  const desktopHeadingRef = useRef<HTMLSpanElement>(null)
+  const mobileHeadingRef = useRef<HTMLSpanElement>(null)
 
   const resolvedTitle = resolveInternationalized(title ?? undefined, locale)
-  const resolvedTitleMobile = resolveInternationalized(
-    titleMobile ?? title ?? undefined,
-    locale
-  )
+  const resolvedTitleMobile =
+    resolveInternationalized(titleMobile ?? undefined, locale) ?? resolvedTitle
   const titleForDesktop = resolvedTitle ?? resolvedTitleMobile
   const resolvedCopy = resolveInternationalizedPortableText(copy ?? undefined, locale)
   const ctaLabel = cta?.label ?? null
   const ctaHref = cta?.slug != null ? `/${cta.slug}` : cta?.url ?? cta?.fileUrl ?? null
+
   useEffect(() => {
-    const el = headingRef.current
-    if (!el?.textContent?.trim()) return
-    const split = new SplitText(el, {
-      type: 'lines',
-      linesClass: 'out-of-view',
-    })
-    return () => {
-      split.revert()
-      split.kill()
+    const instances: SplitText[] = []
+
+    const desktopEl = desktopHeadingRef.current
+    if (desktopEl?.textContent?.trim()) {
+      instances.push(
+        new SplitText(desktopEl, {
+          type: 'lines',
+          linesClass: 'out-of-view',
+        })
+      )
     }
-  }, [titleForDesktop])
+
+    const mobileEl = mobileHeadingRef.current
+    if (mobileEl?.textContent?.trim()) {
+      instances.push(
+        new SplitText(mobileEl, {
+          type: 'lines',
+          linesClass: 'out-of-view',
+        })
+      )
+    }
+
+    if (!instances.length) return
+
+    return () => {
+      instances.forEach((split) => {
+        split.revert()
+        split.kill()
+      })
+    }
+  }, [titleForDesktop, resolvedTitleMobile])
 
   if (!resolvedTitle && !resolvedCopy) return null
 
@@ -86,12 +106,14 @@ export default function HeroTextSection({
       {(titleForDesktop || resolvedTitleMobile) && (
         <h1 className="heading">
           {titleForDesktop && (
-            <span ref={headingRef} className="desktop">
+            <span ref={desktopHeadingRef} className="desktop">
               {titleForDesktop}
             </span>
           )}
           {resolvedTitleMobile && (
-            <span className="mobile">{resolvedTitleMobile}</span>
+            <span ref={mobileHeadingRef} className="mobile">
+              {resolvedTitleMobile}
+            </span>
           )}
         </h1>
       )}

@@ -25,8 +25,8 @@ export default function FullWidthMediaSection({
 
   if (isVideo) {
     return (
-      <section className="full-width-media-section out-of-opacity">
-        <div className="fill-space-video-wrap">
+      <section className="full-width-media-section">
+        <div className="fill-space-video-wrap out-of-opacity">
           <ResponsiveVideo
             desktop={video}
             mobile={videoMobile}
@@ -42,8 +42,8 @@ export default function FullWidthMediaSection({
   if (list.length === 1) {
     const { desktop, mobile } = normalizeImageArrayItem(list[0])
     return (
-      <section className="full-width-media-section out-of-opacity">
-        <div className="fill-space-image-wrap">
+      <section className="full-width-media-section">
+        <div className="fill-space-image-wrap out-of-opacity">
           <ResponsiveSanityImage
             desktop={desktop}
             mobile={mobile}
@@ -66,7 +66,7 @@ export default function FullWidthMediaSection({
   })
 
   return (
-    <section className="full-width-media-section out-of-opacity">
+    <section className="full-width-media-section">
       <SplideCarousel images={carouselImages} />
     </section>
   )
