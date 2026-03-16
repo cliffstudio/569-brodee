@@ -109,22 +109,6 @@ export default function ScrollSmootherProvider({
     return () => clearTimeout(t)
   }, [pathname])
 
-  // On internal link click: scroll to top immediately so we're at top before the new page loads
-  useEffect(() => {
-    function onInternalLinkClick(e: MouseEvent) {
-      const a = (e.target as Element).closest?.('a[href]')
-      if (!a) return
-      const href = a.getAttribute('href')
-      if (!href || href.startsWith('#') || (a as HTMLAnchorElement).target === '_blank') return
-      if (href.startsWith('/')) {
-        const smoother = ScrollSmoother.get()
-        if (smoother) smoother.scrollTo(0, false)
-      }
-    }
-    document.addEventListener('click', onInternalLinkClick, true)
-    return () => document.removeEventListener('click', onInternalLinkClick, true)
-  }, [])
-
   useEffect(() => {
     const smoother = smootherRef.current
     if (!smoother) return
