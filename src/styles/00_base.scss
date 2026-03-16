@@ -63,6 +63,10 @@ html.scroll-enabled body {
 	box-sizing: border-box;
 }
 
+html, body {
+  background-color: pink;
+}
+
 body {
   opacity: 0; /* BodyFadeIn component will handle fade-in */
   font-family: "hanken-grotesk", sans-serif;
