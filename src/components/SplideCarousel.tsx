@@ -23,6 +23,14 @@ export default function SplideCarousel({
 }: SplideCarouselProps) {
   const splideRef = useRef<{ go: (direction: string) => void } | null>(null)
 
+  const setCursorMode = (mode?: 'arrow-left' | 'arrow-right') => {
+    if (typeof document === 'undefined') return
+    document.body.classList.remove('cursor-arrow-left', 'cursor-arrow-right')
+    if (mode) {
+      document.body.classList.add(`cursor-${mode}`)
+    }
+  }
+
   const handlePrevious = () => {
     if (splideRef.current) {
       splideRef.current.go('<')
@@ -50,7 +58,10 @@ export default function SplideCarousel({
   }
 
   return (
-    <div className="carousel-container">
+    <div
+      className="carousel-container"
+      onMouseLeave={() => setCursorMode()}
+    >
       <Splide
         ref={splideRef}
         options={splideOptions}
@@ -74,11 +85,21 @@ export default function SplideCarousel({
           </SplideSlide>
         ))}
       </Splide>
-      <div className="carousel-left" onClick={handlePrevious}>
+      <div
+        className="carousel-left"
+        onClick={handlePrevious}
+        onMouseEnter={() => setCursorMode('arrow-left')}
+        onMouseLeave={() => setCursorMode()}
+      >
         <ArrowRightIcon />
       </div>
 
-      <div className="carousel-right" onClick={handleNext}>
+      <div
+        className="carousel-right"
+        onClick={handleNext}
+        onMouseEnter={() => setCursorMode('arrow-right')}
+        onMouseLeave={() => setCursorMode()}
+      >
         <ArrowRightIcon />
       </div>
     </div>

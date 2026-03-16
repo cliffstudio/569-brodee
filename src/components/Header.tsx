@@ -52,7 +52,7 @@ export default function Header({
   const innerWrapRef = useRef<HTMLDivElement>(null)
   const menuToggleRef = useRef<HTMLDivElement>(null)
   const cursorSvgRef = useRef<SVGSVGElement | null>(null)
-  const cursorDotRef = useRef<SVGCircleElement | null>(null)
+  const cursorDotRef = useRef<SVGGElement | null>(null)
   const animationFrameRef = useRef<number | null>(null)
   const isInitialMount = useRef(true)
 
@@ -191,9 +191,9 @@ export default function Header({
     if (typeof window === 'undefined') return
 
     const svg = cursorSvgRef.current
-    const dot = cursorDotRef.current
+    const dotGroup = cursorDotRef.current
 
-    if (!svg || !dot) return
+    if (!svg || !dotGroup) return
 
     const screen = {
       width: window.innerWidth,
@@ -203,7 +203,7 @@ export default function Header({
     const mouse = { x: 0, y: 0 }
     const mouseStored = { ...mouse }
 
-    gsap.set(dot, { transformOrigin: '50% 50%' })
+    gsap.set(dotGroup, { transformOrigin: '50% 50%' })
     svg.setAttribute('viewBox', `0 0 ${screen.width} ${screen.height}`)
 
     const resizeHandler = () => {
@@ -220,7 +220,7 @@ export default function Header({
     const animateDot = () => {
       if (mouseStored.x === mouse.x && mouseStored.y === mouse.y) return
 
-      gsap.to(dot, {
+      gsap.to(dotGroup, {
         x: mouse.x,
         y: mouse.y,
         ease: 'elastic.out(1.25, 1)',
@@ -382,7 +382,25 @@ export default function Header({
         preserveAspectRatio="xMidYMid slice"
         aria-hidden="true"
       >
-        <circle ref={cursorDotRef} className="dot" r="8" cx="0" cy="0" />
+        <g ref={cursorDotRef} className="cursor-shape">
+          <circle className="dot" r="8" cx="0" cy="0" />
+          <path
+            className="cursor-arrow cursor-arrow-right"
+            d="M4 3.5L11.5 -4L4 -11.5"
+          />
+          <path
+            className="cursor-arrow cursor-arrow-right"
+            d="M11.5 -4H-9.5"
+          />
+          <path
+            className="cursor-arrow cursor-arrow-left"
+            d="M-4 3.5L-11.5 -4L-4 -11.5"
+          />
+          <path
+            className="cursor-arrow cursor-arrow-left"
+            d="M-11.5 -4H9.5"
+          />
+        </g>
       </svg>
     </>
   )

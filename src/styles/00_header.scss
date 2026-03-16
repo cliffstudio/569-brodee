@@ -224,3 +224,38 @@ body.page-404 {
 .dot {
   fill: $colour-white;
 }
+
+.cursor-shape {
+  .cursor-arrow {
+    display: none;
+    stroke: $colour-white;
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+body.cursor-arrow-right {
+  .cursor-svg {
+    .dot {
+      display: none;
+    }
+
+    .cursor-arrow-right {
+      display: block;
+    }
+  }
+}
+
+body.cursor-arrow-left {
+  .cursor-svg {
+    .dot {
+      display: none;
+    }
+
+    .cursor-arrow-left {
+      display: block;
+    }
+  }
+}
