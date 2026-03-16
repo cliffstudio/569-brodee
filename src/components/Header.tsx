@@ -51,6 +51,8 @@ export default function Header({
   const menuOverlayRef = useRef<HTMLDivElement>(null)
   const innerWrapRef = useRef<HTMLDivElement>(null)
   const menuToggleRef = useRef<HTMLDivElement>(null)
+  const cursorSvgRef = useRef<SVGSVGElement | null>(null)
+  const cursorDotRef = useRef<SVGCircleElement | null>(null)
   const animationFrameRef = useRef<number | null>(null)
   const isInitialMount = useRef(true)
 
@@ -184,6 +186,63 @@ export default function Header({
     }
   }, [isMenuVisible])
 
+  // Cursor-following SVG dot
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const svg = cursorSvgRef.current
+    const dot = cursorDotRef.current
+
+    if (!svg || !dot) return
+
+    const screen = {
+      width: window.innerWidth,
+      height: window.innerHeight,
+    }
+
+    const mouse = { x: 0, y: 0 }
+    const mouseStored = { ...mouse }
+
+    gsap.set(dot, { transformOrigin: '50% 50%' })
+    svg.setAttribute('viewBox', `0 0 ${screen.width} ${screen.height}`)
+
+    const resizeHandler = () => {
+      const width = window.innerWidth
+      const height = window.innerHeight
+      svg.setAttribute('viewBox', `0 0 ${width} ${height}`)
+    }
+
+    const setMouseCoords = (event: MouseEvent) => {
+      mouse.x = event.clientX
+      mouse.y = event.clientY
+    }
+
+    const animateDot = () => {
+      if (mouseStored.x === mouse.x && mouseStored.y === mouse.y) return
+
+      gsap.to(dot, {
+        x: mouse.x,
+        y: mouse.y,
+        ease: 'elastic.out(1.25, 1)',
+        duration: 2,
+        delay: 0.1,
+      })
+
+      mouseStored.x = mouse.x
+      mouseStored.y = mouse.y
+    }
+
+    window.addEventListener('mousemove', setMouseCoords)
+    window.addEventListener('resize', resizeHandler)
+    const tickerCallback = gsap.ticker.add(animateDot)
+
+    return () => {
+      window.removeEventListener('mousemove', setMouseCoords)
+      window.removeEventListener('resize', resizeHandler)
+      gsap.ticker.remove(tickerCallback)
+    }
+  }, [])
+
   // Menu toggle click
   const handleMenuClick = () => {
     if (window.innerWidth <= 768) {
@@ -315,6 +374,16 @@ export default function Header({
           </div>
         </nav>
       </div>
+
+      <svg
+        ref={cursorSvgRef}
+        className="cursor-svg"
+        xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="xMidYMid slice"
+        aria-hidden="true"
+      >
+        <circle ref={cursorDotRef} className="dot" r="8" cx="0" cy="0" />
+      </svg>
     </>
   )
 }
