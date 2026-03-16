@@ -73,7 +73,8 @@ export default function Footer({ footer, locale }: FooterProps) {
     gsap.registerPlugin(ScrollTrigger)
 
     const footer = footerRef.current
-    if (!footer) return
+    const footerInner = footer?.querySelector<HTMLElement>('.footer-inner')
+    if (!footer || !footerInner) return
 
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia()
@@ -85,7 +86,7 @@ export default function Footer({ footer, locale }: FooterProps) {
         },
         ({ conditions }) => {
           ScrollTrigger.create({
-            trigger: footer,
+            trigger: footerInner,
             pin: true,
             start: 'bottom bottom',
             end: conditions?.md ? '+=261' : '+=247',
@@ -101,43 +102,46 @@ export default function Footer({ footer, locale }: FooterProps) {
   }, [])
 
   return (
-    <footer ref={footerRef} className="site-footer h-pad">
-      <div className="row-lg footer-top">
-        {resolvedTitle && (
-          <div className="col-8-12_lg">
-            <h2 className="footer-title">{resolvedTitle}</h2>
-          </div>
-        )}
+    <footer ref={footerRef} className="site-footer">
+      <div className="footer-inner h-pad">
+        <div className="row-lg footer-top out-of-opacity">
+          {resolvedTitle && (
+            <div className="col-8-12_lg">
+              <h2 className="footer-title">{resolvedTitle}</h2>
+            </div>
+          )}
 
-        {menu.length > 0 && (
-          <nav className="footer-nav col-2-12_lg" aria-label="Footer">
-            {menu.map((item) => (
-              <span key={item._key} className="footer-menu-item">
-                <MenuLink item={item} />
-              </span>
-            ))}
-          </nav>
-        )}
+          {menu.length > 0 && (
+            <nav className="footer-nav col-2-12_lg" aria-label="Footer">
+              {menu.map((item) => (
+                <span key={item._key} className="footer-menu-item">
+                  <MenuLink item={item} />
+                </span>
+              ))}
+            </nav>
+          )}
 
-        {hasText && (
-          <div className="footer-contact col-2-12_lg">
-            <PortableText value={resolvedText as any} components={portableTextComponents} />
-          </div>
-        )}
-      </div>
-
-      <div className="row-lg footer-bottom">
-        <div className="col-10-12_lg">
-          <div className="logo-wrap">
-            <Logo />
-            <Link href="/" />
-          </div>
+          {hasText && (
+            <div className="footer-contact col-2-12_lg">
+              <PortableText value={resolvedText as any} components={portableTextComponents} />
+            </div>
+          )}
         </div>
-        <div className="col-2-12_lg">
-          Design by{' '}
-          <a href="https://www.frostcollective.com/" target="_blank" rel="noopener noreferrer">
-            Frost*Collective
-          </a>
+
+        <div className="row-lg footer-bottom out-of-opacity">
+          <div className="col-10-12_lg">
+            <div className="logo-wrap">
+              <Logo />
+              <Link href="/" />
+            </div>
+          </div>
+
+          <div className="col-2-12_lg">
+            Design by{' '}
+            <a href="https://www.frostcollective.com/" target="_blank" rel="noopener noreferrer">
+              Frost*Collective
+            </a>
+          </div>
         </div>
       </div>
     </footer>

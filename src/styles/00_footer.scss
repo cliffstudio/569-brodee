@@ -1,27 +1,34 @@
 @use '00_mixins' as *;
 
 .site-footer {
-  padding-top: get-rem-desktop(40);
-  padding-bottom: get-rem-desktop(40);
-  background-color: $colour-charcoal;
-  color: $colour-white !important;
-  @include flex;
-  @include flex-direction(column);
-  row-gap: get-rem-desktop(75);
-  height: get-rem-desktop(247);
-  margin-top: get-rem-desktop(-247);
-  width: 100%;
-  z-index: -1;
+  .footer-inner {
+    background-color: $colour-charcoal;
+    color: $colour-white !important;
+    padding-top: get-rem-desktop(40);
+    padding-bottom: get-rem-desktop(40);
+    @include flex;
+    @include flex-direction(column);
+    row-gap: get-rem-desktop(75);
+    width: 100%;
+    z-index: -1;
+    height: get-rem-desktop(247);
+    margin-top: get-rem-desktop(-247);
 
-  @media only screen and (max-width: 1409px) {
-    height: get-rem-desktop(261);
-    margin-top: get-rem-desktop(-261);
-  }
+    @media only screen and (max-width: 1409px) {
+      height: get-rem-desktop(261);
+      margin-top: get-rem-desktop(-261);
+    }
 
-  @media only screen and (max-width: 768px) {
-    height: unset;
-    margin-top: unset;
-    row-gap: get-rem-mobile(20);
+    @media only screen and (max-width: 1409px) {
+      height: get-rem-desktop(261);
+      margin-top: get-rem-desktop(-261);
+    }
+  
+    @media only screen and (max-width: 768px) {
+      height: unset;
+      margin-top: unset;
+      row-gap: get-rem-mobile(20);
+    }
   }
 
   .footer-top {

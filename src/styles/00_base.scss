@@ -14,47 +14,57 @@ html,
 body {
   overscroll-behavior: none;
 
-  &.bg-black {
+  &.bg-black,
+  &.bg-black section {
     background-color: $colour-black;
   }
 
-  &.bg-charcoal {
+  &.bg-charcoal,
+  &.bg-charcoal section {
     background-color: $colour-charcoal;
   }
 
-  &.bg-espresso {
+  &.bg-espresso,
+  &.bg-espresso section {
     background-color: $colour-espresso;
   }
 
-  &.bg-walnut {
+  &.bg-walnut,
+  &.bg-walnut section {
     background-color: $colour-walnut;
   }
 
-  &.bg-fern {
+  &.bg-fern,
+  &.bg-fern section {
     background-color: $colour-fern;
   }
 
-  &.bg-terracotta {
+  &.bg-terracotta,
+  &.bg-terracotta section {
     background-color: $colour-terracotta;
   }
 
-  &.bg-birch {
+  &.bg-birch,
+  &.bg-birch section {
     background-color: $colour-birch;
     color: $colour-black;
   }
 
-  &.bg-sage {
+  &.bg-sage,
+  &.bg-sage section {
     background-color: $colour-sage;
     color: $colour-black;
   }
 
   &.bg-chalk,
-  &.page-404 {
+  &.page-404,
+  &.bg-chalk section {
     background-color: $colour-chalk;
     color: $colour-black;
   }
 
-  &.bg-white {
+  &.bg-white,
+  &.bg-white section {
     background-color: $colour-white;
     color: $colour-black;
   }
