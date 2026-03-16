@@ -3,11 +3,6 @@
 body.page-404 {
   @include flex;
   @include flex-direction(column);
-  min-height: 100svh;
-
-  .site-header {
-    position: unset;
-  }
 }
 
 .not-found-page {
@@ -15,6 +10,15 @@ body.page-404 {
   @include flex;
   @include align-items(center);
   @include justify-content(center);
+  min-height: calc(100svh - get-rem-desktop(247));
+
+  @media only screen and (max-width: 1409px) {
+    min-height: calc(100svh - get-rem-desktop(261));
+  }
+
+  @media only screen and (max-width: 768px) {
+    min-height: calc(100svh - get-rem-mobile(428));
+  }
 
   .inner-wrap {
     padding-top: get-rem-desktop(160);
@@ -24,5 +28,10 @@ body.page-404 {
     @include flex-direction(column);
     @include justify-content(space-between);
     row-gap: get-rem-desktop(55);
+
+    @media only screen and (max-width: 768px) {
+      padding-top: get-rem-mobile(100);
+      padding-bottom: get-rem-mobile(100);
+    }
   }
 }

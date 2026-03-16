@@ -131,23 +131,10 @@ body {
 	padding: 0;
 }
 
-// p, ul, ol {
-//   margin-bottom: get-rem-desktop(18);
-
-//   &:last-child {
-// 		margin-bottom: 0px !important;
-// 	}
-
-//   a:not(.button) {
-//     @include underline;
-//   }
-// }
-
-// ul,
-// ol {
-//   list-style: disc;
-//   padding-left: 1em;
-// }
+main {
+  position: relative;
+  z-index: 20;
+}
 
 input,
 textarea,
