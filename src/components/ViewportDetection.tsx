@@ -6,7 +6,41 @@ import { useEffect } from 'react'
 // the DOM, so server HTML and client never differ and hydration cannot mismatch.
 const observedElements = new WeakSet<Element>()
 
-const HYDRATION_BUFFER_MS = 200
+const HYDRATION_BUFFER_MS = 300
+
+/**
+ * Ensure work only runs after the initial window "load" event has fired.
+ * On client-side navigations, "load" has already fired so we run immediately.
+ */
+function runAfterInitialLoad(fn: () => void): () => void {
+  if (typeof window === 'undefined') return () => {}
+
+  let cancelHydrationRun: (() => void) | null = null
+  let loadHandler: (() => void) | null = null
+
+  const schedule = () => {
+    cancelHydrationRun = runAfterHydration(fn)
+  }
+
+  if (document.readyState === 'complete') {
+    schedule()
+  } else {
+    loadHandler = () => {
+      window.removeEventListener('load', loadHandler as () => void)
+      schedule()
+    }
+    window.addEventListener('load', loadHandler)
+  }
+
+  return () => {
+    if (loadHandler) {
+      window.removeEventListener('load', loadHandler)
+    }
+    if (cancelHydrationRun) {
+      cancelHydrationRun()
+    }
+  }
+}
 
 /**
  * Schedule work until after React hydration and paint so we don't mutate DOM
@@ -111,9 +145,10 @@ export default function ViewportDetection() {
       })
     }
 
-    // Defer until after hydration and first paint so we don't add classes
-    // to server-rendered nodes before React has finished hydrating them.
-    const cancelInitial = runAfterHydration(runOutOfView)
+    // Defer until after the initial page load, hydration and first paint so we
+    // don't add classes to server-rendered nodes before React has finished
+    // hydrating them.
+    const cancelInitial = runAfterInitialLoad(runOutOfView)
 
     mutationObserver = new MutationObserver((mutations) => {
       let shouldReRun = false
@@ -139,8 +174,10 @@ export default function ViewportDetection() {
         }
       })
       if (shouldReRun) {
-        // Defer like initial run (post-paint) so we don't mutate during React
-        // commit or ScrollSmoother effects on route change (avoids insertBefore error).
+        // For client-side navigations hydration is already done, so we can
+        // schedule directly after paint without waiting for window "load".
+        // This avoids mutating during React commit or ScrollSmoother effects
+        // on route change (avoids insertBefore error).
         runAfterHydration(runOutOfView)
       }
     })
