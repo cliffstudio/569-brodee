@@ -11,6 +11,9 @@ import {
 } from '@/lib/locale'
 import type { HeaderMenuItem } from '@/components/Header'
 import Logo from './Logo'
+import { useLayoutEffect, useRef } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 export type FooterProps = {
   footer: {
@@ -64,9 +67,41 @@ export default function Footer({ footer, locale }: FooterProps) {
   const text = footer?.text ?? null
   const resolvedText = resolveInternationalizedPortableText(text ?? undefined, locale)
   const hasText = resolvedText && resolvedText.length > 0
+  const footerRef = useRef<HTMLElement | null>(null)
+
+  useLayoutEffect(() => {
+    gsap.registerPlugin(ScrollTrigger)
+
+    const footer = footerRef.current
+    if (!footer) return
+
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia()
+
+      mm.add(
+        {
+          md: '(min-width: 769px) and (max-width: 1409px)',
+          lg: '(min-width: 1410px)',
+        },
+        ({ conditions }) => {
+          ScrollTrigger.create({
+            trigger: footer,
+            pin: true,
+            start: 'bottom bottom',
+            end: conditions?.md ? '+=261' : '+=247',
+            invalidateOnRefresh: true,
+          })
+        }
+      )
+
+      return () => mm.revert()
+    }, footer)
+
+    return () => ctx.revert()
+  }, [])
 
   return (
-    <footer className="site-footer h-pad">
+    <footer ref={footerRef} className="site-footer h-pad">
       <div className="row-lg footer-top">
         {resolvedTitle && (
           <div className="col-8-12_lg">
