@@ -20,7 +20,7 @@ export default function ViewportDetection() {
       )
 
       // Start slightly after load
-      let delay = 0.2
+      let delay = 0.4
 
       animatedTags.forEach((tag) => {
         const el = tag as HTMLElement
@@ -31,9 +31,9 @@ export default function ViewportDetection() {
         if (tagTop < window.innerHeight && tagBottom > 0) {
           const isOutOfView = el.classList.contains('out-of-view')
           const animationName = isOutOfView ? 'fadeInUp' : 'fadeIn'
-          el.style.animation = `${animationName} 1500ms cubic-bezier(0.19, 1, 0.22, 1) ${delay}s both`
+          el.style.animation = `${animationName} 2000ms cubic-bezier(0.19, 1, 0.22, 1) ${delay}s both`
           // Delay between items
-          delay += 0.2
+          delay += 0.4
         }
       })
     }
