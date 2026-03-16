@@ -10,11 +10,16 @@ interface BodyClassProviderProps {
 
 export default function BodyClassProvider({ page, background }: BodyClassProviderProps) {
   useEffect(() => {
-    // Remove any existing page class and our bg- classes
-    const existingClasses = document.body.className.split(' ').filter(
-      (cls) => cls.startsWith('page-') || cls.startsWith('bg-')
-    )
-    existingClasses.forEach((cls) => document.body.classList.remove(cls))
+    // Remove any existing page class and our bg- classes from body and html
+    const bodyClassesToRemove = document.body.className
+      .split(' ')
+      .filter((cls) => cls.startsWith('page-') || cls.startsWith('bg-'))
+    bodyClassesToRemove.forEach((cls) => document.body.classList.remove(cls))
+
+    const htmlClassesToRemove = document.documentElement.className
+      .split(' ')
+      .filter((cls) => cls.startsWith('bg-'))
+    htmlClassesToRemove.forEach((cls) => document.documentElement.classList.remove(cls))
 
     // Add page class (e.g. page-home)
     if (page) {
@@ -26,7 +31,9 @@ export default function BodyClassProvider({ page, background }: BodyClassProvide
 
     // Add background class (e.g. bg-espresso, bg-terracotta)
     if (background && /^[a-z]+$/.test(background)) {
-      document.body.classList.add(`bg-${background}`)
+      const bgClass = `bg-${background}`
+      document.body.classList.add(bgClass)
+      document.documentElement.classList.add(bgClass)
     }
 
     return () => {
@@ -37,7 +44,9 @@ export default function BodyClassProvider({ page, background }: BodyClassProvide
         }
       }
       if (background && /^[a-z]+$/.test(background)) {
-        document.body.classList.remove(`bg-${background}`)
+        const bgClass = `bg-${background}`
+        document.body.classList.remove(bgClass)
+        document.documentElement.classList.remove(bgClass)
       }
     }
   }, [page, background])

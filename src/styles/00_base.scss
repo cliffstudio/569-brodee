@@ -13,6 +13,51 @@ html, html a {
 html,
 body {
   overscroll-behavior: none;
+
+  &.bg-black {
+    background-color: $colour-black;
+  }
+
+  &.bg-charcoal {
+    background-color: $colour-charcoal;
+  }
+
+  &.bg-espresso {
+    background-color: $colour-espresso;
+  }
+
+  &.bg-walnut {
+    background-color: $colour-walnut;
+  }
+
+  &.bg-fern {
+    background-color: $colour-fern;
+  }
+
+  &.bg-terracotta {
+    background-color: $colour-terracotta;
+  }
+
+  &.bg-birch {
+    background-color: $colour-birch;
+    color: $colour-black;
+  }
+
+  &.bg-sage {
+    background-color: $colour-sage;
+    color: $colour-black;
+  }
+
+  &.bg-chalk,
+  &.page-404 {
+    background-color: $colour-chalk;
+    color: $colour-black;
+  }
+
+  &.bg-white {
+    background-color: $colour-white;
+    color: $colour-black;
+  }
 }
 
 /* GSAP ScrollSmoother handles smooth scrolling; disable CSS smooth scroll when active */
@@ -63,12 +108,7 @@ html.scroll-enabled body {
 	box-sizing: border-box;
 }
 
-html, body {
-  background-color: pink;
-}
-
 body {
-  opacity: 0; /* BodyFadeIn component will handle fade-in */
   font-family: "hanken-grotesk", sans-serif;
   font-weight: 400;
   @include font-size(16px, 16px);
@@ -79,51 +119,6 @@ body {
   color: $colour-white;
 	margin: 0;
 	padding: 0;
-
-  &.bg-black {
-    background-color: $colour-black;
-  }
-
-  &.bg-charcoal {
-    background-color: $colour-charcoal;
-  }
-
-  &.bg-espresso {
-    background-color: $colour-espresso;
-  }
-
-  &.bg-walnut {
-    background-color: $colour-walnut;
-  }
-
-  &.bg-fern {
-    background-color: $colour-fern;
-  }
-
-  &.bg-terracotta {
-    background-color: $colour-terracotta;
-  }
-
-  &.bg-birch {
-    background-color: $colour-birch;
-    color: $colour-black;
-  }
-
-  &.bg-sage {
-    background-color: $colour-sage;
-    color: $colour-black;
-  }
-
-  &.bg-chalk,
-  &.page-404 {
-    background-color: $colour-chalk;
-    color: $colour-black;
-  }
-
-  &.bg-white {
-    background-color: $colour-white;
-    color: $colour-black;
-  }
 }
 
 // p, ul, ol {
