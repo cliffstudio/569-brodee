@@ -25,7 +25,7 @@ export default function FullWidthMediaSection({
 
   if (isVideo) {
     return (
-      <section className="full-width-media-section">
+      <section className="full-width-media-section out-of-opacity">
         <div className="fill-space-video-wrap">
           <ResponsiveVideo
             desktop={video}
@@ -42,7 +42,7 @@ export default function FullWidthMediaSection({
   if (list.length === 1) {
     const { desktop, mobile } = normalizeImageArrayItem(list[0])
     return (
-      <section className="full-width-media-section">
+      <section className="full-width-media-section out-of-opacity">
         <div className="fill-space-image-wrap">
           <ResponsiveSanityImage
             desktop={desktop}
