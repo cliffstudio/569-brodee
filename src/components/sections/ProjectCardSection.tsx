@@ -99,27 +99,27 @@ export default function ProjectCardSection({
   if (n === '1' && card1) {
     return (
       <section className="project-card-section h-pad cards-1">
-        {card1.mainImage && (
-          <ResponsiveSanityImage
-            desktop={card1.mainImage}
-            mobile={card1.mainImageMobile}
-            className="lazy full-bleed-image"
-          />
-        )}
+        <Link href={`/works/${card1.slug ?? ''}`}>
+          {card1.mainImage && (
+            <ResponsiveSanityImage
+              desktop={card1.mainImage}
+              mobile={card1.mainImageMobile}
+              className="lazy full-bleed-image"
+            />
+          )}
 
-        {(resolvedTitle || card1.title) && (
-          <div className="content-wrap h-pad">
-            {resolvedTitle && <div className="header uppercase out-of-opacity">{resolvedTitle}</div>}
-            <Link href={`/works/${card1.slug ?? ''}`}>
+          {(resolvedTitle || card1.title) && (
+            <div className="content-wrap h-pad">
+              {resolvedTitle && <div className="header uppercase out-of-opacity">{resolvedTitle}</div>}
               {card1.title && (
                 <div className="cta-link out-of-opacity">
                   {card1.title}
                   <ArrowRightIcon />
                 </div>
               )}
-            </Link>
-          </div>
-        )}
+            </div>
+          )}
+        </Link>
       </section>
     )
   }

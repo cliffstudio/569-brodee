@@ -380,6 +380,22 @@ body.bg-white {
       padding-bottom: get-rem-mobile(35);
     }
 
+    a {
+      display: block;
+      height: 100%;
+      width: 100%;
+
+      @media (hover: hover) {
+        &:hover {
+          opacity: 1;
+          
+          svg {
+            @include transform(translateX(8px));
+          }
+        }
+      }
+    }
+
     .content-wrap {
       position: absolute;
       top: get-rem-desktop(75);
