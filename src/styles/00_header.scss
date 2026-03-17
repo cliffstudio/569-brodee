@@ -13,7 +13,7 @@
   padding-bottom: get-rem-desktop(37);
   text-transform: uppercase;
   will-change: transform;
-  @include transition(transform 400ms cubic-bezier(0.25, 0.1, 0.25, 1) 750ms);
+  @include transition(transform 400ms cubic-bezier(0.25, 0.1, 0.25, 1));
 
   &.is-translated-up {
     @include transform(translateY(-100%));

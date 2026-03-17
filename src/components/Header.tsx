@@ -10,7 +10,6 @@ import { DEFAULT_LOCALE, LOCALE_COOKIE, SUPPORTED_LOCALES } from '@/lib/locale'
 import { DisableBodyScroll, EnableBodyScroll } from '@/lib/scroll'
 
 const TOP_THRESHOLD = 5
-const SCROLL_THRESHOLD = 10
 
 function getScrollY(): number {
   if (typeof window === 'undefined') return 0
@@ -71,19 +70,24 @@ export default function Header({
     // Allow initial slide-in animation to complete before enabling scroll-hide
     const initialTimer = setTimeout(() => {
       setIsInitialTranslatedUp(false)
-    }, 50)
+    }, 750)
 
     lastScrollY.current = getScrollY()
 
     function onScrollUpdate() {
       const y = getScrollY()
+
       if (y <= TOP_THRESHOLD) {
+        // Always show at the very top of the page
         setIsHiddenOnScroll(false)
-      } else if (y > lastScrollY.current && y - lastScrollY.current > SCROLL_THRESHOLD) {
+      } else if (y > lastScrollY.current) {
+        // Hide immediately when scrolling down
         setIsHiddenOnScroll(true)
-      } else if (lastScrollY.current - y > SCROLL_THRESHOLD) {
+      } else if (y < lastScrollY.current) {
+        // Show immediately when scrolling up
         setIsHiddenOnScroll(false)
       }
+
       lastScrollY.current = y
     }
 
