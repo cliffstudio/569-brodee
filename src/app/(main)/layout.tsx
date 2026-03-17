@@ -21,6 +21,10 @@ export default async function MainLayout({
 
   const data = await client.fetch(headerMenuQuery)
   const headerMenu = data?.headerMenu ?? []
+  const showLanguageSwitcher =
+    data?.showLanguageSwitcher === undefined
+      ? true
+      : Boolean(data.showLanguageSwitcher)
   const footer = {
     title: data?.footer ?? null,
     menu: data?.footerMenu ?? [],
@@ -30,7 +34,11 @@ export default async function MainLayout({
   return (
     <div id="main-layout">
       <Suspense fallback={null}>
-        <Header menu={headerMenu} locale={locale} />
+        <Header
+          menu={headerMenu}
+          locale={locale}
+          showLanguageSwitcher={showLanguageSwitcher}
+        />
         <ScrollSmootherProvider>
           <MobileScrollReset />
           <LazyLoadInitializer />

@@ -50,6 +50,13 @@ export const siteSettingsType = {
       fieldset: 'header',
     }),
     defineField({
+      name: 'showLanguageSwitcher',
+      title: 'Show Language Switcher',
+      type: 'boolean',
+      initialValue: false,
+      fieldset: 'header',
+    }),
+    defineField({
       name: 'footer',
       title: 'Title',
       type: 'internationalizedArrayString',

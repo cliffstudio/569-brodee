@@ -36,9 +36,11 @@ function setLocaleCookie(locale: string) {
 export default function Header({
   menu = [],
   locale = DEFAULT_LOCALE,
+  showLanguageSwitcher = true,
 }: {
   menu?: HeaderMenuItem[]
   locale?: string
+  showLanguageSwitcher?: boolean
 }) {
   const router = useRouter()
   const pathname = usePathname() || '/'
@@ -361,18 +363,20 @@ export default function Header({
             )
           })}
 
-          <div className="language-switcher">
-            {SUPPORTED_LOCALES.map((lang) => (
-              <div
-                key={lang.id}
-                className={`menu-link${locale === lang.id ? ' is-active' : ''}`}
-                onClick={() => handleLocaleClick(lang.id)}
-                aria-current={locale === lang.id ? 'true' : undefined}
-              >
-                {lang.label}
-              </div>
-            ))}
-          </div>
+          {showLanguageSwitcher && (
+            <div className="language-switcher">
+              {SUPPORTED_LOCALES.map((lang) => (
+                <div
+                  key={lang.id}
+                  className={`menu-link${locale === lang.id ? ' is-active' : ''}`}
+                  onClick={() => handleLocaleClick(lang.id)}
+                  aria-current={locale === lang.id ? 'true' : undefined}
+                >
+                  {lang.label}
+                </div>
+              ))}
+            </div>
+          )}
         </nav>
 
         <div ref={menuToggleRef} className={`menu-toggle mobile${isMenuVisible ? ' active' : ''}`} onClick={handleMenuClick} role="button" aria-expanded={isMenuVisible} aria-label={isMenuVisible ? 'Close menu' : 'Open menu'}>
@@ -421,18 +425,20 @@ export default function Header({
             )
           })}
 
-          <div className="language-switcher">
-            {SUPPORTED_LOCALES.map((lang) => (
-              <div
-                key={lang.id}
-                className={`menu-link${locale === lang.id ? ' is-active' : ''}`}
-                onClick={() => handleLocaleClick(lang.id)}
-                aria-current={locale === lang.id ? 'true' : undefined}
-              >
-                {lang.label}
-              </div>
-            ))}
-          </div>
+          {showLanguageSwitcher && (
+            <div className="language-switcher">
+              {SUPPORTED_LOCALES.map((lang) => (
+                <div
+                  key={lang.id}
+                  className={`menu-link${locale === lang.id ? ' is-active' : ''}`}
+                  onClick={() => handleLocaleClick(lang.id)}
+                  aria-current={locale === lang.id ? 'true' : undefined}
+                >
+                  {lang.label}
+                </div>
+              ))}
+            </div>
+          )}
         </nav>
       </div>
 

@@ -285,6 +285,7 @@ export const metadataQuery = groq`
 // Site settings with header menu and footer (resolved links: internal → path/title, external → url, file → fileUrl)
 // Use coalesce so we get draft first (if exists), then published singleton
 const siteSettingsProjection = groq`{
+  showLanguageSwitcher,
   headerMenu[] {
     _type,
     _key,
