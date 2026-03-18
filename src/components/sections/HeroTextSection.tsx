@@ -6,10 +6,8 @@ import gsap from 'gsap'
 import { SplitText } from 'gsap/SplitText'
 import { portableTextComponents } from '@/components/PortableTextComponents'
 import {
-  resolveInternationalized,
   resolveInternationalizedPortableText,
   type InternationalizedPortableText,
-  type InternationalizedValue,
 } from '@/lib/locale'
 import ArrowRightIcon from '../icons/ArrowRightIcon'
 import Link from 'next/link'
@@ -24,8 +22,8 @@ export type HeroTextSectionCta = {
 }
 
 interface HeroTextSectionProps {
-  title?: InternationalizedValue | null
-  titleMobile?: InternationalizedValue | null
+  newTitle?: InternationalizedPortableText | null
+  newTitleMobile?: InternationalizedPortableText | null
   copy?: InternationalizedPortableText | null
   cta?: HeroTextSectionCta | null
   alignment?: 'left' | 'right' | null
@@ -33,8 +31,8 @@ interface HeroTextSectionProps {
 }
 
 export default function HeroTextSection({
-  title,
-  titleMobile,
+  newTitle,
+  newTitleMobile,
   copy,
   cta,
   alignment = 'left',
@@ -43,9 +41,10 @@ export default function HeroTextSection({
   const desktopHeadingRef = useRef<HTMLSpanElement>(null)
   const mobileHeadingRef = useRef<HTMLSpanElement>(null)
 
-  const resolvedTitle = resolveInternationalized(title ?? undefined, locale)
+  const resolvedTitle = resolveInternationalizedPortableText(newTitle ?? undefined, locale)
   const resolvedTitleMobile =
-    resolveInternationalized(titleMobile ?? undefined, locale) ?? resolvedTitle
+    resolveInternationalizedPortableText(newTitleMobile ?? undefined, locale) ??
+    resolvedTitle
   const titleForDesktop = resolvedTitle ?? resolvedTitleMobile
   const resolvedCopy = resolveInternationalizedPortableText(copy ?? undefined, locale)
   const ctaLabel = cta?.label ?? null
@@ -107,12 +106,26 @@ export default function HeroTextSection({
         <h1 className="heading">
           {titleForDesktop && (
             <span ref={desktopHeadingRef} className="desktop">
-              {titleForDesktop}
+              <PortableText
+                value={titleForDesktop as any}
+                components={{
+                  block: {
+                    normal: ({ children }) => <>{children}</>,
+                  },
+                }}
+              />
             </span>
           )}
           {resolvedTitleMobile && (
             <span ref={mobileHeadingRef} className="mobile">
-              {resolvedTitleMobile}
+              <PortableText
+                value={resolvedTitleMobile as any}
+                components={{
+                  block: {
+                    normal: ({ children }) => <>{children}</>,
+                  },
+                }}
+              />
             </span>
           )}
         </h1>

@@ -315,7 +315,7 @@ body.bg-white {
   }
 
   .text {
-    max-width: get-rem-desktop(540);
+    max-width: get-rem-desktop(500);
   }
 }
 
@@ -561,10 +561,10 @@ body.bg-white {
 }
 
 .logo-carousel {
-  height: get-rem-desktop(40);
+  height: get-rem-desktop(35);
 
   @media only screen and (max-width: 768px) {
-    height: get-rem-mobile(30);
+    height: get-rem-mobile(25);
   }
 
   overflow: hidden;
@@ -575,12 +575,12 @@ body.bg-white {
 .logo-carousel__track {
   display: flex;
   align-items: center;
-  gap: get-rem-desktop(90);
+  gap: get-rem-desktop(100);
   width: max-content;
   animation: logo-carousel-scroll 40s linear infinite;
 
   @media only screen and (max-width: 768px) {
-    gap: get-rem-mobile(56);
+    gap: get-rem-mobile(70);
   }
 }
 
@@ -605,12 +605,12 @@ body.bg-white {
 }
 
 .logo-carousel__img {
-  height: get-rem-desktop(40);
+  height: get-rem-desktop(35);
   width: auto;
   object-fit: contain;
 
   @media only screen and (max-width: 768px) {
-    height: get-rem-mobile(30);
+    height: get-rem-mobile(25);
   }
 }
 

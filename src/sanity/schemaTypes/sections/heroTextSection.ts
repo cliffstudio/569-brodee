@@ -18,6 +18,17 @@ export default defineType({
       description: 'Defaults to desktop title if not set.',
     }),
     defineField({
+      name: 'newTitle',
+      title: 'Title (Desktop)',
+      type: 'internationalizedArrayRichPortableText',
+    }),
+    defineField({
+      name: 'newTitleMobile',
+      title: 'Title (Mobile)',
+      type: 'internationalizedArrayRichPortableText',
+      description: 'Defaults to desktop title if not set.',
+    }),
+    defineField({
       name: 'copy',
       title: 'Copy',
       type: 'internationalizedArrayRichPortableText',

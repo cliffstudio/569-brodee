@@ -32,8 +32,8 @@ type FullWidthMediaBlock = {
 type HeroTextBlock = {
   _type: 'heroTextSection'
   _key: string
-  title?: InternationalizedValue | null
-  titleMobile?: InternationalizedValue | null
+  newTitle?: InternationalizedPortableText | null
+  newTitleMobile?: InternationalizedPortableText | null
   copy?: InternationalizedPortableText | null
   cta?: HeroTextSectionCta | null
   alignment?: 'left' | 'right' | null
@@ -166,8 +166,8 @@ export default function FlexibleContent({
           return (
             <HeroTextSection
               key={block._key}
-              title={block.title}
-              titleMobile={block.titleMobile}
+              newTitle={block.newTitle}
+              newTitleMobile={block.newTitleMobile}
               copy={block.copy}
               cta={block.cta}
               alignment={block.alignment ?? 'left'}
