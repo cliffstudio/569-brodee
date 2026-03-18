@@ -112,13 +112,22 @@ export default function Header({
 
   // Body scroll detection
   useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const smoother = ScrollSmoother.get()
+
     if (isMenuVisible) {
+      // Stop background scroll while the mobile menu is open.
       DisableBodyScroll()
+      smoother?.paused(true)
     } else {
       EnableBodyScroll()
+      smoother?.paused(false)
     }
+
     return () => {
       EnableBodyScroll()
+      smoother?.paused(false)
     }
   }, [isMenuVisible])
 
