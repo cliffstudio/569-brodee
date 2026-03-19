@@ -36,7 +36,7 @@ export default function ScrollSmootherProvider({
       smoother = ScrollSmoother.create({
         wrapper: `#${SMOOTHER_WRAPPER_ID}`,
         content: `#${SMOOTHER_CONTENT_ID}`,
-        smooth: 1,
+        smooth: 1.2,
         effects: true,
       })
       smootherRef.current = smoother
