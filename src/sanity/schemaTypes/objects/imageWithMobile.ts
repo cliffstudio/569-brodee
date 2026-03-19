@@ -12,7 +12,10 @@ export const imageWithMobileType = defineType({
       title: 'Image (Desktop)',
       type: 'image',
       description: 'Maximum file size: 500KB.',
-      validation: imageSizeValidation,
+      validation: (Rule) => [
+        Rule.required().error('Desktop image is required.'),
+        imageSizeValidation(Rule),
+      ],
     }),
     defineField({
       name: 'mobileImage',
