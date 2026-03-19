@@ -52,6 +52,8 @@ export default function SplideCarousel({
     pagination: false,
     lazyLoad: 'nearby' as const,
     autoplay,
+    interval: 1800,
+    speed: 1700,
     pauseOnHover: !autoplay,
     resetProgress: false,
     drag: false,
@@ -93,7 +95,6 @@ export default function SplideCarousel({
       >
         <ArrowRightIcon />
       </div>
-
       <div
         className="carousel-right"
         onClick={handleNext}
