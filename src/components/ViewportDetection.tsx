@@ -25,9 +25,9 @@ export default function ViewportDetection() {
             ;(batch as HTMLElement[]).forEach((el, index) => {
               const isOutOfView = el.classList.contains('out-of-view')
               const animationName = isOutOfView ? 'fadeInUp' : 'fadeIn'
-              const delay = 0.2 + index * 0.2
+              const delay = 0.3 + index * 0.3
 
-              el.style.animation = `${animationName} 1500ms cubic-bezier(0.19, 1, 0.22, 1) ${delay}s both`
+              el.style.animation = `${animationName} 1750ms cubic-bezier(0.19, 1, 0.22, 1) ${delay}s both`
             })
           },
         })
