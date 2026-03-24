@@ -28,8 +28,16 @@
     @include transform(translateY(-100%));
   }
 
-  .logo-wrap svg {
+  .logo-wrap {
+    flex: 0 1 auto;
     width: get-rem-desktop(157);
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .logo-wrap svg {
+    display: block;
+    width: 100%;
     height: auto;
     fill: $colour-white;
   }
