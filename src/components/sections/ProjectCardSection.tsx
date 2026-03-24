@@ -23,9 +23,11 @@ export interface ProjectCardSectionProps {
 function ProjectCardLink({
   card,
   columnClass,
+  sectionTitle,
 }: {
   card: ProjectCard
   columnClass: string
+  sectionTitle?: string | null
 }) {
   if (!card?.slug) return null
   return (
@@ -40,10 +42,15 @@ function ProjectCardLink({
           <div className="media-overlay" />
         </div>
       )}
-      {card.title && (
-        <div className="cta-link">
-          {card.title}
-          <ArrowRightIcon />
+      {(sectionTitle || card.title) && (
+        <div className="cta-link-wrap">
+          {sectionTitle && <div className="cta-link">{sectionTitle}</div>}
+          {card.title && (
+            <div className="cta-link">
+              {card.title}
+              <ArrowRightIcon />
+            </div>
+          )}
         </div>
       )}
     </Link>
@@ -132,13 +139,13 @@ export default function ProjectCardSection({
 
     return (
       <section className={`project-card-section h-pad cards-${n}`}>
-        {resolvedTitle && <div className="header uppercase out-of-opacity">{resolvedTitle}</div>}
         <div className="row-lg out-of-opacity">
           {cards.map((card) => (
             <ProjectCardLink
               key={card!.slug}
               card={card!}
               columnClass={columnClass}
+              sectionTitle={resolvedTitle}
             />
           ))}
         </div>

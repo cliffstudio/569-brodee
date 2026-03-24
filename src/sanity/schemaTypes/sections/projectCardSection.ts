@@ -9,6 +9,7 @@ export default defineType({
       name: 'title',
       title: 'Title',
       type: 'internationalizedArrayString',
+      description: 'Will be shown on the left of the cards.',
     }),
     defineField({
       name: 'numberOfCards',

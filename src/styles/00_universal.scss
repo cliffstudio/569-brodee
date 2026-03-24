@@ -362,6 +362,12 @@ body.bg-white {
 .project-card-section {
   position: relative;
 
+  .cta-link-wrap {
+    @include flex;
+    @include justify-content(space-between);
+    @include align-items(center);
+  }
+
   .cta-link {
     margin: 0;
   }
@@ -427,10 +433,6 @@ body.bg-white {
     @media only screen and (max-width: 768px) {
       padding-top: get-rem-mobile(56);
       padding-bottom: get-rem-mobile(56);
-    }
-
-    .header {
-      margin-bottom: get-rem-desktop(36);
     }
 
     .project-card {
