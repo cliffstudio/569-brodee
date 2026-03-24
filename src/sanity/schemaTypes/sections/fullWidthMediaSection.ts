@@ -24,7 +24,7 @@ export default defineType({
       name: 'images',
       title: 'Images',
       type: 'array',
-      description: 'One image for full-width hero; multiple for carousel. Each item has a desktop image and an optional mobile image (defaults to desktop if not set). Maximum file size per image: 500KB.',
+      description: 'One image for full-width hero; multiple for carousel. Each item has a desktop image and an optional mobile image (defaults to desktop if not set). Maximum file size per image: 1MB.',
       of: [{ type: 'imageWithMobile' }],
       hidden: ({ parent }) => parent?.mediaType !== 'image',
     }),

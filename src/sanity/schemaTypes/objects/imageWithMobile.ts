@@ -11,7 +11,7 @@ export const imageWithMobileType = defineType({
       name: 'image',
       title: 'Image (Desktop)',
       type: 'image',
-      description: 'Maximum file size: 500KB.',
+      description: 'Maximum file size: 1MB.',
       validation: (Rule) => [
         Rule.required().error('Desktop image is required.'),
         imageSizeValidation(Rule),
@@ -21,7 +21,7 @@ export const imageWithMobileType = defineType({
       name: 'mobileImage',
       title: 'Image (Mobile)',
       type: 'image',
-      description: 'Defaults to desktop image if not set. Maximum file size: 500KB.',
+      description: 'Defaults to desktop image if not set. Maximum file size: 1MB.',
       validation: imageSizeValidation,
     }),
   ],

@@ -10,7 +10,7 @@ export default defineType({
       name: 'images',
       title: 'Images',
       type: 'array',
-      description: 'Each item can have an optional mobile image. Maximum file size per image: 500KB.',
+      description: 'Each item can have an optional mobile image. Maximum file size per image: 1MB.',
       of: [
         { type: 'image', validation: imageSizeValidation },
         { type: 'imageWithMobile' },

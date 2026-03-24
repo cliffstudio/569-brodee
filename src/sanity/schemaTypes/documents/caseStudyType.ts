@@ -47,14 +47,14 @@ export const caseStudyType = defineType({
       name: 'mainImage',
       title: 'Main Image (Desktop)',
       type: 'image',
-      description: 'Maximum file size: 500KB. Used for the project thumbnail.',
+      description: 'Maximum file size: 1MB. Used for the project thumbnail.',
       validation: imageSizeValidation,
     }),
     defineField({
       name: 'mainImageMobile',
       title: 'Main Image (Mobile)',
       type: 'image',
-      description: 'Optional. Defaults to main image if not set. Maximum file size: 500KB.',
+      description: 'Optional. Defaults to main image if not set. Maximum file size: 1MB.',
       validation: imageSizeValidation,
     }),
     defineField({
