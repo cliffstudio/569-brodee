@@ -1,6 +1,5 @@
 import { ALL_FIELDS_GROUP, defineField } from 'sanity'
 import { CogIcon } from '@sanity/icons'
-import { imageSizeValidation } from '@/sanity/utils/imageValidation'
 
 export const siteSettingsType = {
   name: 'siteSettings',
@@ -39,8 +38,7 @@ export const siteSettingsType = {
       name: 'socialimage',
       title: 'Social Image (Desktop)',
       type: 'image',
-      description: 'Recommended size: 1200x630px. Please upload image files under 1MB.',
-      validation: imageSizeValidation,
+      description: 'Recommended size: 1200x630px.',
       fieldset: 'seo',
     }),
     defineField({

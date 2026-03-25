@@ -1,5 +1,4 @@
 import { defineType, defineField } from 'sanity'
-import { imageSizeValidation } from '@/sanity/utils/imageValidation'
 import { VideoIcon } from '@sanity/icons'
 
 export default defineType({
@@ -25,16 +24,13 @@ export default defineType({
       name: 'image',
       title: 'Image (Desktop)',
       type: 'image',
-      description: 'Maximum file size: 1MB.',
-      validation: imageSizeValidation,
       hidden: ({ parent }) => parent?.mediaType !== 'image',
     }),
     defineField({
       name: 'imageMobile',
       title: 'Image (Mobile)',
       type: 'image',
-      description: 'Optional. Defaults to desktop image if not set. Maximum file size: 1MB.',
-      validation: imageSizeValidation,
+      description: 'Optional. Defaults to desktop image if not set.',
       hidden: ({ parent }) => parent?.mediaType !== 'image',
     }),
     defineField({

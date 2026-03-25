@@ -1,6 +1,5 @@
 import { defineType, defineField, ALL_FIELDS_GROUP } from 'sanity'
 import { DocumentsIcon } from '@sanity/icons'
-import { imageSizeValidation } from '@/sanity/utils/imageValidation'
 
 export const caseStudyType = defineType({
   name: 'caseStudy',
@@ -47,15 +46,13 @@ export const caseStudyType = defineType({
       name: 'mainImage',
       title: 'Main Image (Desktop)',
       type: 'image',
-      description: 'Maximum file size: 1MB. Used for the project thumbnail.',
-      validation: imageSizeValidation,
+      description: 'Used for the project thumbnail.',
     }),
     defineField({
       name: 'mainImageMobile',
       title: 'Main Image (Mobile)',
       type: 'image',
-      description: 'Optional. Defaults to main image if not set. Maximum file size: 1MB.',
-      validation: imageSizeValidation,
+      description: 'Optional. Defaults to main image if not set.',
     }),
     defineField({
       name: 'contentBlocks',
