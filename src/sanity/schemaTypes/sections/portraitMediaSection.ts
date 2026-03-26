@@ -2,8 +2,8 @@ import { defineType, defineField } from 'sanity'
 import { VideoIcon } from '@sanity/icons'
 
 export default defineType({
-  name: 'introWithMediaSection',
-  title: 'Text & Media',
+  name: 'portraitMediaSection',
+  title: 'Portrait Media',
   type: 'object',
   fields: [
     defineField({
@@ -40,19 +40,13 @@ export default defineType({
       hidden: ({ parent }) => parent?.mediaType !== 'video',
     }),
     defineField({
-      name: 'copy',
-      title: 'Copy',
-      type: 'internationalizedArrayRichPortableText',
-    }),
-    defineField({
-      name: 'cta',
-      title: 'CTA',
-      type: 'links',
-      validation: (Rule) => Rule.max(1),
+      name: 'caption',
+      title: 'Caption',
+      type: 'internationalizedArrayString',
     }),
     defineField({
       name: 'alignment',
-      title: 'Media Alignment',
+      title: 'Alignment',
       type: 'string',
       initialValue: 'left',
       options: {
@@ -72,7 +66,7 @@ export default defineType({
     },
     prepare({ mediaType, image }) {
       const isVideo = mediaType === 'video'
-      const title = isVideo ? 'Text & Video' : 'Text & Image'
+      const title = isVideo ? 'Portrait Video' : 'Portrait Image'
       const media = isVideo ? VideoIcon : image
       return { title, media }
     },

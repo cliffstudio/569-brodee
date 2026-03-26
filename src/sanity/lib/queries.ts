@@ -96,6 +96,7 @@ const heroTextCtaLink = groq`cta[0] {
 }`
 const heroTextSectionFields = groq`newTitle, newTitleMobile, copy, alignment, ${heroTextCtaLink}`
 const landscapeMediaFields = groq`mediaType, "image": image ${imageFragment}, "imageMobile": imageMobile ${imageFragment}, video, caption, alignment`
+const portraitMediaFields = groq`mediaType, "image": image ${imageFragment}, "imageMobile": imageMobile ${imageFragment}, video, caption, alignment`
 const landscapeMediaProjectInfoSectionFields = groq`mediaType, "image": image ${imageFragment}, "imageMobile": imageMobile ${imageFragment}, video, projectInfo[] { _key, title, copy }`
 const dualMediaFields = groq`mediaType1, "image1": image1 ${imageFragment}, "image1Mobile": image1Mobile ${imageFragment}, video1, mediaType2, "image2": image2 ${imageFragment}, "image2Mobile": image2Mobile ${imageFragment}, video2, alignment`
 const projectCardFields = groq`"mainImage": mainImage ${imageFragment}, "mainImageMobile": mainImageMobile ${imageFragment}, title, "slug": slug.current`
@@ -127,6 +128,7 @@ const contentBlocksFragment = groq`contentBlocks[] {
   ...select(_type == "fullWidthMediaSection" => { ${fullWidthMediaSectionFields} }),
   ...select(_type == "heroTextSection" => { ${heroTextSectionFields} }),
   ...select(_type == "landscapeMediaSection" => { ${landscapeMediaFields} }),
+  ...select(_type == "portraitMediaSection" => { ${portraitMediaFields} }),
   ...select(_type == "landscapeMediaProjectInfoSection" => { ${landscapeMediaProjectInfoSectionFields} }),
   ...select(_type == "introWithMediaSection" => { ${introWithMediaFields} }),
   ...select(_type == "dualMediaSection" => { ${dualMediaFields} }),

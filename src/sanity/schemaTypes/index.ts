@@ -7,6 +7,7 @@ import { siteSettingsType } from './documents/siteSettings'
 import fullWidthMediaSection from './sections/fullWidthMediaSection'
 import heroTextSection from './sections/heroTextSection'
 import landscapeMediaSection from './sections/landscapeMediaSection'
+import portraitMediaSection from './sections/portraitMediaSection'
 import landscapeMediaProjectInfoSection from './sections/landscapeMediaProjectInfoSection'
 import introWithMediaSection from './sections/introWithMediaSection'
 import dualMediaSection from './sections/dualMediaSection'
@@ -33,6 +34,7 @@ export const schemaTypes = [
   fullWidthMediaSection,
   heroTextSection,
   landscapeMediaSection,
+  portraitMediaSection,
   landscapeMediaProjectInfoSection,
   introWithMediaSection,
   dualMediaSection,

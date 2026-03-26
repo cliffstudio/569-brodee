@@ -249,6 +249,34 @@ body.bg-white {
   }
 }
 
+// PORTRAIT MEDIA SECTION ------------------
+
+.portrait-media-section {
+  padding-top: get-rem-desktop(48);
+  padding-bottom: get-rem-desktop(46);
+
+  @media only screen and (max-width: 768px) {
+    padding-top: get-rem-mobile(24);
+    padding-bottom: get-rem-mobile(50);
+  }
+
+  .media-wrap {
+    @include aspect-ratio(580, 680);
+  }
+
+  .caption {
+    max-width: get-rem-desktop(320);
+    margin-top: get-rem-desktop(20);
+  }
+
+  &.align-right {
+    .caption {
+      text-align: right;
+      margin-left: auto;
+    }
+  }
+}
+
 // LANDSCAPE MEDIA & PROJECT INFO SECTION ------------------
 
 .landscape-media-project-info-section {

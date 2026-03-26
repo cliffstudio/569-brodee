@@ -4,12 +4,14 @@ import type {
   InternationalizedValue,
 } from '@/lib/locale'
 import type { LandscapeMediaSectionProps } from './sections/LandscapeMediaSection'
+import type { PortraitMediaSectionProps } from './sections/PortraitMediaSection'
 import type { ProjectInfoItem } from './sections/LandscapeMediaProjectInfoSection'
 import type { IntroWithMediaCta } from './sections/IntroWithMediaSection'
 import type { HeroTextSectionCta } from './sections/HeroTextSection'
 import FullWidthMediaSection from './sections/FullWidthMediaSection'
 import HeroTextSection from '@/components/sections/HeroTextSection'
 import LandscapeMediaSection from './sections/LandscapeMediaSection'
+import PortraitMediaSection from './sections/PortraitMediaSection'
 import LandscapeMediaProjectInfoSection from './sections/LandscapeMediaProjectInfoSection'
 import IntroWithMediaSection from './sections/IntroWithMediaSection'
 import DualMediaSection from './sections/DualMediaSection'
@@ -41,6 +43,17 @@ type HeroTextBlock = {
 
 type LandscapeMediaBlock = {
   _type: 'landscapeMediaSection'
+  _key: string
+  mediaType?: string | null
+  image?: SanityImage | null
+  imageMobile?: SanityImage | null
+  video?: SanityBunnyVideo | null
+  caption?: { _key: string; value?: string }[] | null
+  alignment?: 'left' | 'right' | null
+}
+
+type PortraitMediaBlock = {
+  _type: 'portraitMediaSection'
   _key: string
   mediaType?: string | null
   image?: SanityImage | null
@@ -127,6 +140,7 @@ type ContentBlock =
   | FullWidthMediaBlock
   | HeroTextBlock
   | LandscapeMediaBlock
+  | PortraitMediaBlock
   | LandscapeMediaProjectInfoBlock
   | IntroWithMediaBlock
   | DualMediaBlock
@@ -186,6 +200,18 @@ export default function FlexibleContent({
             locale,
           }
           return <LandscapeMediaSection key={block._key} {...landscapeProps} />
+        }
+        if (block._type === 'portraitMediaSection') {
+          const portraitProps: PortraitMediaSectionProps = {
+            mediaType: block.mediaType ?? 'image',
+            image: block.image,
+            imageMobile: block.imageMobile,
+            video: block.video,
+            caption: block.caption,
+            alignment: block.alignment ?? 'left',
+            locale,
+          }
+          return <PortraitMediaSection key={block._key} {...portraitProps} />
         }
         if (block._type === 'landscapeMediaProjectInfoSection') {
           return (

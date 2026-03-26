@@ -8,6 +8,7 @@ export default defineType({
     { type: 'fullWidthMediaSection', title: 'Full Width Media' },
     { type: 'heroTextSection', title: 'Hero Text' },
     { type: 'landscapeMediaSection', title: 'Landscape Media' },
+    { type: 'portraitMediaSection', title: 'Portrait Media' },
     { type: 'landscapeMediaProjectInfoSection', title: 'Landscape Media & Project Info' },
     { type: 'introWithMediaSection', title: 'Intro with Media' },
     { type: 'dualMediaSection', title: 'Dual Media' },

@@ -3,7 +3,7 @@ import { VideoIcon } from '@sanity/icons'
 
 export default defineType({
   name: 'dualMediaSection',
-  title: 'Dual Media',
+  title: 'Double Media',
   type: 'object',
   fields: [
     defineField({
@@ -74,13 +74,13 @@ export default defineType({
     }),
     defineField({
       name: 'alignment',
-      title: 'Small Media Alignment',
+      title: 'Alignment',
       type: 'string',
       initialValue: 'left',
       options: {
         list: [
-          { title: 'Left', value: 'left' },
-          { title: 'Right', value: 'right' },
+          { title: 'Small (Left) & Large (Right)', value: 'left' },
+          { title: 'Large (Left) & Small (Right)', value: 'right' },
         ],
         layout: 'radio',
         direction: 'horizontal',
@@ -94,7 +94,7 @@ export default defineType({
     },
     prepare({ mediaType1, image1 }) {
       const isVideo = mediaType1 === 'video'
-      const title = 'Dual Media'
+      const title = 'Double Media'
       const media = isVideo ? VideoIcon : image1
       return { title, media }
     },
