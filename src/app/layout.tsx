@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { client } from '@/sanity/client'
 import { metadataQuery } from '@/sanity/lib/queries'
 import { urlFor } from '@/sanity/utils/imageUrlBuilder'
-import ViewportDetection from '@/components/ViewportDetection'
 
 export const revalidate = 0
 
@@ -53,7 +52,6 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://use.typekit.net/vqy3kes.css" />
       </head>
       <body suppressHydrationWarning>
-        <ViewportDetection />
         {children}
       </body>
     </html>

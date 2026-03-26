@@ -4,6 +4,7 @@ import { Suspense } from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import LazyLoadInitializer from '@/components/LazyLoadInitializer'
+import ViewportDetection from '@/components/ViewportDetection'
 import ScrollSmootherProvider from '@/components/ScrollSmootherProvider'
 import { client } from '@/sanity/client'
 import { DEFAULT_LOCALE, LOCALE_COOKIE } from '@/lib/locale'
@@ -32,6 +33,7 @@ export default async function MainLayout({
   return (
     <div id="main-layout">
       <Suspense fallback={null}>
+        <ViewportDetection />
         <Header
           menu={headerMenu}
           locale={locale}
