@@ -1,11 +1,27 @@
 import { defineType, defineField } from 'sanity'
 import { VideoIcon } from '@sanity/icons'
+import { createLayoutReferenceInput } from '@/sanity/components/LayoutReferenceInput'
+
+const LandscapeMediaLayoutReferenceInput = createLayoutReferenceInput({
+  imagePath: '/layout-references/landscape-media.jpg',
+  alt: 'Landscape media section layout reference',
+})
 
 export default defineType({
   name: 'landscapeMediaSection',
   title: 'Landscape Media',
   type: 'object',
   fields: [
+    defineField({
+      name: 'layoutReference',
+      title: 'Layout Reference',
+      type: 'string',
+      readOnly: true,
+      initialValue: 'reference-only',
+      components: {
+        input: LandscapeMediaLayoutReferenceInput,
+      },
+    }),
     defineField({
       name: 'mediaType',
       title: 'Media Type',

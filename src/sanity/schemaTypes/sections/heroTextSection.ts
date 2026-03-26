@@ -1,11 +1,27 @@
 import { defineType, defineField } from 'sanity'
 import { TextIcon } from '@sanity/icons'
+import { createLayoutReferenceInput } from '@/sanity/components/LayoutReferenceInput'
+
+const HeroTextLayoutReferenceInput = createLayoutReferenceInput({
+  imagePath: '/layout-references/hero-text.jpg',
+  alt: 'Hero text section layout reference',
+})
 
 export default defineType({
   name: 'heroTextSection',
   title: 'Hero Text',
   type: 'object',
   fields: [
+    defineField({
+      name: 'layoutReference',
+      title: 'Layout Reference',
+      type: 'string',
+      readOnly: true,
+      initialValue: 'reference-only',
+      components: {
+        input: HeroTextLayoutReferenceInput,
+      },
+    }),
     defineField({
       name: 'title',
       title: 'Title (Desktop)',

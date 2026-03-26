@@ -1,11 +1,27 @@
 import { defineType, defineField } from 'sanity'
 import { VideoIcon } from '@sanity/icons'
+import { createLayoutReferenceInput } from '@/sanity/components/LayoutReferenceInput'
+
+const PortraitMediaLayoutReferenceInput = createLayoutReferenceInput({
+  imagePath: '/layout-references/portrait-media.jpg',
+  alt: 'Portrait media section layout reference',
+})
 
 export default defineType({
   name: 'portraitMediaSection',
   title: 'Portrait Media',
   type: 'object',
   fields: [
+    defineField({
+      name: 'layoutReference',
+      title: 'Layout Reference',
+      type: 'string',
+      readOnly: true,
+      initialValue: 'reference-only',
+      components: {
+        input: PortraitMediaLayoutReferenceInput,
+      },
+    }),
     defineField({
       name: 'mediaType',
       title: 'Media Type',
