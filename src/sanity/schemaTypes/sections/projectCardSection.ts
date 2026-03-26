@@ -54,7 +54,7 @@ export default defineType({
       card1Image: 'card1.mainImage',
     },
     prepare({ numberOfCards, card1Image }) {
-      const title = numberOfCards === '1' ? 'Project Card' : 'Project Cards'
+      const title = 'Project Card'
       const media = card1Image
       return { title, media }
     },

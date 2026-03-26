@@ -93,7 +93,7 @@ export default defineType({
     },
     prepare({ mediaType, image }) {
       const isVideo = mediaType === 'video'
-      const title = isVideo ? 'Text & Portrait Video' : 'Text & Portrait Image'
+      const title = 'Text & Media'
       const media = isVideo ? VideoIcon : image
       return { title, media }
     },

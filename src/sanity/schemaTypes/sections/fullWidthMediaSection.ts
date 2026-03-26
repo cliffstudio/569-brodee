@@ -51,7 +51,7 @@ export default defineType({
     },
     prepare({ mediaType, firstImage, firstImageDesktop }) {
       const isVideo = mediaType === 'video'
-      const title = isVideo ? 'Full Width Video' : 'Full Width Image'
+      const title = 'Full Width Media'
       const media = isVideo ? VideoIcon : firstImageDesktop ?? firstImage
       return { title, media }
     },
