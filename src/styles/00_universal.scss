@@ -261,7 +261,7 @@ body.bg-white {
   }
 
   .media-wrap {
-    @include aspect-ratio(580, 680);
+    @include aspect-ratio(3, 4);
   }
 
   .caption {
@@ -335,16 +335,21 @@ body.bg-white {
   }
 
   .media-wrap {
-    @include aspect-ratio(540, 675);
+    @include aspect-ratio(3, 4);
 
     @media only screen and (max-width: 768px) {
-      @include aspect-ratio(354, 435);
       width: 100%;
     }
   }
 
   .text {
     max-width: get-rem-desktop(500);
+  }
+
+  .intro-with-media-copy {
+    .heading {
+      margin-bottom: get-rem-desktop(40);
+    }
   }
 }
 
@@ -364,23 +369,19 @@ body.bg-white {
     padding-bottom: get-rem-mobile(56);
   }
 
+  .media-wrap {
+    @include aspect-ratio(3, 4);
+  }
+
   .media-1 {
     @media only screen and (max-width: 768px) {
       width: get-rem-mobile(200);
-    }
-
-    .media-wrap {
-      @include aspect-ratio(410, 500);
     }
   }
 
   .media-2 {
     @media only screen and (max-width: 768px) {
       width: 100%;
-    }
-
-    .media-wrap {
-      @include aspect-ratio(580, 680);
     }
   }
 }

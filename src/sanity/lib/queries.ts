@@ -114,7 +114,7 @@ const introWithMediaCtaLink = groq`cta[0] {
   ),
   "fileUrl": file.asset->url
 }`
-const introWithMediaFields = groq`mediaType, "image": image ${imageFragment}, "imageMobile": imageMobile ${imageFragment}, video, copy, alignment,
+const introWithMediaFields = groq`mediaType, title, "image": image ${imageFragment}, "imageMobile": imageMobile ${imageFragment}, video, copy, alignment,
   ${introWithMediaCtaLink}`
 
 const textTitleSectionFields = groq`title, copy`

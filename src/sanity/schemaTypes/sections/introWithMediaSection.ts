@@ -40,6 +40,11 @@ export default defineType({
       hidden: ({ parent }) => parent?.mediaType !== 'video',
     }),
     defineField({
+      name: 'title',
+      title: 'Title',
+      type: 'internationalizedArrayString',
+    }),
+    defineField({
       name: 'copy',
       title: 'Copy',
       type: 'internationalizedArrayRichPortableText',

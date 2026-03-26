@@ -77,6 +77,7 @@ type IntroWithMediaBlock = {
   _type: 'introWithMediaSection'
   _key: string
   mediaType?: 'image' | 'video' | null
+  title?: InternationalizedValue | null
   image?: SanityImage | null
   imageMobile?: SanityImage | null
   video?: SanityBunnyVideo | null
@@ -231,6 +232,7 @@ export default function FlexibleContent({
             <IntroWithMediaSection
               key={block._key}
               mediaType={block.mediaType ?? 'image'}
+              title={block.title}
               image={block.image}
               imageMobile={block.imageMobile}
               video={block.video}

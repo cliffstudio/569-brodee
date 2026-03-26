@@ -3,8 +3,8 @@
 import { PortableText } from '@portabletext/react'
 import { portableTextComponents } from '@/components/PortableTextComponents'
 import type { SanityImage, SanityVideo } from '@/types/sanity'
-import type { InternationalizedPortableText } from '@/lib/locale'
-import { resolveInternationalizedPortableText } from '@/lib/locale'
+import type { InternationalizedPortableText, InternationalizedValue } from '@/lib/locale'
+import { resolveInternationalized, resolveInternationalizedPortableText } from '@/lib/locale'
 import ResponsiveSanityImage from '@/components/ResponsiveSanityImage'
 import { videoUrlFor, videoPosterFor } from '@/sanity/utils/videoUrlBuilder'
 import Link from 'next/link'
@@ -22,6 +22,7 @@ export type IntroWithMediaCta = {
 
 export interface IntroWithMediaSectionProps {
   mediaType?: 'image' | 'video' | null
+  title?: InternationalizedValue | null
   image?: SanityImage | null
   imageMobile?: SanityImage | null
   video?: SanityVideo | null
@@ -33,6 +34,7 @@ export interface IntroWithMediaSectionProps {
 
 export default function IntroWithMediaSection({
   mediaType = 'image',
+  title,
   image,
   imageMobile,
   video,
@@ -42,6 +44,7 @@ export default function IntroWithMediaSection({
   locale,
 }: IntroWithMediaSectionProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
+  const resolvedTitle = resolveInternationalized(title ?? undefined, locale)
   const resolvedCopy = resolveInternationalizedPortableText(copy ?? undefined, locale)
   const hasImage = mediaType === 'image' && image
   const hasVideo = mediaType === 'video' && video
@@ -53,7 +56,7 @@ export default function IntroWithMediaSection({
     (cta?.slug != null ? `/${cta.slug}` : null) ?? cta?.url ?? cta?.fileUrl ?? null
   const ctaLabel = cta?.label ?? null
 
-  const hasContent = hasMedia || resolvedCopy || ctaLabel
+  const hasContent = hasMedia || resolvedTitle || resolvedCopy || ctaLabel
   if (!hasContent) return null
 
   const alignmentClass = alignment === 'right' ? 'align-right' : 'align-left'
@@ -87,6 +90,7 @@ export default function IntroWithMediaSection({
 
   const copyBlock = (
     <div className="intro-with-media-copy text-wrap col-6-12_lg out-of-view">
+      {resolvedTitle && <div className="heading uppercase">{resolvedTitle}</div>}
       {resolvedCopy && (
         <div className="text">
           <PortableText value={resolvedCopy as any} components={portableTextComponents} />
