@@ -1,11 +1,27 @@
 import { defineType, defineField } from 'sanity'
 import { VideoIcon } from '@sanity/icons'
+import { createLayoutReferenceInput } from '../../components/LayoutReferenceInput'
+
+const IntroWithMediaLayoutReferenceInput = createLayoutReferenceInput({
+  imagePath: '/layout-references/intro-with-media.jpg',
+  alt: 'Text and media section layout reference',
+})
 
 export default defineType({
   name: 'introWithMediaSection',
-  title: 'Text & Media',
+  title: 'Text & Portrait Media',
   type: 'object',
   fields: [
+    defineField({
+      name: 'layoutReference',
+      title: 'Layout Reference',
+      type: 'string',
+      readOnly: true,
+      initialValue: 'reference-only',
+      components: {
+        input: IntroWithMediaLayoutReferenceInput,
+      },
+    }),
     defineField({
       name: 'mediaType',
       title: 'Media Type',
@@ -77,7 +93,7 @@ export default defineType({
     },
     prepare({ mediaType, image }) {
       const isVideo = mediaType === 'video'
-      const title = isVideo ? 'Text & Video' : 'Text & Image'
+      const title = isVideo ? 'Text & Portrait Video' : 'Text & Portrait Image'
       const media = isVideo ? VideoIcon : image
       return { title, media }
     },

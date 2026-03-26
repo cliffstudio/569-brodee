@@ -3,7 +3,7 @@ import { VideoIcon } from '@sanity/icons'
 
 export default defineType({
   name: 'dualMediaSection',
-  title: 'Double Media',
+  title: 'Double Portrait Media',
   type: 'object',
   fields: [
     defineField({
@@ -94,7 +94,7 @@ export default defineType({
     },
     prepare({ mediaType1, image1 }) {
       const isVideo = mediaType1 === 'video'
-      const title = 'Double Media'
+      const title = 'Double Portrait Media'
       const media = isVideo ? VideoIcon : image1
       return { title, media }
     },
