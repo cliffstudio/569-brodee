@@ -407,19 +407,22 @@ body.bg-white {
 
   &.cards-1 {
     height: 100svh;
-    padding-top: get-rem-desktop(75);
-    padding-bottom: get-rem-desktop(75);
-
+    
     @media only screen and (max-width: 768px) {
       height: get-rem-mobile(520);
-      padding-top: get-rem-mobile(35);
-      padding-bottom: get-rem-mobile(35);
     }
 
     a {
       display: block;
       height: 100%;
       width: 100%;
+      padding-top: get-rem-desktop(75);
+      padding-bottom: get-rem-desktop(75);
+
+      @media only screen and (max-width: 768px) {
+        padding-top: get-rem-mobile(35);
+        padding-bottom: get-rem-mobile(35);
+      }
 
       @media (hover: hover) {
         &:hover {
@@ -466,6 +469,7 @@ body.bg-white {
 
     .project-card {
       display: block;
+      position: relative;
 
       @media only screen and (max-width: 768px) {
         margin-bottom: get-rem-mobile(36);
@@ -505,6 +509,27 @@ body.bg-white {
         @media only screen and (max-width: 768px) {
           margin-top: get-rem-mobile(12);
         }
+      }
+    }
+
+    .cta-link-wrap {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: get-rem-desktop(40);
+      color: $colour-white;
+
+      @media only screen and (max-width: 768px) {
+        padding: get-rem-mobile(24);
+      }
+
+      svg {
+        stroke: $colour-white;
+      }
+
+      .cta-link {
+        margin-top: 0;
       }
     }
   }

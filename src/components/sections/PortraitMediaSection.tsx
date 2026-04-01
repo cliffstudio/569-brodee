@@ -84,15 +84,13 @@ export default function PortraitMediaSection({
     <section className={`portrait-media-section ${alignmentClass} h-pad row-lg`}>
       {alignment === 'right' ? (
         <>
-          <div className="col-6-12_lg dummy-col"></div>
+          <div className="col-7-12_lg dummy-col"></div>
           {mediaBlock}
-          <div className="col-1-12_lg dummy-col"></div>
         </>
       ) : (
         <>
-          <div className="col-1-12_lg dummy-col"></div>
           {mediaBlock}
-          <div className="col-6-12_lg dummy-col"></div>
+          <div className="col-7-12_lg dummy-col"></div>
         </>
       )}
     </section>

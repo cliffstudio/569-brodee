@@ -105,8 +105,8 @@ export default function ProjectCardSection({
 
   if (n === '1' && card1) {
     return (
-      <section className="project-card-section h-pad cards-1">
-        <Link href={`/works/${card1.slug ?? ''}`}>
+      <section className="project-card-section cards-1">
+        <Link href={`/works/${card1.slug ?? ''}`} className="h-pad">
           {card1.mainImage && (
             <ResponsiveSanityImage
               desktop={card1.mainImage}
