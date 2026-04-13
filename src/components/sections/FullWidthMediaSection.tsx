@@ -67,7 +67,7 @@ export default function FullWidthMediaSection({
 
   return (
     <section className="full-width-media-section">
-      <SplideCarousel images={carouselImages} />
+      <SplideCarousel images={carouselImages} interval={4000} />
     </section>
   )
 }

@@ -9,6 +9,7 @@ import ArrowRightIcon from '@/components/icons/ArrowRightIcon'
 interface SplideCarouselProps {
   images: Array<{ desktopUrl: string; mobileUrl?: string; alt?: string }>
   autoplay?: boolean
+  interval?: number
   arrows?: boolean
   onPrevious?: () => void
   onNext?: () => void
@@ -17,6 +18,7 @@ interface SplideCarouselProps {
 export default function SplideCarousel({
   images,
   autoplay = true,
+  interval = 1800,
   arrows = false,
   onPrevious,
   onNext,
@@ -52,7 +54,7 @@ export default function SplideCarousel({
     pagination: false,
     lazyLoad: 'nearby' as const,
     autoplay,
-    interval: 1800,
+    interval,
     speed: 1700,
     pauseOnHover: !autoplay,
     resetProgress: false,

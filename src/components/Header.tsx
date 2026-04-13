@@ -46,7 +46,7 @@ export default function Header({
   const pathname = usePathname() || '/'
   const isHomePage = pathname === '/' || pathname === ''
   const [isHiddenOnScroll, setIsHiddenOnScroll] = useState(false)
-  const [isInitialTranslatedUp, setIsInitialTranslatedUp] = useState(true)
+  const [isIntroVisible, setIsIntroVisible] = useState(!isHomePage)
   const lastScrollY = useRef(0)
 
   const [isMenuVisible, setIsMenuVisible] = useState(false)
@@ -55,7 +55,7 @@ export default function Header({
   const innerWrapRef = useRef<HTMLDivElement>(null)
   const menuToggleRef = useRef<HTMLDivElement>(null)
   const cursorSvgRef = useRef<SVGSVGElement | null>(null)
-  const cursorDotRef = useRef<SVGGElement | null>(null)
+  const cursorShapeRef = useRef<SVGGElement | null>(null)
   const animationFrameRef = useRef<number | null>(null)
   const isInitialMount = useRef(true)
 
@@ -68,11 +68,6 @@ export default function Header({
     const update = () => setIsMobile(mql.matches)
     update()
     mql.addEventListener('change', update)
-
-    // Allow initial slide-in animation to complete before enabling scroll-hide
-    const initialTimer = setTimeout(() => {
-      setIsInitialTranslatedUp(false)
-    }, 750)
 
     lastScrollY.current = getScrollY()
 
@@ -105,10 +100,26 @@ export default function Header({
 
     return () => {
       mql.removeEventListener('change', update)
-      clearTimeout(initialTimer)
       cleanupScroll()
     }
   }, [])
+
+  // Homepage intro: fade logo in, then menu.
+  useEffect(() => {
+    if (!isHomePage) {
+      setIsIntroVisible(true)
+      return
+    }
+
+    setIsIntroVisible(false)
+    const introTimer = window.setTimeout(() => {
+      setIsIntroVisible(true)
+    }, 30)
+
+    return () => {
+      window.clearTimeout(introTimer)
+    }
+  }, [isHomePage])
 
   // Body scroll detection
   useEffect(() => {
@@ -229,9 +240,9 @@ export default function Header({
     if (typeof window === 'undefined') return
 
     const svg = cursorSvgRef.current
-    const dotGroup = cursorDotRef.current
+    const cursorShape = cursorShapeRef.current
 
-    if (!svg || !dotGroup) return
+    if (!svg || !cursorShape) return
 
     const isCoarsePointer = window.matchMedia?.('(pointer: coarse)').matches
     const isSmallViewport = window.innerWidth <= 1024
@@ -251,7 +262,7 @@ export default function Header({
     const mouse = { x: 0, y: 0 }
     const mouseStored = { ...mouse }
 
-    gsap.set(dotGroup, { transformOrigin: '50% 50%' })
+    gsap.set(cursorShape, { transformOrigin: '50% 50%' })
     svg.setAttribute('viewBox', `0 0 ${screen.width} ${screen.height}`)
 
     const resizeHandler = () => {
@@ -268,7 +279,7 @@ export default function Header({
     const animateDot = () => {
       if (mouseStored.x === mouse.x && mouseStored.y === mouse.y) return
 
-      gsap.to(dotGroup, {
+      gsap.to(cursorShape, {
         x: mouse.x,
         y: mouse.y,
         ease: 'elastic.out(1.25, 1)',
@@ -325,9 +336,7 @@ export default function Header({
   return (
     <>
       <header
-        className={`site-header h-pad${
-          isHomePage && isInitialTranslatedUp ? ' is-translated-up' : ''
-        }${isHiddenOnScroll ? ' is-hidden-on-scroll' : ''}${isMenuVisible ? ' is-menu-open' : ''}`}
+        className={`site-header h-pad${isHomePage ? ' is-home-intro' : ''}${isHomePage && isIntroVisible ? ' is-home-intro-visible' : ''}${isHiddenOnScroll ? ' is-hidden-on-scroll' : ''}${isMenuVisible ? ' is-menu-open' : ''}`}
       >
         <div className="logo-wrap">
           <Logo />
@@ -458,8 +467,7 @@ export default function Header({
         preserveAspectRatio="xMidYMid slice"
         aria-hidden="true"
       >
-        <g ref={cursorDotRef} className="cursor-shape">
-          <circle className="dot" r="8" cx="0" cy="0" />
+        <g ref={cursorShapeRef} className="cursor-shape">
           <path
             className="cursor-arrow cursor-arrow-right"
             d="M4 3.5L11.5 -4L4 -11.5"
