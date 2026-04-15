@@ -101,7 +101,7 @@ function MediaWithCopy({
             )}
           </div>
           {ctaLabel && ctaHref && (
-            <Link href={ctaHref} className="cta-link">
+            <Link href={ctaHref} className="cta-link script-font">
               {ctaLabel}
               <ArrowRightIcon />
             </Link>
