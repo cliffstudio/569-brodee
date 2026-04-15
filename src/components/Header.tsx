@@ -343,7 +343,7 @@ export default function Header({
           <Link href="/" />
         </div>
 
-        <nav className="header-nav" ref={innerWrapRef}>
+        <nav className="header-nav text-s" ref={innerWrapRef}>
           {menu.map((item) => {
             const label = item.label || item.pageTitle || 'Link'
             const isInternal = item._type === 'internal' && item.slug !== undefined && item.slug !== null

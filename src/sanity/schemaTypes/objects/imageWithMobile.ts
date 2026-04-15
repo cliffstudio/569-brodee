@@ -10,6 +10,7 @@ export const imageWithMobileType = defineType({
       name: 'image',
       title: 'Image (Desktop)',
       type: 'image',
+      options: { hotspot: true },
       validation: (Rule) => [
         Rule.required().error('Desktop image is required.'),
       ],
@@ -18,6 +19,7 @@ export const imageWithMobileType = defineType({
       name: 'mobileImage',
       title: 'Image (Mobile)',
       type: 'image',
+      options: { hotspot: true },
       description: 'Defaults to desktop image if not set.',
     }),
   ],

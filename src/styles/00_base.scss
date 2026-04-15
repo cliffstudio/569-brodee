@@ -13,56 +13,66 @@ html, body {
   overscroll-behavior: none;
 
   &.bg-black,
-  &.bg-black section {
+  &.bg-black section:not(.policy-section),
+  &.bg-black .policy-page {
     background-color: $colour-black;
   }
 
   &.bg-charcoal,
-  &.bg-charcoal section {
+  &.bg-charcoal section:not(.policy-section),
+  &.bg-charcoal .policy-page {
     background-color: $colour-charcoal;
   }
 
   &.bg-espresso,
-  &.bg-espresso section {
+  &.bg-espresso section:not(.policy-section),
+  &.bg-espresso .policy-page {
     background-color: $colour-espresso;
   }
 
   &.bg-walnut,
-  &.bg-walnut section {
+  &.bg-walnut section:not(.policy-section),
+  &.bg-walnut .policy-page {
     background-color: $colour-walnut;
   }
 
   &.bg-fern,
-  &.bg-fern section {
+  &.bg-fern section:not(.policy-section),
+  &.bg-fern .policy-page {
     background-color: $colour-fern;
   }
 
   &.bg-terracotta,
-  &.bg-terracotta section {
+  &.bg-terracotta section:not(.policy-section),
+  &.bg-terracotta .policy-page {
     background-color: $colour-terracotta;
   }
 
   &.bg-birch,
-  &.bg-birch section {
+  &.bg-birch section:not(.policy-section),
+  &.bg-birch .policy-page {
     background-color: $colour-birch;
     color: $colour-black;
   }
 
   &.bg-sage,
-  &.bg-sage section {
+  &.bg-sage section:not(.policy-section),
+  &.bg-sage .policy-page {
     background-color: $colour-sage;
     color: $colour-black;
   }
 
   &.bg-chalk,
   &.page-404,
-  &.bg-chalk section {
+  &.bg-chalk section:not(.policy-section),
+  &.bg-chalk .policy-page {
     background-color: $colour-chalk;
     color: $colour-black;
   }
 
   &.bg-white,
-  &.bg-white section {
+  &.bg-white section:not(.policy-section),
+  &.bg-white .policy-page {
     background-color: $colour-white;
     color: $colour-black;
   }
@@ -77,14 +87,18 @@ html, body {
 body {
   font-family: "hanken-grotesk", sans-serif;
   font-weight: 400;
-  @include font-size(16px, 16px);
-  line-height: calc(17.6 / 16) + em;
-  letter-spacing: 0.01em;
+  @include font-size(16px, 18px);
+  line-height: calc(19.8 / 18) + em;
+  letter-spacing: 0.03em;
   font-feature-settings: 'ss01' on;
   text-rendering: optimizeLegibility;
   color: $colour-white;
 	margin: 0;
 	padding: 0;
+
+  @media only screen and (max-width: 768px) {
+    line-height: calc(17.6 / 16) + em;
+  }
 }
 
 main {

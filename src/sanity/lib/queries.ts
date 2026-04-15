@@ -15,14 +15,6 @@ const imageFragment = groq`{
   crop
 }`
 
-// Note: videoFragment kept for backward compatibility but video fields now use URL strings
-const videoFragment = groq`{
-  asset {
-    _ref,
-    _type
-  }
-}`
-
 // Resolve internal link path (pages use slug; projects/case studies use /works/[slug])
 const internalLinkSlug = groq`select(
   page->_type == "caseStudy" => "works/" + page->slug.current,
@@ -86,7 +78,7 @@ const imageArrayItemFragment = groq`{
 const fullWidthMediaSectionFields = groq`mediaType, "images": images[] ${imageArrayItemFragment}, video, videoMobile`
 const heroTextCtaLink = groq`cta[0] {
   _type,
-  label,
+  "label": coalesce(label, page->title),
   url,
   "slug": select(
     page->_type == "caseStudy" => "works/" + page->slug.current,
@@ -96,17 +88,49 @@ const heroTextCtaLink = groq`cta[0] {
 }`
 const heroTextSectionFields = groq`newTitle, newTitleMobile, copy, alignment, ${heroTextCtaLink}`
 const landscapeMediaFields = groq`mediaType, "image": image ${imageFragment}, "imageMobile": imageMobile ${imageFragment}, video, caption, alignment`
-const portraitMediaFields = groq`mediaType, "image": image ${imageFragment}, "imageMobile": imageMobile ${imageFragment}, video, caption, alignment`
 const landscapeMediaProjectInfoSectionFields = groq`mediaType, "image": image ${imageFragment}, "imageMobile": imageMobile ${imageFragment}, video, projectInfo[] { _key, title, copy }`
 const dualMediaFields = groq`mediaType1, "image1": image1 ${imageFragment}, "image1Mobile": image1Mobile ${imageFragment}, video1, mediaType2, "image2": image2 ${imageFragment}, "image2Mobile": image2Mobile ${imageFragment}, video2, alignment`
+const doubleMediaWithTextCta1Link = groq`cta1[0] {
+  _type,
+  "label": coalesce(label, page->title),
+  url,
+  "slug": select(
+    page->_type == "caseStudy" => "works/" + page->slug.current,
+    page->slug.current
+  ),
+  "fileUrl": file.asset->url
+}`
+const doubleMediaWithTextCta2Link = groq`cta[0] {
+  _type,
+  "label": coalesce(label, page->title),
+  url,
+  "slug": select(
+    page->_type == "caseStudy" => "works/" + page->slug.current,
+    page->slug.current
+  ),
+  "fileUrl": file.asset->url
+}`
+const doubleMediaWithTextFields = groq`mediaType1, "image1": image1 ${imageFragment}, "image1Mobile": image1Mobile ${imageFragment}, video1, title1, copy1, ${doubleMediaWithTextCta1Link}, mediaType2, "image2": image2 ${imageFragment}, "image2Mobile": image2Mobile ${imageFragment}, video2, title2, copy2, ${doubleMediaWithTextCta2Link}`
 const projectCardFields = groq`"mainImage": mainImage ${imageFragment}, "mainImageMobile": mainImageMobile ${imageFragment}, title, "slug": slug.current`
 const projectCardSectionFields = groq`title, numberOfCards,
   "card1": card1-> { ${projectCardFields} },
   "card2": card2-> { ${projectCardFields} },
   "card3": card3-> { ${projectCardFields} }`
+const linkCardItemFields = groq`{
+  "link": link {
+    label,
+    href,
+    openInNewTab
+  },
+  "image": image ${imageFragment}
+}`
+const linkCardSectionFields = groq`title, numberOfCards,
+  "card1": card1 ${linkCardItemFields},
+  "card2": card2 ${linkCardItemFields},
+  "card3": card3 ${linkCardItemFields}`
 const introWithMediaCtaLink = groq`cta[0] {
   _type,
-  label,
+  "label": coalesce(label, page->title),
   url,
   "slug": select(
     page->_type == "caseStudy" => "works/" + page->slug.current,
@@ -117,10 +141,9 @@ const introWithMediaCtaLink = groq`cta[0] {
 const introWithMediaFields = groq`mediaType, title, "image": image ${imageFragment}, "imageMobile": imageMobile ${imageFragment}, video, copy, alignment,
   ${introWithMediaCtaLink}`
 
-const textTitleSectionFields = groq`title, copy`
 const quoteSectionFields = groq`quote, author`
-const logoCarouselSectionFields = groq`title, "images": images[] ${imageArrayItemFragment}`
 const imageCarouselSectionFields = groq`"images": images[] ${imageArrayItemFragment}`
+const spacerSectionFields = groq`heightDesktop, heightMobile`
 
 const contentBlocksFragment = groq`contentBlocks[] {
   _type,
@@ -128,18 +151,15 @@ const contentBlocksFragment = groq`contentBlocks[] {
   ...select(_type == "fullWidthMediaSection" => { ${fullWidthMediaSectionFields} }),
   ...select(_type == "heroTextSection" => { ${heroTextSectionFields} }),
   ...select(_type == "landscapeMediaSection" => { ${landscapeMediaFields} }),
-  ...select(_type == "portraitMediaSection" => { ${portraitMediaFields} }),
   ...select(_type == "landscapeMediaProjectInfoSection" => { ${landscapeMediaProjectInfoSectionFields} }),
   ...select(_type == "introWithMediaSection" => { ${introWithMediaFields} }),
   ...select(_type == "dualMediaSection" => { ${dualMediaFields} }),
-  ...select(_type == "projectCardSection" => { title, numberOfCards,
-  "card1": card1-> { ${projectCardFields} },
-  "card2": card2-> { ${projectCardFields} },
-  "card3": card3-> { ${projectCardFields} } }),
-  ...select(_type == "textTitleSection" => { ${textTitleSectionFields} }),
+  ...select(_type == "doubleMediaWithTextSection" => { ${doubleMediaWithTextFields} }),
+  ...select(_type == "projectCardSection" => { ${projectCardSectionFields} }),
+  ...select(_type == "linkCardSection" => { ${linkCardSectionFields} }),
   ...select(_type == "quoteSection" => { ${quoteSectionFields} }),
-  ...select(_type == "logoCarouselSection" => { ${logoCarouselSectionFields} }),
-  ...select(_type == "imageCarouselSection" => { ${imageCarouselSectionFields} })
+  ...select(_type == "imageCarouselSection" => { ${imageCarouselSectionFields} }),
+  ...select(_type == "spacerSection" => { ${spacerSectionFields} })
 }`
 
 // ——— Pages ———
@@ -299,13 +319,12 @@ const siteSettingsProjection = groq`{
   },
   "footer": footer[] { _key, value },
   footerMenu[] {
-    _type,
     _key,
-    label,
-    "slug": ${internalLinkSlug},
-    "pageTitle": ${internalLinkTitle},
-    url,
-    "fileUrl": file.asset->url
+    "iconUrl": icon.asset->url,
+    "link": {
+      "href": link.href,
+      "openInNewTab": link.openInNewTab
+    }
   },
   footerText
 }`
@@ -315,9 +334,3 @@ export const headerMenuQuery = groq`coalesce(
   *[_id == "siteSettings"][0] ${siteSettingsProjection}
 )`
 
-// Export fragments for reuse in other queries if needed
-export const fragments = {
-  imageFragment,
-  videoFragment,
-  linkFragment
-}

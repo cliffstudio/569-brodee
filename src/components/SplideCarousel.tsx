@@ -51,7 +51,7 @@ export default function SplideCarousel({
     type: 'fade',
     rewind: true,
     arrows,
-    pagination: false,
+    pagination: !autoplay,
     lazyLoad: 'nearby' as const,
     autoplay,
     interval,

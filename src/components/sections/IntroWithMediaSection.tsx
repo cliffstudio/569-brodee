@@ -89,8 +89,8 @@ export default function IntroWithMediaSection({
   ) : null
 
   const copyBlock = (
-    <div className="intro-with-media-copy text-wrap col-6-12_lg out-of-view">
-      {resolvedTitle && <div className="heading uppercase">{resolvedTitle}</div>}
+    <div className="text-wrap col-4-12_lg out-of-view">
+      {resolvedTitle && <h3 className="heading uppercase">{resolvedTitle}</h3>}
       {resolvedCopy && (
         <div className="text">
           <PortableText value={resolvedCopy as any} components={portableTextComponents} />
@@ -109,15 +109,17 @@ export default function IntroWithMediaSection({
     <section className={`intro-with-media-section ${alignmentClass} h-pad row-lg`}>
       {alignment === 'right' ? (
         <>
+          <div className="col-1-12_lg dummy-col"></div>
           {copyBlock}
-          <div className="col-2-12_lg dummy-col"></div>
+          <div className="col-3-12_lg dummy-col"></div>
           {mediaBlock}
         </>
       ) : (
         <>
           {mediaBlock}
-          <div className="col-2-12_lg dummy-col"></div>
+          <div className="col-3-12_lg dummy-col"></div>
           {copyBlock}
+          <div className="col-1-12_lg dummy-col"></div>
         </>
       )}
     </section>

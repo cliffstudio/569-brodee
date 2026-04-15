@@ -2,15 +2,9 @@ import { defineType, defineField } from 'sanity'
 
 export default defineType({
   name: 'projectCardSection',
-  title: 'Project Card',
+  title: 'Project Cards',
   type: 'object',
   fields: [
-    defineField({
-      name: 'title',
-      title: 'Title',
-      type: 'internationalizedArrayString',
-      description: 'Will be shown on the left of the cards.',
-    }),
     defineField({
       name: 'numberOfCards',
       title: 'Number of Cards',
@@ -25,6 +19,13 @@ export default defineType({
         layout: 'radio',
         direction: 'horizontal',
       },
+    }),
+    defineField({
+      name: 'title',
+      title: 'Title',
+      type: 'internationalizedArrayString',
+      description: 'Will be shown on the left of the card if there is only one card.',
+      hidden: ({ parent }) => parent?.numberOfCards !== '1',
     }),
     defineField({
       name: 'card1',
@@ -49,12 +50,10 @@ export default defineType({
   ],
   preview: {
     select: {
-      numberOfCards: 'numberOfCards',
-      card1: 'card1',
       card1Image: 'card1.mainImage',
     },
-    prepare({ numberOfCards, card1Image }) {
-      const title = 'Project Card'
+    prepare({ card1Image }) {
+      const title = 'Project Cards'
       const media = card1Image
       return { title, media }
     },

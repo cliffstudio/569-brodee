@@ -86,9 +86,9 @@ export default function LandscapeMediaProjectInfoSection({
         if (!resolvedTitle && !resolvedCopy) return null
         return (
           <div key={item._key ?? index}>
-            {resolvedTitle && <div className="heading uppercase bold">{resolvedTitle}</div>}
+            {resolvedTitle && <div className="heading bold">{resolvedTitle}</div>}
             {resolvedCopy && (
-              <div className="copy uppercase">
+              <div className="copy">
                 <PortableText value={resolvedCopy as any} components={portableTextComponents} />
               </div>
             )}

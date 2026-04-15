@@ -46,12 +46,14 @@ export const caseStudyType = defineType({
       name: 'mainImage',
       title: 'Main Image (Desktop)',
       type: 'image',
+      options: { hotspot: true },
       description: 'Used for the project thumbnail.',
     }),
     defineField({
       name: 'mainImageMobile',
       title: 'Main Image (Mobile)',
       type: 'image',
+      options: { hotspot: true },
       description: 'Optional. Defaults to main image if not set.',
     }),
     defineField({

@@ -40,12 +40,14 @@ export default defineType({
       name: 'image',
       title: 'Image (Desktop)',
       type: 'image',
+      options: { hotspot: true },
       hidden: ({ parent }) => parent?.mediaType !== 'image',
     }),
     defineField({
       name: 'imageMobile',
       title: 'Image (Mobile)',
       type: 'image',
+      options: { hotspot: true },
       description: 'Optional. Defaults to desktop image if not set.',
       hidden: ({ parent }) => parent?.mediaType !== 'image',
     }),
@@ -93,7 +95,7 @@ export default defineType({
     },
     prepare({ mediaType, image }) {
       const isVideo = mediaType === 'video'
-      const title = 'Text & Media'
+      const title = 'Text & Portrait Media'
       const media = isVideo ? VideoIcon : image
       return { title, media }
     },

@@ -2,14 +2,14 @@ import { defineType, defineField } from 'sanity'
 import { VideoIcon } from '@sanity/icons'
 import { createLayoutReferenceInput } from '@/sanity/components/LayoutReferenceInput'
 
-const DualMediaLayoutReferenceInput = createLayoutReferenceInput({
-  imagePath: '/layout-references/double-portrait-media.jpg',
-  alt: 'Double portrait media section layout reference',
+const DoubleMediaAndTextLayoutReferenceInput = createLayoutReferenceInput({
+  imagePath: '/layout-references/double-media-and-text.jpg',
+  alt: 'Double media and text section layout reference',
 })
 
 export default defineType({
-  name: 'dualMediaSection',
-  title: 'Double Portrait Media',
+  name: 'doubleMediaWithTextSection',
+  title: 'Double Media & Text',
   type: 'object',
   fields: [
     defineField({
@@ -19,7 +19,7 @@ export default defineType({
       readOnly: true,
       initialValue: 'reference-only',
       components: {
-        input: DualMediaLayoutReferenceInput,
+        input: DoubleMediaAndTextLayoutReferenceInput,
       },
     }),
     defineField({
@@ -48,7 +48,7 @@ export default defineType({
       title: 'Small Image (Mobile)',
       type: 'image',
       options: { hotspot: true },
-      description: 'Optional. Defaults to small image if not set.',
+      description: 'Optional. Defaults to desktop image if not set.',
       hidden: ({ parent }) => parent?.mediaType1 !== 'image',
     }),
     defineField({
@@ -56,6 +56,22 @@ export default defineType({
       title: 'Small Video',
       type: 'bunnyVideo',
       hidden: ({ parent }) => parent?.mediaType1 !== 'video',
+    }),
+    defineField({
+      name: 'title1',
+      title: 'Small Title',
+      type: 'internationalizedArrayString',
+    }),
+    defineField({
+      name: 'copy1',
+      title: 'Small Copy',
+      type: 'internationalizedArrayRichPortableText',
+    }),
+    defineField({
+      name: 'cta1',
+      title: 'Small CTA',
+      type: 'links',
+      validation: (Rule) => Rule.max(1),
     }),
     defineField({
       name: 'mediaType2',
@@ -83,7 +99,7 @@ export default defineType({
       title: 'Large Image (Mobile)',
       type: 'image',
       options: { hotspot: true },
-      description: 'Optional. Defaults to large image if not set.',
+      description: 'Optional. Defaults to desktop image if not set.',
       hidden: ({ parent }) => parent?.mediaType2 !== 'image',
     }),
     defineField({
@@ -93,18 +109,20 @@ export default defineType({
       hidden: ({ parent }) => parent?.mediaType2 !== 'video',
     }),
     defineField({
-      name: 'alignment',
-      title: 'Alignment',
-      type: 'string',
-      initialValue: 'left',
-      options: {
-        list: [
-          { title: 'Small (Left) & Large (Right)', value: 'left' },
-          { title: 'Large (Left) & Small (Right)', value: 'right' },
-        ],
-        layout: 'radio',
-        direction: 'horizontal',
-      },
+      name: 'title2',
+      title: 'Large Title',
+      type: 'internationalizedArrayString',
+    }),
+    defineField({
+      name: 'copy2',
+      title: 'Large Copy',
+      type: 'internationalizedArrayRichPortableText',
+    }),
+    defineField({
+      name: 'cta',
+      title: 'Large CTA',
+      type: 'links',
+      validation: (Rule) => Rule.max(1),
     }),
   ],
   preview: {
@@ -114,7 +132,7 @@ export default defineType({
     },
     prepare({ mediaType1, image1 }) {
       const isVideo = mediaType1 === 'video'
-      const title = 'Double Portrait Media'
+      const title = 'Double Media & Text'
       const media = isVideo ? VideoIcon : image1
       return { title, media }
     },

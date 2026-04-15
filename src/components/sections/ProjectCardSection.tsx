@@ -77,9 +77,9 @@ export default function ProjectCardSection({
     const contentWrap = sectionEl?.querySelector('.content-wrap')
     if (!sectionEl || !contentWrap) return
 
-    const sectionStyle = getComputedStyle(sectionEl)
-    const paddingTop = parseFloat(sectionStyle.paddingTop || '75')
-    const paddingBottom = parseFloat(sectionStyle.paddingBottom || '75')
+    const stickyOffset = 40
+    const paddingTop = stickyOffset
+    const paddingBottom = stickyOffset
     const contentWrapHeight = contentWrap.getBoundingClientRect().height
     const endOffset = paddingBottom + contentWrapHeight
 
@@ -117,9 +117,9 @@ export default function ProjectCardSection({
 
           {(resolvedTitle || card1.title) && (
             <div className="content-wrap h-pad">
-              {resolvedTitle && <div className="header uppercase out-of-opacity">{resolvedTitle}</div>}
+              {resolvedTitle && <div className="header text-m out-of-opacity">{resolvedTitle}</div>}
               {card1.title && (
-                <div className="cta-link out-of-opacity">
+                <div className="cta-link text-m out-of-opacity">
                   {card1.title}
                   <ArrowRightIcon />
                 </div>

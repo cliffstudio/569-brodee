@@ -92,7 +92,7 @@ export default function HeroTextSection({
     <div className="col-5-12_lg text">
       <PortableText value={resolvedCopy as any} components={portableTextComponents} />
       {ctaLabel && ctaHref && (
-        <Link href={ctaHref} className="cta-link">
+        <Link href={ctaHref} className="cta-link script-font">
           {ctaLabel}
           <ArrowRightIcon />
         </Link>

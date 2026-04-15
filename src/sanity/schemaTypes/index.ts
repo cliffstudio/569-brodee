@@ -7,15 +7,15 @@ import { siteSettingsType } from './documents/siteSettings'
 import fullWidthMediaSection from './sections/fullWidthMediaSection'
 import heroTextSection from './sections/heroTextSection'
 import landscapeMediaSection from './sections/landscapeMediaSection'
-import portraitMediaSection from './sections/portraitMediaSection'
 import landscapeMediaProjectInfoSection from './sections/landscapeMediaProjectInfoSection'
 import introWithMediaSection from './sections/introWithMediaSection'
 import dualMediaSection from './sections/dualMediaSection'
+import doubleMediaWithTextSection from './sections/doubleMediaAndTextSection'
 import projectCardSection from './sections/projectCardSection'
-import textTitleSection from './sections/textTitleSection'
+import linkCardSection from './sections/linkCardSection'
 import quoteSection from './sections/quoteSection'
-import logoCarouselSection from './sections/logoCarouselSection'
 import imageCarouselSection from './sections/imageCarouselSection'
+import spacerSection from './sections/spacerSection'
 
 // Objects
 import linkTypes from './objects/links'
@@ -34,15 +34,15 @@ export const schemaTypes = [
   fullWidthMediaSection,
   heroTextSection,
   landscapeMediaSection,
-  portraitMediaSection,
   landscapeMediaProjectInfoSection,
   introWithMediaSection,
   dualMediaSection,
+  doubleMediaWithTextSection,
   projectCardSection,
-  textTitleSection,
+  linkCardSection,
   quoteSection,
-  logoCarouselSection,
   imageCarouselSection,
+  spacerSection,
 
   // Objects (linkTypes is [linkAnnotation, linksArray] - must spread)
   flexibleContent,

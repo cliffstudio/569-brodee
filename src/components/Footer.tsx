@@ -9,50 +9,46 @@ import {
   resolveInternationalized,
   resolveInternationalizedPortableText,
 } from '@/lib/locale'
-import type { HeaderMenuItem } from '@/components/Header'
 import Logo from './Logo'
 import { useLayoutEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
+type FooterMenuItem = {
+  _key: string
+  iconUrl?: string | null
+  link?: {
+    href?: string | null
+    openInNewTab?: boolean | null
+  } | null
+}
+
 export type FooterProps = {
   footer: {
     title: InternationalizedValue | null
-    menu: HeaderMenuItem[]
+    menu: FooterMenuItem[]
     text: InternationalizedPortableText | null
   }
   locale: string
 }
 
-function getLinkHref(item: HeaderMenuItem): string {
-  if (item._type === 'internal' && item.slug != null) {
-    return item.slug === '' ? '/' : `/${item.slug}`
-  }
-  if (item._type === 'external' && item.url) return item.url
-  if (item._type === 'fileUpload' && item.fileUrl) return item.fileUrl
-  return '#'
-}
+function MenuLink({ item }: { item: FooterMenuItem }) {
+  const href = item.link?.href?.trim()
+  if (!href) return null
 
-function MenuLink({ item }: { item: HeaderMenuItem }) {
-  const label = item.label || item.pageTitle || 'Link'
-  const href = getLinkHref(item)
-  const isInternal = item._type === 'internal' && item.slug != null
+  const isInternalPath = href.startsWith('/')
+  const openInNewTab = Boolean(item.link?.openInNewTab) || !isInternalPath
+  const label = `Footer social link: ${href}`
 
-  if (isInternal) {
-    return (
-      <Link href={href} className="footer-menu-link">
-        {label}
-      </Link>
-    )
-  }
   return (
     <a
       href={href}
       className="footer-menu-link"
-      target="_blank"
-      rel="noopener noreferrer"
+      target={openInNewTab ? '_blank' : undefined}
+      rel={openInNewTab ? 'noopener noreferrer' : undefined}
+      aria-label={label}
     >
-      {label}
+      {item.iconUrl ? <img src={item.iconUrl} alt="" aria-hidden="true" /> : 'Link'}
     </a>
   )
 }
@@ -77,25 +73,19 @@ export default function Footer({ footer, locale }: FooterProps) {
     if (!footer || !footerInner) return
 
     const ctx = gsap.context(() => {
-      const mm = gsap.matchMedia()
+      const media = gsap.matchMedia()
 
-      mm.add(
-        {
-          md: '(min-width: 769px) and (max-width: 1409px)',
-          lg: '(min-width: 1410px)',
-        },
-        ({ conditions }) => {
-          ScrollTrigger.create({
-            trigger: footerInner,
-            pin: true,
-            start: 'bottom bottom',
-            end: conditions?.md ? '+=261' : '+=247',
-            invalidateOnRefresh: true,
-          })
-        }
-      )
+      media.add('(min-width: 769px)', () => {
+        ScrollTrigger.create({
+          trigger: footerInner,
+          pin: true,
+          start: 'bottom bottom',
+          end: '+=248',
+          invalidateOnRefresh: true,
+        })
+      })
 
-      return () => mm.revert()
+      return () => media.revert()
     }, footer)
 
     return () => ctx.revert()
@@ -106,26 +96,28 @@ export default function Footer({ footer, locale }: FooterProps) {
       <div className="footer-inner h-pad">
         <div className="row-lg footer-top out-of-opacity">
           {resolvedTitle && (
-            <div className="col-8-12_lg">
+            <div className="col-10-12_lg">
               <h2 className="footer-title">{resolvedTitle}</h2>
             </div>
           )}
 
-          {menu.length > 0 && (
-            <nav className="footer-nav col-2-12_lg" aria-label="Footer">
-              {menu.map((item) => (
-                <span key={item._key} className="footer-menu-item">
-                  <MenuLink item={item} />
-                </span>
-              ))}
-            </nav>
-          )}
+          <div className="col-2-12_lg">
+            {hasText && (
+              <div className="footer-contact">
+                <PortableText value={resolvedText as any} components={portableTextComponents} />
+              </div>
+            )}
 
-          {hasText && (
-            <div className="footer-contact col-2-12_lg">
-              <PortableText value={resolvedText as any} components={portableTextComponents} />
-            </div>
-          )}
+            {menu.length > 0 && (
+              <nav className="footer-nav" aria-label="Footer">
+                {menu.map((item) => (
+                  <span key={item._key} className="footer-menu-item">
+                    <MenuLink item={item} />
+                  </span>
+                ))}
+              </nav>
+            )}
+          </div>
         </div>
 
         <div className="row-lg footer-bottom out-of-opacity">
@@ -136,11 +128,10 @@ export default function Footer({ footer, locale }: FooterProps) {
             </div>
           </div>
 
-          <div className="col-2-12_lg">
-            Design by{' '}
-            <a href="https://www.frostcollective.com/" target="_blank" rel="noopener noreferrer">
-              Frost*Collective
-            </a>
+          <div className="col-2-12_lg text-xs footer-bottom-text">
+            <span className="footer-bottom-text-copyright">Design by <a href="https://www.frostcollective.com/" target="_blank" rel="noopener noreferrer">Frost*Collective</a></span>
+
+            <span><a href="/privacy-policy">Privacy</a></span>
           </div>
         </div>
       </div>
