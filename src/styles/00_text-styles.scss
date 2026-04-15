@@ -68,12 +68,12 @@ h3 {
   line-height: normal;
   letter-spacing: 0.01em;
   font-feature-settings: 'ss01' on;
-  text-transform: uppercase;
 
   h2 {
     @include font-size(30px, 30px);
     line-height: calc(27 / 30) + em;
     letter-spacing: 0.03em;
+    text-transform: uppercase;
   }
 }
 
