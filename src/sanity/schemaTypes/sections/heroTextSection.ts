@@ -23,17 +23,6 @@ export default defineType({
       },
     }),
     defineField({
-      name: 'title',
-      title: 'Title (Desktop)',
-      type: 'internationalizedArrayString',
-    }),
-    defineField({
-      name: 'titleMobile',
-      title: 'Title (Mobile)',
-      type: 'internationalizedArrayString',
-      description: 'Defaults to desktop title if not set.',
-    }),
-    defineField({
       name: 'newTitle',
       title: 'Title (Desktop)',
       type: 'internationalizedArrayRichPortableText',

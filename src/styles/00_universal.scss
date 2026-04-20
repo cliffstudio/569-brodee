@@ -169,6 +169,16 @@ body.bg-white {
 .hero-text-section {
   .heading {
     max-width: get-rem-desktop(1380);
+
+    .desktop,
+    .mobile {
+      // Allow long words to hyphenate while preserving SplitText line wrappers.
+      hyphens: auto;
+      -webkit-hyphens: auto;
+      hyphenate-character: '-';
+      overflow-wrap: break-word;
+      word-break: normal;
+    }
   }
 
   .text-wrap {

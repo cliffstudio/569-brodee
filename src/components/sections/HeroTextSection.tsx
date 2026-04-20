@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { PortableText } from '@portabletext/react'
 import gsap from 'gsap'
 import { SplitText } from 'gsap/SplitText'
@@ -13,6 +13,40 @@ import ArrowRightIcon from '../icons/ArrowRightIcon'
 import Link from 'next/link'
 
 gsap.registerPlugin(SplitText)
+
+const SOFT_HYPHEN = '\u00AD'
+const LONG_WORD_REGEX = /\p{L}{10,}/gu
+
+function addSoftHyphensToWord(word: string, chunkSize = 7) {
+  if (word.length <= chunkSize) return word
+  return word.replace(new RegExp(`(.{${chunkSize}})`, 'g'), `$1${SOFT_HYPHEN}`).replace(/\u00AD$/u, '')
+}
+
+function addSoftHyphensToText(text: string) {
+  return text.replace(LONG_WORD_REGEX, (word) => addSoftHyphensToWord(word))
+}
+
+function addSoftHyphensToPortableText(blocks: unknown[] | null) {
+  if (!Array.isArray(blocks)) return blocks
+  return blocks.map((block) => {
+    if (!block || typeof block !== 'object') return block
+    const maybeBlock = block as { _type?: string; children?: unknown[] }
+    if (maybeBlock._type !== 'block' || !Array.isArray(maybeBlock.children)) return block
+
+    return {
+      ...maybeBlock,
+      children: maybeBlock.children.map((child) => {
+        if (!child || typeof child !== 'object') return child
+        const maybeSpan = child as { _type?: string; text?: unknown }
+        if (maybeSpan._type !== 'span' || typeof maybeSpan.text !== 'string') return child
+        return {
+          ...maybeSpan,
+          text: addSoftHyphensToText(maybeSpan.text),
+        }
+      }),
+    }
+  })
+}
 export type HeroTextSectionCta = {
   _type?: 'internal' | 'external' | 'fileUpload'
   label?: string | null
@@ -46,6 +80,14 @@ export default function HeroTextSection({
     resolveInternationalizedPortableText(newTitleMobile ?? undefined, locale) ??
     resolvedTitle
   const titleForDesktop = resolvedTitle ?? resolvedTitleMobile
+  const titleForDesktopHyphenated = useMemo(
+    () => addSoftHyphensToPortableText(titleForDesktop),
+    [titleForDesktop]
+  )
+  const titleForMobileHyphenated = useMemo(
+    () => addSoftHyphensToPortableText(resolvedTitleMobile),
+    [resolvedTitleMobile]
+  )
   const resolvedCopy = resolveInternationalizedPortableText(copy ?? undefined, locale)
   const ctaLabel = cta?.label ?? null
   const ctaHref = cta?.slug != null ? `/${cta.slug}` : cta?.url ?? cta?.fileUrl ?? null
@@ -81,7 +123,7 @@ export default function HeroTextSection({
         split.kill()
       })
     }
-  }, [titleForDesktop, resolvedTitleMobile])
+  }, [titleForDesktopHyphenated, titleForMobileHyphenated])
 
   if (!resolvedTitle && !resolvedCopy) return null
 
@@ -102,12 +144,12 @@ export default function HeroTextSection({
 
   return (
     <section className={`hero-text-section ${alignmentClass} h-pad`}>
-      {(titleForDesktop || resolvedTitleMobile) && (
+      {(titleForDesktopHyphenated || titleForMobileHyphenated) && (
         <h1 className="heading">
-          {titleForDesktop && (
-            <span ref={desktopHeadingRef} className="desktop">
+          {titleForDesktopHyphenated && (
+            <span ref={desktopHeadingRef} className="desktop" lang={locale}>
               <PortableText
-                value={titleForDesktop as any}
+                value={titleForDesktopHyphenated as any}
                 components={{
                   block: {
                     normal: ({ children }) => <>{children}</>,
@@ -116,10 +158,10 @@ export default function HeroTextSection({
               />
             </span>
           )}
-          {resolvedTitleMobile && (
-            <span ref={mobileHeadingRef} className="mobile">
+          {titleForMobileHyphenated && (
+            <span ref={mobileHeadingRef} className="mobile" lang={locale}>
               <PortableText
-                value={resolvedTitleMobile as any}
+                value={titleForMobileHyphenated as any}
                 components={{
                   block: {
                     normal: ({ children }) => <>{children}</>,

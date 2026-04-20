@@ -77,7 +77,8 @@ h3 {
   }
 }
 
-.cta-link.script-font {
+.cta-link.script-font,
+.link-card-section .header {
   font-family: 'Cigars';
   font-weight: 200;
   @include font-size(16px, 18px);
