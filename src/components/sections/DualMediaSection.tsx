@@ -39,7 +39,7 @@ function MediaBlock({
   if (!hasImage && !hasVideo) return null
 
   return (
-    <div className={`media-${slot} ${slot === 1 ? 'col-3-12_lg' : 'col-5-12_lg'}`}>
+    <div className={`media-${slot} ${slot === 1 ? 'col-4-12_lg' : 'col-5-12_lg'}`}>
       {hasImage && (
         <div className="media-wrap out-of-opacity">
           <ResponsiveSanityImage
@@ -114,7 +114,6 @@ export default function DualMediaSection({
             video={video2}
             videoRef={video2Ref}
           />
-          <div className="col-1-12_lg dummy-col"></div>
         </>
       ) : (
         <>
@@ -135,7 +134,6 @@ export default function DualMediaSection({
             video={video1}
             videoRef={video1Ref}
           />
-          <div className="col-1-12_lg dummy-col"></div>
         </>
       )}
     </section>
