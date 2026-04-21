@@ -2,11 +2,17 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import gsap from 'gsap'
 import { ScrollSmoother } from 'gsap/ScrollSmoother'
 import Logo from './Logo'
-import { DEFAULT_LOCALE, LOCALE_COOKIE, SUPPORTED_LOCALES } from '@/lib/locale'
+import {
+  DEFAULT_LOCALE,
+  LOCALE_COOKIE,
+  SUPPORTED_LOCALES,
+  resolveInternationalized,
+  type InternationalizedValue,
+} from '@/lib/locale'
 import { DisableBodyScroll, EnableBodyScroll } from '@/lib/scroll'
 
 const TOP_THRESHOLD = 5
@@ -21,7 +27,7 @@ function getScrollY(): number {
 export type HeaderMenuItem = {
   _type: 'internal' | 'external' | 'fileUpload'
   _key: string
-  label?: string | null
+  labelI18n?: InternationalizedValue | null
   pageTitle?: string | null
   slug?: string | null
   url?: string | null
@@ -42,7 +48,6 @@ export default function Header({
   locale?: string
   showLanguageSwitcher?: boolean
 }) {
-  const router = useRouter()
   const pathname = usePathname() || '/'
   const isHomePage = pathname === '/' || pathname === ''
   const [isHiddenOnScroll, setIsHiddenOnScroll] = useState(false)
@@ -330,7 +335,9 @@ export default function Header({
   function handleLocaleClick(nextLocale: string) {
     if (nextLocale === locale) return
     setLocaleCookie(nextLocale)
-    router.refresh()
+    if (typeof window !== 'undefined') {
+      window.location.reload()
+    }
   }
 
   return (
@@ -345,7 +352,8 @@ export default function Header({
 
         <nav className="header-nav text-s" ref={innerWrapRef}>
           {menu.map((item) => {
-            const label = item.label || item.pageTitle || 'Link'
+            const localizedLabel = resolveInternationalized(item.labelI18n ?? undefined, locale)
+            const label = localizedLabel || item.pageTitle || 'Link'
             const isInternal = item._type === 'internal' && item.slug !== undefined && item.slug !== null
             const href = isInternal
               ? item.slug === '' ? '/' : `/${item.slug}`
@@ -407,7 +415,8 @@ export default function Header({
       <div ref={menuOverlayRef} className={`menu-overlay${isMenuVisible ? ' visible' : ''}`}>
         <nav className="menu-overlay-nav h-pad">
           {menu.map((item) => {
-            const label = item.label || item.pageTitle || 'Link'
+            const localizedLabel = resolveInternationalized(item.labelI18n ?? undefined, locale)
+            const label = localizedLabel || item.pageTitle || 'Link'
             const isInternal = item._type === 'internal' && item.slug !== undefined && item.slug !== null
             const href = isInternal
               ? item.slug === '' ? '/' : `/${item.slug}`

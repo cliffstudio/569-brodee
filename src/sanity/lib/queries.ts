@@ -177,7 +177,10 @@ export const pageBySlugQuery = groq`
     template,
     backgroundColour,
     ${contentBlocksFragment},
-    policySections[] { title, text }
+    policySections[] {
+      title[] { _key, value },
+      text[] { _key, value }
+    }
   }
 `
 
@@ -311,7 +314,7 @@ const siteSettingsProjection = groq`{
   headerMenu[] {
     _type,
     _key,
-    label,
+    "labelI18n": labelI18n[] { _key, value },
     "slug": ${internalLinkSlug},
     "pageTitle": ${internalLinkTitle},
     url,

@@ -10,16 +10,16 @@ export default defineType({
     defineField({
       name: 'title',
       title: 'Title',
-      type: 'string',
+      type: 'internationalizedArrayString',
     }),
     defineField({
       name: 'text',
       title: 'Text',
-      type: 'richPortableText',
+      type: 'internationalizedArrayRichPortableText',
     }),
   ],
   preview: {
-    select: { title: 'title' },
+    select: { title: 'title.0.value' },
     prepare({ title }) {
       return {
         title: title || 'Untitled section',

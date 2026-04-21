@@ -4,7 +4,14 @@ import { notFound } from 'next/navigation'
 import { cookies } from 'next/headers'
 import BodyClassProvider from '@/components/BodyClassProvider'
 import FlexibleContent from '@/components/FlexibleContent'
-import { DEFAULT_LOCALE, LOCALE_COOKIE } from '@/lib/locale'
+import {
+  DEFAULT_LOCALE,
+  LOCALE_COOKIE,
+  resolveInternationalized,
+  resolveInternationalizedPortableText,
+  type InternationalizedPortableText,
+  type InternationalizedValue,
+} from '@/lib/locale'
 import { PortableText } from '@portabletext/react'
 import { portableTextComponents } from '@/components/PortableTextComponents'
 
@@ -33,8 +40,8 @@ export default async function PageBySlug({
 
   const isPolicyTemplate = page.template === 'policy'
   const policySections = (isPolicyTemplate && Array.isArray(page.policySections) ? page.policySections : []) as {
-    title?: string | null
-    text?: unknown
+    title?: InternationalizedValue | null
+    text?: InternationalizedPortableText | null
   }[]
 
   return (
@@ -50,12 +57,17 @@ export default async function PageBySlug({
 
               {policySections.map((section, i) => (
                 <section key={i} className="policy-section">
-                  {section.title && (
-                    <h2 className="heading uppercase">{section.title}</h2>
+                  {resolveInternationalized(section.title ?? undefined, locale) && (
+                    <h2 className="heading uppercase">
+                      {resolveInternationalized(section.title ?? undefined, locale)}
+                    </h2>
                   )}
-                  {section.text != null ? (
+                  {resolveInternationalizedPortableText(section.text ?? undefined, locale) != null ? (
                     <div className="copy">
-                      <PortableText value={section.text as any} components={portableTextComponents} />
+                      <PortableText
+                        value={resolveInternationalizedPortableText(section.text ?? undefined, locale) as any}
+                        components={portableTextComponents}
+                      />
                     </div>
                   ) : null}
                 </section>

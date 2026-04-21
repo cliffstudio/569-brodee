@@ -38,16 +38,16 @@ const linkArrayMembers = [
         to: PAGE_REFERENCES,
       }),
       defineField({
-        type: 'string',
+        type: 'internationalizedArrayString',
         title: 'Label',
-        name: 'label',
-        description: 'If no label is provided, the page title will be used',
+        name: 'labelI18n',
+        description: 'Optional label override. Falls back to page title.',
       }),
     ],
     preview: {
       select: {
         pageTitle: 'page.title',
-        label: 'label',
+        label: 'labelI18n.0.value',
       },
       prepare(selection) {
         const { pageTitle, label } = selection
@@ -65,9 +65,9 @@ const linkArrayMembers = [
     name: 'external',
     fields: [
       defineField({
-        type: 'string',
+        type: 'internationalizedArrayString',
         title: 'Label',
-        name: 'label',
+        name: 'labelI18n',
         validation: (Rule) => Rule.required(),
       }),
       defineField({
@@ -80,7 +80,7 @@ const linkArrayMembers = [
     ],
     preview: {
       select: {
-        label: 'label',
+        label: 'labelI18n.0.value',
       },
       prepare(selection) {
         const { label } = selection
@@ -94,9 +94,9 @@ const linkArrayMembers = [
     name: 'fileUpload',
     fields: [
       defineField({
-        type: 'string',
+        type: 'internationalizedArrayString',
         title: 'Label',
-        name: 'label',
+        name: 'labelI18n',
         validation: (Rule) => Rule.required(),
       }),
       defineField({
@@ -108,7 +108,7 @@ const linkArrayMembers = [
     ],
     preview: {
       select: {
-        label: 'label',
+        label: 'labelI18n.0.value',
       },
       prepare(selection) {
         const { label } = selection
