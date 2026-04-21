@@ -9,20 +9,19 @@ export default defineType({
       name: 'images',
       title: 'Images',
       type: 'array',
-      description: 'Each item can have an optional mobile image.',
-      of: [
-        { type: 'image' },
-        { type: 'imageWithMobile' },
-      ],
+      description:
+        'Each item has a desktop image and an optional mobile image (defaults to desktop if not set).',
+      of: [{ type: 'imageWithMobile' }],
     }),
   ],
   preview: {
     select: {
-      images: 'images'
+      firstImage: 'images.0',
+      firstImageDesktop: 'images.0.image',
     },
-    prepare({ images }) {
+    prepare({ firstImage, firstImageDesktop }) {
       const title = 'Image Carousel'
-      const media = images?.[0]
+      const media = firstImageDesktop ?? firstImage
       return { title, media }
     },
   },
