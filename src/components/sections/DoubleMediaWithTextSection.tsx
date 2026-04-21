@@ -60,7 +60,7 @@ function MediaWithCopy({
   const resolvedCopy = resolveInternationalizedPortableText(copy ?? undefined, locale)
   const ctaHref =
     (cta?.slug != null ? `/${cta.slug}` : null) ?? cta?.url ?? cta?.fileUrl ?? null
-  const ctaLabel = cta?.label ?? null
+  const ctaLabel = resolveInternationalized(cta?.labelI18n ?? undefined, locale) ?? cta?.label ?? null
   const hasContent = hasImage || hasVideo || resolvedTitle || resolvedCopy || ctaLabel
   if (!hasContent) return null
 

@@ -78,7 +78,8 @@ const imageArrayItemFragment = groq`{
 const fullWidthMediaSectionFields = groq`mediaType, "images": images[] ${imageArrayItemFragment}, video, videoMobile`
 const heroTextCtaLink = groq`cta[0] {
   _type,
-  "label": coalesce(label, page->title),
+  "labelI18n": labelI18n[] { _key, value },
+  "label": coalesce(labelI18n[0].value, page->title),
   url,
   "slug": select(
     page->_type == "caseStudy" => "works/" + page->slug.current,
@@ -92,7 +93,8 @@ const landscapeMediaProjectInfoSectionFields = groq`mediaType, "image": image ${
 const dualMediaFields = groq`mediaType1, "image1": image1 ${imageFragment}, "image1Mobile": image1Mobile ${imageFragment}, video1, mediaType2, "image2": image2 ${imageFragment}, "image2Mobile": image2Mobile ${imageFragment}, video2, alignment`
 const doubleMediaWithTextCta1Link = groq`cta1[0] {
   _type,
-  "label": coalesce(label, page->title),
+  "labelI18n": labelI18n[] { _key, value },
+  "label": coalesce(labelI18n[0].value, page->title),
   url,
   "slug": select(
     page->_type == "caseStudy" => "works/" + page->slug.current,
@@ -102,7 +104,8 @@ const doubleMediaWithTextCta1Link = groq`cta1[0] {
 }`
 const doubleMediaWithTextCta2Link = groq`cta[0] {
   _type,
-  "label": coalesce(label, page->title),
+  "labelI18n": labelI18n[] { _key, value },
+  "label": coalesce(labelI18n[0].value, page->title),
   url,
   "slug": select(
     page->_type == "caseStudy" => "works/" + page->slug.current,
@@ -130,7 +133,8 @@ const linkCardSectionFields = groq`title, numberOfCards,
   "card3": card3 ${linkCardItemFields}`
 const introWithMediaCtaLink = groq`cta[0] {
   _type,
-  "label": coalesce(label, page->title),
+  "labelI18n": labelI18n[] { _key, value },
+  "label": coalesce(labelI18n[0].value, page->title),
   url,
   "slug": select(
     page->_type == "caseStudy" => "works/" + page->slug.current,

@@ -15,6 +15,7 @@ import ArrowRightIcon from '@/components/icons/ArrowRightIcon'
 export type IntroWithMediaCta = {
   _type?: 'internal' | 'external' | 'fileUpload'
   label?: string | null
+  labelI18n?: InternationalizedValue | null
   slug?: string | null
   url?: string | null
   fileUrl?: string | null
@@ -54,7 +55,7 @@ export default function IntroWithMediaSection({
 
   const ctaHref =
     (cta?.slug != null ? `/${cta.slug}` : null) ?? cta?.url ?? cta?.fileUrl ?? null
-  const ctaLabel = cta?.label ?? null
+  const ctaLabel = resolveInternationalized(cta?.labelI18n ?? undefined, locale) ?? cta?.label ?? null
 
   const hasContent = hasMedia || resolvedTitle || resolvedCopy || ctaLabel
   if (!hasContent) return null

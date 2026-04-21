@@ -6,7 +6,9 @@ import gsap from 'gsap'
 import { SplitText } from 'gsap/SplitText'
 import { portableTextComponents } from '@/components/PortableTextComponents'
 import {
+  resolveInternationalized,
   resolveInternationalizedPortableText,
+  type InternationalizedValue,
   type InternationalizedPortableText,
 } from '@/lib/locale'
 import ArrowRightIcon from '../icons/ArrowRightIcon'
@@ -50,6 +52,7 @@ function addSoftHyphensToPortableText(blocks: unknown[] | null) {
 export type HeroTextSectionCta = {
   _type?: 'internal' | 'external' | 'fileUpload'
   label?: string | null
+  labelI18n?: InternationalizedValue | null
   slug?: string | null
   url?: string | null
   fileUrl?: string | null
@@ -89,7 +92,7 @@ export default function HeroTextSection({
     [resolvedTitleMobile]
   )
   const resolvedCopy = resolveInternationalizedPortableText(copy ?? undefined, locale)
-  const ctaLabel = cta?.label ?? null
+  const ctaLabel = resolveInternationalized(cta?.labelI18n ?? undefined, locale) ?? cta?.label ?? null
   const ctaHref = cta?.slug != null ? `/${cta.slug}` : cta?.url ?? cta?.fileUrl ?? null
 
   useEffect(() => {
