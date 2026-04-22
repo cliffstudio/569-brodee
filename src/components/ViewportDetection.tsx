@@ -15,29 +15,11 @@ export default function ViewportDetection() {
 
     const timeoutId = window.setTimeout(() => {
       ctx = gsap.context(() => {
-        const elements = gsap.utils.toArray<HTMLElement>('.out-of-view, .out-of-opacity')
-        const viewportBottom = window.innerHeight || document.documentElement.clientHeight
+        const elements = gsap.utils.toArray<HTMLElement>(
+          '.out-of-view, .out-of-opacity'
+        )
 
-        const elementsToAnimate = elements.filter((el) => {
-          const rect = el.getBoundingClientRect()
-          const isInInitialViewport = rect.top < viewportBottom && rect.bottom > 0
-
-          if (isInInitialViewport) {
-            // Ensure above-the-fold content is immediately paintable for LCP.
-            el.style.opacity = '1'
-            el.style.animation = 'none'
-            return false
-          }
-
-          return true
-        })
-
-        if (!elementsToAnimate.length) {
-          ScrollTrigger.refresh()
-          return
-        }
-
-        ScrollTrigger.batch(elementsToAnimate, {
+        ScrollTrigger.batch(elements, {
           start: 'top 100%',
           onEnter: (batch) => {
             ;(batch as HTMLElement[]).forEach((el, index) => {
