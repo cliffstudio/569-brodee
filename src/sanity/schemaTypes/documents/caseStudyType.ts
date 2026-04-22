@@ -6,12 +6,27 @@ export const caseStudyType = defineType({
   title: 'Projects',
   type: 'document',
   icon: DocumentsIcon,
+  groups: [
+    {
+      ...ALL_FIELDS_GROUP,
+      hidden: true,
+    },
+    {
+      name: 'content',
+      title: 'Content',
+    },
+    {
+      name: 'seo',
+      title: 'SEO',
+    },
+  ],
   fields: [
     defineField({
       name: 'title',
       title: 'Title',
       type: 'string',
       validation: (Rule) => Rule.required(),
+      group: 'content',
     }),
     defineField({
       name: 'slug',
@@ -22,6 +37,7 @@ export const caseStudyType = defineType({
       },
       validation: (Rule) => Rule.required(),
       description: 'URL path for this project (e.g. my-project → /works/my-project)',
+      group: 'content',
     }),
     defineField({
       name: 'backgroundColour',
@@ -41,6 +57,7 @@ export const caseStudyType = defineType({
           { title: 'White', value: 'white' },
         ],
       },
+      group: 'content',
     }),
     defineField({
       name: 'mainImage',
@@ -48,6 +65,7 @@ export const caseStudyType = defineType({
       type: 'image',
       options: { hotspot: true },
       description: 'Used for the project thumbnail.',
+      group: 'content',
     }),
     defineField({
       name: 'mainImageMobile',
@@ -55,11 +73,20 @@ export const caseStudyType = defineType({
       type: 'image',
       options: { hotspot: true },
       description: 'Optional. Defaults to main image if not set.',
+      group: 'content',
     }),
     defineField({
       name: 'contentBlocks',
       title: 'Content Blocks',
       type: 'flexibleContent',
+      group: 'content',
+    }),
+    defineField({
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
+      description: 'Optional. Falls back to Site Settings SEO values when empty.',
+      group: 'seo',
     }),
   ],
   preview: {

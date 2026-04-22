@@ -1,5 +1,5 @@
 import { client } from '@/sanity/client'
-import { pageBySlugQuery } from '@/sanity/lib/queries'
+import { pageBySlugQuery, pageMetadataBySlugQuery } from '@/sanity/lib/queries'
 import { notFound } from 'next/navigation'
 import { cookies } from 'next/headers'
 import BodyClassProvider from '@/components/BodyClassProvider'
@@ -14,6 +14,8 @@ import {
 } from '@/lib/locale'
 import { PortableText } from '@portabletext/react'
 import { portableTextComponents } from '@/components/PortableTextComponents'
+import type { Metadata } from 'next'
+import { buildSeoMetadata } from '@/lib/metadata'
 
 const PAGE_SLUGS = ['about', 'works', 'contact', 'privacy', 'privacy-policy'] as const
 
@@ -21,6 +23,16 @@ export const revalidate = 0
 
 export function generateStaticParams() {
   return PAGE_SLUGS.map((slug) => ({ slug }))
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+  const { slug } = await params
+  const metaData = await client.fetch(pageMetadataBySlugQuery, { slug })
+  return buildSeoMetadata(metaData)
 }
 
 export default async function PageBySlug({

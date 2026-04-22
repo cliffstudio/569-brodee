@@ -178,6 +178,11 @@ export const pageBySlugQuery = groq`
     _type,
     title,
     "slug": slug.current,
+    seo {
+      metaTitle,
+      metaDescription,
+      socialimage ${imageFragment}
+    },
     template,
     backgroundColour,
     ${contentBlocksFragment},
@@ -214,6 +219,11 @@ export const caseStudyBySlugQuery = groq`
     _type,
     title,
     slug,
+    seo {
+      metaTitle,
+      metaDescription,
+      socialimage ${imageFragment}
+    },
     publishedAt,
     excerpt,
     mainImage ${imageFragment},
@@ -221,6 +231,43 @@ export const caseStudyBySlugQuery = groq`
     body,
     backgroundColour,
     ${contentBlocksFragment}
+  }
+`
+
+export const pageMetadataBySlugQuery = groq`
+  *[_type == "page" && (
+    ($slug == "" && (!defined(slug.current) || slug.current == "" || slug.current == null)) ||
+    ($slug != "" && slug.current == $slug)
+  )][0] {
+    "title": coalesce(
+      seo.metaTitle,
+      coalesce(*[_id == "drafts.siteSettings"][0].title, *[_id == "siteSettings"][0].title)
+    ),
+    "description": coalesce(
+      seo.metaDescription,
+      coalesce(*[_id == "drafts.siteSettings"][0].description, *[_id == "siteSettings"][0].description)
+    ),
+    "socialimage": coalesce(
+      seo.socialimage,
+      coalesce(*[_id == "drafts.siteSettings"][0].socialimage, *[_id == "siteSettings"][0].socialimage)
+    )
+  }
+`
+
+export const caseStudyMetadataBySlugQuery = groq`
+  *[_type == "caseStudy" && slug.current == $slug][0] {
+    "title": coalesce(
+      seo.metaTitle,
+      coalesce(*[_id == "drafts.siteSettings"][0].title, *[_id == "siteSettings"][0].title)
+    ),
+    "description": coalesce(
+      seo.metaDescription,
+      coalesce(*[_id == "drafts.siteSettings"][0].description, *[_id == "siteSettings"][0].description)
+    ),
+    "socialimage": coalesce(
+      seo.socialimage,
+      coalesce(*[_id == "drafts.siteSettings"][0].socialimage, *[_id == "siteSettings"][0].socialimage)
+    )
   }
 `
 

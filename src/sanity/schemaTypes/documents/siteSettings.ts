@@ -1,4 +1,4 @@
-import { defineField } from 'sanity'
+import { ALL_FIELDS_GROUP, defineField } from 'sanity'
 import { CogIcon, ArrowTopRightIcon } from '@sanity/icons'
 
 export const siteSettingsType = {
@@ -6,7 +6,11 @@ export const siteSettingsType = {
   title: 'Site Settings',
   type: 'document',
   icon: CogIcon,
-  fieldsets: [
+  groups: [
+    {
+      ...ALL_FIELDS_GROUP,
+      hidden: true,
+    },
     {
       name: 'seo',
       title: 'SEO',
@@ -25,47 +29,49 @@ export const siteSettingsType = {
       name: 'title',
       title: 'Title',
       type: 'string',
-      fieldset: 'seo',
+      description: 'Title used for search engines and browsers.',
+      group: 'seo',
     }),
     defineField({
       name: 'description',
       title: 'Description',
       type: 'text',
       rows: 3,
-      fieldset: 'seo',
+      description: 'Description used for search engines.',
+      group: 'seo',
     }),
     defineField({
       name: 'socialimage',
-      title: 'Social Image (Desktop)',
+      title: 'Social Image',
       type: 'image',
       options: { hotspot: true },
-      description: 'Recommended size: 1200x630px.',
-      fieldset: 'seo',
+      description: 'Image used for social media previews. Recommended size: 1200×630px.',
+      group: 'seo',
     }),
     defineField({
       title: 'Menu',
       name: 'headerMenu',
       type: 'links',
-      fieldset: 'header',
+      group: 'header',
     }),
     defineField({
       name: 'showLanguageSwitcher',
       title: 'Show Language Switcher',
       type: 'boolean',
       initialValue: false,
-      fieldset: 'header',
+      group: 'header',
     }),
     defineField({
       name: 'footer',
       title: 'Title',
       type: 'internationalizedArrayString',
-      fieldset: 'footer',
+      group: 'footer',
     }),
     defineField({
       name: 'footerText',
       title: 'Text',
       type: 'internationalizedArrayRichPortableText',
-      fieldset: 'footer',
+      group: 'footer',
     }),
     defineField({
       name: 'footerMenu',
@@ -114,7 +120,7 @@ export const siteSettingsType = {
           },
         },
       ],
-      fieldset: 'footer',
+      group: 'footer',
     }),
   ],
   preview: {

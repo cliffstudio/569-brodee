@@ -1,11 +1,17 @@
 import { client } from '@/sanity/client'
-import { caseStudyBySlugQuery, caseStudySlugsQuery } from '@/sanity/lib/queries'
+import {
+  caseStudyBySlugQuery,
+  caseStudyMetadataBySlugQuery,
+  caseStudySlugsQuery,
+} from '@/sanity/lib/queries'
 import { notFound } from 'next/navigation'
 import { cookies } from 'next/headers'
 import BodyClassProvider from '@/components/BodyClassProvider'
 import FlexibleContent from '@/components/FlexibleContent'
 import { PortableText } from '@portabletext/react'
 import { DEFAULT_LOCALE, LOCALE_COOKIE } from '@/lib/locale'
+import type { Metadata } from 'next'
+import { buildSeoMetadata } from '@/lib/metadata'
 
 export const revalidate = 0
 
@@ -16,6 +22,12 @@ interface PageProps {
 export async function generateStaticParams() {
   const slugs = await client.fetch(caseStudySlugsQuery)
   return (slugs ?? []).map((s: { slug: string }) => ({ slug: s.slug }))
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params
+  const metaData = await client.fetch(caseStudyMetadataBySlugQuery, { slug })
+  return buildSeoMetadata(metaData)
 }
 
 export default async function CaseStudyPage({ params }: PageProps) {

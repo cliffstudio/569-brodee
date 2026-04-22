@@ -23,6 +23,7 @@ import { imageWithMobileType } from './objects/imageWithMobile'
 import richPortableText from './objects/richPortableText'
 import flexibleContent from './objects/flexibleContent'
 import privacyPolicySection from './objects/privacyPolicySection'
+import seo from './objects/seo'
 
 export const schemaTypes = [
   // Documents
@@ -47,6 +48,7 @@ export const schemaTypes = [
   // Objects (linkTypes is [linkAnnotation, linksArray] - must spread)
   flexibleContent,
   privacyPolicySection,
+  seo,
   ...linkTypes,
   imageWithMobileType,
   richPortableText,
