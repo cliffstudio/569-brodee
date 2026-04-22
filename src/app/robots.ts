@@ -1,19 +1,17 @@
 import type { MetadataRoute } from 'next'
-
-function getBaseUrl(): string {
-  const fromEnv = process.env.NEXT_PUBLIC_SITE_URL
-  const fallback = 'http://localhost:3000'
-  return (fromEnv ?? fallback).replace(/\/$/, '')
-}
+import { getSiteUrl } from '@/lib/siteUrl'
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = getBaseUrl()
+  const baseUrl = getSiteUrl()
 
   return {
-    rules: {
-      userAgent: '*',
-      allow: '/',
-    },
+    rules: [
+      {
+        userAgent: '*',
+        allow: '/',
+        disallow: ['/studio', '/studio/'],
+      },
+    ],
     sitemap: `${baseUrl}/sitemap.xml`,
     host: baseUrl,
   }

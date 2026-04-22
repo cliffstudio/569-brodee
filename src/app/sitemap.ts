@@ -1,6 +1,9 @@
 import type { MetadataRoute } from 'next'
 import { client } from '@/sanity/client'
+import { getSiteUrl } from '@/lib/siteUrl'
 import { groq } from 'next-sanity'
+
+export const revalidate = 300
 
 const pageSitemapQuery = groq`
   *[_type == "page"]{
@@ -26,17 +29,12 @@ type CaseStudyEntry = {
   _updatedAt?: string
 }
 
-function getBaseUrl(): string {
-  const fromEnv = process.env.NEXT_PUBLIC_SITE_URL
-  const fallback = 'http://localhost:3000'
-  return (fromEnv ?? fallback).replace(/\/$/, '')
-}
-
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = getBaseUrl()
+  const baseUrl = getSiteUrl()
+  const publishedClient = client.withConfig({ perspective: 'published' })
   const [pages, caseStudies] = await Promise.all([
-    client.fetch<PageEntry[]>(pageSitemapQuery),
-    client.fetch<CaseStudyEntry[]>(caseStudySitemapQuery),
+    publishedClient.fetch<PageEntry[]>(pageSitemapQuery),
+    publishedClient.fetch<CaseStudyEntry[]>(caseStudySitemapQuery),
   ])
 
   const staticRoutes: MetadataRoute.Sitemap = [
