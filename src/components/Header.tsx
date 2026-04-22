@@ -445,14 +445,16 @@ export default function Header({
                 : item._type === 'fileUpload' && item.fileUrl
                   ? item.fileUrl
                   : '#'
+            const isActive = isInternal && normalizePath(pathname) === normalizePath(href)
 
             return (
               <div key={item._key} className="menu-item">
                 {isInternal ? (
                   <Link
                     href={href}
-                    className="menu-link"
+                    className={`menu-link${isActive ? ' is-active' : ''}`}
                     onClick={handleInternalLinkClick(href)}
+                    aria-current={isActive ? 'page' : undefined}
                   >
                     {label}
                   </Link>
