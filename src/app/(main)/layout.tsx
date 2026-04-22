@@ -1,6 +1,7 @@
 import '@/styles/style.scss'
 import { cookies } from 'next/headers'
 import { Suspense } from 'react'
+import Script from 'next/script'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import LazyLoadInitializer from '@/components/LazyLoadInitializer'
@@ -45,6 +46,7 @@ export default async function MainLayout({
           <Footer footer={footer} locale={locale} />
         </ScrollSmootherProvider>
       </Suspense>
+      <Script src="https://scripts.withcabin.com/hello.js" strategy="afterInteractive" />
     </div>
   )
 }

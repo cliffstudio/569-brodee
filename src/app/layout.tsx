@@ -50,7 +50,6 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="Brodee" />
         <link rel="manifest" href="/site.webmanifest" />
         <link rel="stylesheet" href="https://use.typekit.net/vqy3kes.css" />
-        <script async src="https://scripts.withcabin.com/hello.js"></script>
       </head>
       <body suppressHydrationWarning>
         {children}
