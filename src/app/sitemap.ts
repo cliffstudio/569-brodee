@@ -45,11 +45,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly',
       priority: 1,
     },
-    {
-      url: `${baseUrl}/case-studies`,
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
   ]
 
   const pageRoutes: MetadataRoute.Sitemap = (pages ?? [])
