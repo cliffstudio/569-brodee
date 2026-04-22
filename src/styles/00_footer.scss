@@ -1,7 +1,6 @@
 @use '00_mixins' as *;
 
 .site-footer {
-
   .footer-inner {
     background-color: $colour-charcoal;
     color: $colour-white !important;
@@ -91,6 +90,16 @@
 
       .footer-bottom-text-copyright {
         white-space: nowrap;
+      }
+    }
+  }
+}
+
+body.page-home {
+  .site-footer {
+    .logo-wrap {
+      a {
+        pointer-events: none;
       }
     }
   }

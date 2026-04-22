@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import gsap from 'gsap'
 import { ScrollSmoother } from 'gsap/ScrollSmoother'
 import Logo from './Logo'
@@ -39,6 +39,12 @@ function setLocaleCookie(locale: string) {
   document.cookie = `${LOCALE_COOKIE}=${locale}; path=/; max-age=31536000`
 }
 
+function normalizePath(path: string): string {
+  if (!path) return '/'
+  if (path === '/') return '/'
+  return path.endsWith('/') ? path.slice(0, -1) : path
+}
+
 export default function Header({
   menu = [],
   locale = DEFAULT_LOCALE,
@@ -48,6 +54,7 @@ export default function Header({
   locale?: string
   showLanguageSwitcher?: boolean
 }) {
+  const router = useRouter()
   const pathname = usePathname() || '/'
   const isHomePage = pathname === '/' || pathname === ''
   const [isHiddenOnScroll, setIsHiddenOnScroll] = useState(false)
@@ -319,11 +326,22 @@ export default function Header({
   const handleInternalLinkClick = (href: string) => (
     event: React.MouseEvent<HTMLAnchorElement>
   ) => {
-    if (!isMobile) return
     if (typeof window === 'undefined') return
+    const isSamePath = normalizePath(pathname) === normalizePath(href)
+
+    // Avoid re-navigating to the same route, which can trip teardown races.
+    if (isSamePath) {
+      event.preventDefault()
+      setIsMenuVisible(false)
+      return
+    }
+
+    if (!isMobile) return
+
+    // Keep navigation in-app so React/GSAP teardown stays consistent.
     event.preventDefault()
     setIsMenuVisible(false)
-    window.location.href = href
+    router.push(href)
   }
 
   // Reset menu state on route change
@@ -362,14 +380,16 @@ export default function Header({
                 : item._type === 'fileUpload' && item.fileUrl
                   ? item.fileUrl
                   : '#'
+            const isActive = isInternal && normalizePath(pathname) === normalizePath(href)
 
             return (
               <div key={item._key} className="menu-item">
                 {isInternal ? (
                   <Link
                     href={href}
-                    className="menu-link"
+                    className={`menu-link${isActive ? ' is-active' : ''}`}
                     onClick={handleInternalLinkClick(href)}
+                    aria-current={isActive ? 'page' : undefined}
                   >
                     {label}
                   </Link>
