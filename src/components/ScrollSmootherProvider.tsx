@@ -27,18 +27,34 @@ export default function ScrollSmootherProvider({
     const content = document.getElementById(SMOOTHER_CONTENT_ID)
     if (!wrapper || !content) return
 
-    // Ensure a clean start if something created a smoother earlier.
+    // Prefer reusing a compatible instance to avoid DOM teardown races.
     const existing = ScrollSmoother.get()
-    if (existing) existing.kill()
-
     let smoother: ScrollSmoother | null = null
+
+    if (existing) {
+      const existingWrapper = existing.wrapper()
+      const existingContent = existing.content()
+
+      if (existingWrapper === wrapper && existingContent === content) {
+        smoother = existing
+      } else {
+        try {
+          existing.kill()
+        } catch {
+          // Ignore kill race during fast route transitions.
+        }
+      }
+    }
+
     try {
-      smoother = ScrollSmoother.create({
-        wrapper: `#${SMOOTHER_WRAPPER_ID}`,
-        content: `#${SMOOTHER_CONTENT_ID}`,
-        smooth: 1.2,
-        effects: true,
-      })
+      if (!smoother) {
+        smoother = ScrollSmoother.create({
+          wrapper: `#${SMOOTHER_WRAPPER_ID}`,
+          content: `#${SMOOTHER_CONTENT_ID}`,
+          smooth: 1.2,
+          effects: true,
+        })
+      }
       smootherRef.current = smoother
       document.body.classList.add(BODY_CLASS)
       document.documentElement.classList.add(BODY_CLASS)
@@ -50,7 +66,11 @@ export default function ScrollSmootherProvider({
     }
 
     return () => {
-      smoother?.kill()
+      try {
+        smoother?.kill()
+      } catch {
+        // Ignore teardown races where GSAP already removed nodes.
+      }
       smootherRef.current = null
       document.body.classList.remove(BODY_CLASS)
       document.documentElement.classList.remove(BODY_CLASS)
@@ -62,8 +82,12 @@ export default function ScrollSmootherProvider({
     if (typeof window === 'undefined') return
     const smoother = smootherRef.current ?? ScrollSmoother.get()
     if (!smoother) return
-    smoother.effects('[data-speed], [data-lag]')
-    ScrollTrigger.refresh()
+    try {
+      smoother.effects('[data-speed], [data-lag]')
+      ScrollTrigger.refresh()
+    } catch {
+      // If a navigation teardown is in progress, skip this refresh cycle.
+    }
   }, [pathname])
 
   return (
