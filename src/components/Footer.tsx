@@ -72,10 +72,18 @@ export default function Footer({ footer, locale }: FooterProps) {
     const footerInner = footer?.querySelector<HTMLElement>('.footer-inner')
     if (!footer || !footerInner) return
 
+    const userAgent = navigator.userAgent
+    const isIOSDevice = /iPad|iPhone|iPod/.test(userAgent)
+    const isIPadOSDesktopUA =
+      navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1
+    const shouldSkipPinning = isIOSDevice || isIPadOSDesktopUA
+
     const ctx = gsap.context(() => {
       const media = gsap.matchMedia()
 
       media.add('(min-width: 769px)', () => {
+        if (shouldSkipPinning) return
+
         ScrollTrigger.create({
           trigger: footerInner,
           pin: true,
