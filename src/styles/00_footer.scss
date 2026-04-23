@@ -20,6 +20,15 @@
       row-gap: get-rem-mobile(55);
       z-index: 0;
     }
+
+    // iOS/iPadOS Safari reports larger widths but should use mobile-style footer flow.
+    @supports (-webkit-touch-callout: none) {
+      @media only screen and (min-width: 769px) {
+        height: unset;
+        margin-top: unset;
+        z-index: 0;
+      }
+    }
   }
 
   .footer-top {
