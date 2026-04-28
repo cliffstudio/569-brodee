@@ -257,9 +257,8 @@ export default function Header({
     if (!svg || !cursorShape) return
 
     const isCoarsePointer = window.matchMedia?.('(pointer: coarse)').matches
-    const isSmallViewport = window.innerWidth <= 1024
 
-    if (isCoarsePointer || isSmallViewport) {
+    if (isCoarsePointer) {
       svg.style.display = 'none'
       return
     }

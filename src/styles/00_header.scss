@@ -272,10 +272,6 @@ body.page-404 {
   height: 100%;
   pointer-events: none;
   z-index: 999;
-
-  @media screen and (max-width: 1024px) {
-    display: none;
-  }
 }
 
 .cursor-shape {
