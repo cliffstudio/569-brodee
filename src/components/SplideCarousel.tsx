@@ -59,6 +59,9 @@ export default function SplideCarousel({
     pauseOnHover: !autoplay,
     resetProgress: false,
     drag: false,
+    reducedMotion: {
+      autoplay: true,
+    },
   }
 
   return (
